@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="rk.dao.ArticleDao">
+    <select id="queryArticlesByUserId" parameterType="int" resultType="webArticle">
+        SELECT * FROM web.web_article where userId = #{userId};
+    </select>
+    <insert id="insert" parameterType="webArticle">
+        insert into web_article (title,content,createDate,updateDate,userId) values (#{title},#{content},now(),now(),#{userId})
+    </insert>
+</mapper>
