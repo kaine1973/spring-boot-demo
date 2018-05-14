@@ -3,11 +3,30 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="rk.dao.UserDao">
 
-    <select id="queryUserByUserName" resultType="webUser" parameterType="string">
-        select * from web_user where userName = #{userName}
-    </select>
-
-    <insert id="insert" parameterType="webUser">
+    <insert id="insert" parameterType="rk.po.WebUser">
         insert into web_user(userName,userPwd) values (#{userName},#{userPwd})
     </insert>
+
+    <update id="updateById" parameterType="rk.po.WebUser" >
+        update web_user
+        <set>
+            <if test="#{nick != null}" >
+                nick = #{nick},
+            </if>
+            <if test="#{mood != null }" >
+                mood = #{mood},
+            </if>
+            <if test="#{userPwd != null}" >
+                userPwd = #{userPwd},
+            </if>
+            <if test="#{age != null}" >
+                age = #{age},
+            </if>
+            <if test="#{headFileName != null}" >
+                headFileName = #{headFileName},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
 </mapper>

@@ -1,29 +1,23 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-		 pageEncoding="UTF-8" %>
-<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
 <!DOCTYPE html>
 <html>
-
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-		<link rel="icon" href="https://v3.bootcss.com/favicon.ico">
-
-		<script type="text/javascript" src="../js/jquery-3.2.1.min.js"></script>
-		<link rel="stylesheet" href="../bs/css/bootstrap.min.css" crossorigin="anonymous">
-		<link rel="stylesheet" href="../bs/css/bootstrap-theme.css" crossorigin="anonymous">
-		<script src="../bs/js/bootstrap.min.js" crossorigin="anonymous"></script>
-		<script type="text/javascript" src="../easyui/jquery.easyui.min.js"></script>
-		<script src="../easyui/locale/easyui-lang-zh_CN.js"></script>
-		<link rel="stylesheet" type="text/css" href="../easyui/themes/material/easyui.css"/>
-		<link rel="stylesheet" href="../easyui/themes/icon.css"/>
-		<meta charset="utf-8" />
-		<title>JSP Page</title>
+        <link rel="icon" href="https://v3.bootcss.com/favicon.ico">
+        <script type="text/javascript" src="/js/jquery-3.2.1.min.js"></script>
+        <link rel="stylesheet" href="/bs/css/bootstrap.min.css" crossorigin="anonymous">
+        <link rel="stylesheet" href="/bs/css/bootstrap-theme.css" crossorigin="anonymous">
+        <script src="/bs/js/bootstrap.min.js" crossorigin="anonymous"></script>
+        <script type="text/javascript" src="/easyui/jquery.easyui.min.js"></script>
+        <script src="/easyui/locale/easyui-lang-zh_CN.js"></script>
+        <link rel="stylesheet" type="text/css" href="/easyui/themes/material/easyui.css"/>
+        <link rel="stylesheet" href="/easyui/themes/icon.css"/>
 	</head>
 
 	<body>
-		<div style="margin-left: 5px;margin-top: 20px;">
-			<div style="margin-top: 20px;width: 50%;float: left;">
-				<form class="form-horizontal" method="post" action="userMgr.do?act=update" enctype="multipart/form-data">
+		<div style="margin-left: 5%;margin-top: 20px;">
+			<div style="margin-top: 20px;width: 50%;">
+				<form class="form-horizontal" method="post" action="/user/update" enctype="multipart/form-data">
 					<div class="form-group">
 						<label for="nick" class="col-sm-2 control-label">昵称：</label>
 						<div class="col-sm-10">
@@ -55,15 +49,13 @@
 					</div>
 				</form>
 			</div>
-			<div style="float: left;margin-left: 25px;"><img class="img-circle" src="
-<c:if test="${user.head==null}">
-	../img/1.jpg
-</c:if>
-<c:if test="${user.head!=null}">
-	../head/${user.head}
-</c:if>
-
-" style="width: 200px;height:200px;"/> </div>
+			<div style="float: left;margin-left: 25px;"><img class="img-circle" alt="头像失踪了。。。"
+				<#if (user.headFileName?? || user.headFileName == "") >
+					 src="/head/defaultHeadPic.jpg"
+				<#else>
+					 src=".../Users/kaidan/ProjectFiles/UserHeader/${user.id}/${user.headFileName}.jpg"
+				</#if>"
+				style="width: 200px;height:200px;"/> </div>
 		</div>
 	</body>
 <script>

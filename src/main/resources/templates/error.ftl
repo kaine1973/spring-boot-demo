@@ -4,7 +4,7 @@
 </head>
 <body>
 <#if error??>
-    错误
+    ${msg}
 </#if>
 出错了
 </body>

@@ -46,5 +46,9 @@ public class ArticleController  {
         return articleService.insertArticle(article);
     }
 
-
+    @RequestMapping("deleteThisArticle")
+    @ResponseBody
+    public ResultInfo delArticle(Integer id){
+        return articleService.deleteArticle(id)?new ResultInfo(200,"删除成功"):new ResultInfo(300,"删除失败");
+    }
 }

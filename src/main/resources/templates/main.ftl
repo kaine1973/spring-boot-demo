@@ -80,7 +80,7 @@
         <div class="panel-body" hidden=true>
             <ul class="list-group" >
                 <li class="list-group-item" >
-                    <a class="btn btn-default" style="width:100%;" href="javascript:addTab('修改信息','info.jsp')">修改信息</a>
+                    <a class="btn btn-default" style="width:100%;" href="javascript:addTab('修改信息','/user/alterInfo')">修改信息</a>
                 </li>
                 <li class="list-group-item" >
                     <a class="btn btn-default" style="width:100%;" href="javascript:addTab('修改密码','password.jsp')">修改密码</a>

@@ -23,8 +23,8 @@ public class ArticleService {
     }
 
 
-    public void deleteArticle(String sql, Object[] objects) {
-
+    public boolean deleteArticle(Integer id) {
+        return articleDao.deleteById(id) == 1;
     }
 
     public List<WebArticle> queryArticlesByUserId(Integer userId) {

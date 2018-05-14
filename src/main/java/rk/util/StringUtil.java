@@ -1,5 +1,7 @@
 package rk.util;
 
+import io.netty.util.internal.MathUtil;
+
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
@@ -54,4 +56,18 @@ public final class StringUtil {
 		}
 		return hexStr.toString().toUpperCase();
 	}
+
+	public static String genNewFileName(){
+		String s = "";
+		String common = "abcdefghijklmnopqrstuvwxyz01234567890ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+		for(int i = 0;i < 10;i++){
+			s += common.charAt((int)(Math.random()*63));
+		}
+		return s;
+	}
+
+	public static void main(String[] args) {
+		System.out.println(genNewFileName());
+	}
+
 }

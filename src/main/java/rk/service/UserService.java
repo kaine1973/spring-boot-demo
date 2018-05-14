@@ -3,32 +3,27 @@ package rk.service;
 import rk.Model.ResultInfo;
 import rk.dao.UserDao;
 import rk.po.WebUser;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.annotation.CachePut;
-import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 import rk.util.AssertUtil;
 import rk.util.StringUtil;
 
+import javax.annotation.Resource;
+
 @Service
 public class UserService extends CommonService {
 
-    @Autowired
+    @Resource
     private UserDao userDao;
 
-
-    @Autowired
-    private RedisTemplate redisTemplate;
-
-
-    public WebUser login(String userName, String userPwd){
-        AssertUtil.isTrue(StringUtil.isNullorEmpty(userName,userPwd),"缺少必填项!");
-        WebUser user = userDao.queryUserByUserName(userName);
-        AssertUtil.isTrue(null == user,"用户不存在");
-        AssertUtil.isTrue(!user.getUserPwd().equals(StringUtil.encypt(userPwd)),"密码错误");
-        user.setUserPwd(null);
-        return user;
+    public WebUser login(WebUser user){
+        AssertUtil.isTrue(StringUtil.isNullorEmpty(user.getUserPwd(),user.getUserName()),"缺少必填项!");
+        WebUser has_user = userDao.queryUserByUserName(user.getUserName());
+        AssertUtil.isTrue(null == has_user,"用户不存在");
+        AssertUtil.isTrue(!has_user.getUserPwd().equals(StringUtil.encypt(user.getUserPwd())),"密码错误");
+        has_user.setUserPwd(null);
+        return has_user;
     }
+
 
     public void insertUser(WebUser user){
         AssertUtil.isTrue(StringUtil.isNullorEmpty(user.getUserName(),user.getUserPwd()),"缺少必填项");

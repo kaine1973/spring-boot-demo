@@ -9,6 +9,15 @@ public class WebArticle {
     private Date createDate;
     private Date updateDate;
     private int userId;
+    private int is_del;
+
+    public int getIs_del() {
+        return is_del;
+    }
+
+    public void setIs_del(int is_del) {
+        this.is_del = is_del;
+    }
 
     public int getId() {
         return id;
