@@ -1,0 +1,10 @@
+<script src="/js/vendor/modernizr-3.6.0.min.js"></script>
+<script src="/js/vendor/jquery-3.3.1.min.js"></script>
+<script src="/js/vendor/popper.min.js"></script>
+<script src="/js/vendor/bootstrap.min.js"></script>
+<!--Plugins JS-->
+<script src="/js/plugins/perfect-scrollbar.min.js"></script>
+<script src="/js/plugins/tippy4.min.js.js"></script>
+<!--Main JS-->
+<script src="/js/main.js"></script>
+<script src="/js/common.js"></script>

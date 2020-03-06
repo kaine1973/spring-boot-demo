@@ -21,19 +21,26 @@ spring:
     driver-class-name: com.mysql.jdbc.Driver
     username: root
     password: admin
-    url: "jdbc:mysql://localhost:3306/web?useUnicode=true&characterEncoding=utf8&useSSL=false"
+    url: "jdbc:mysql://122.144.206.146:3306/web?useUnicode=true&characterEncoding=utf8&useSSL=false"
   freemarker:
     charset: UTF-8
+    cache: false #缓存配置
+    template-loader-path: classpath:/templates/ #模板加载路径 按需配置
+    content-type: text/html
+    enabled: true
+    suffix: .ftl  #后缀名
     settings:
+      template_update_delay: 0
       classic_compatible: true
       number_format: 0.##
       date_format: yyyy-MM-dd
       datetime_format: yyyy-MM-dd hh:mm:ss
+    request-context-attribute: req  #req访问request
 
-mybatis:
-  configuration:
-    map-underscore-to-camel-case: true
-  mapper-locations: classpath:/mappers/*.xml
+#mybatis:
+#  configuration:
+#    mapUnderscoreToCamelCase: true
+#  mapper-locations: classpath:/mappers/*.xml
 server:
   port: 8080
 

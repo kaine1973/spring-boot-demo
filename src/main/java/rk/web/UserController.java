@@ -42,11 +42,6 @@ public class UserController{
         return new ModelAndView("login");
     }
 
-    @RequestMapping("alterInfo")
-    public ModelAndView alterInfo(HttpSession session){
-        return new ModelAndView("info");
-    }
-
     @RequestMapping("update")
     public ResultInfo update(MultipartFile head,WebUser AltUser,HttpSession session){
         WebUser currentUser = (WebUser)session.getAttribute("user");
