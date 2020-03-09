@@ -669,19 +669,3 @@
 </div>
 <!-- Plugins & Activation JS For Only This Page -->
 
-<!--Moment-->
-<script src="/js/plugins/moment/moment.min.js"></script>
-
-<!--Daterange Picker-->
-<script src="/js/plugins/daterangepicker/daterangepicker.js"></script>
-<script src="/js/plugins/daterangepicker/daterangepicker.active.js"></script>
-
-<!--Echarts-->
-<script src="/js/plugins/chartjs/Chart.min.js"></script>
-<script src="/js/plugins/chartjs/chartjs.active.js"></script>
-
-<!--VMap-->
-<script src="/js/plugins/vmap/jquery.vmap.min.js"></script>
-<script src="/js/plugins/vmap/maps/jquery.vmap.world.js"></script>
-<script src="/js/plugins/vmap/maps/samples/jquery.vmap.sampledata.js"></script>
-<script src="/js/plugins/vmap/vmap.active.js"></script>

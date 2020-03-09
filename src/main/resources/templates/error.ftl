@@ -28,7 +28,7 @@
                             <span class="display-1">404</span>
                             <h1 class="title">Loks like you are lost</h1>
                             <h4>Lorem Ipsum is simply dummy text of the printing and type setting industry. Lorem Ipsum is simply dummy.</h4>
-                            <a href="/main" class="button button-secondary button-round">Back to home</a>
+                            <a href="/index" class="button button-secondary button-round">Back to home</a>
                         </div>
 
                     </div>

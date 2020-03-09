@@ -460,7 +460,7 @@ input:-ms-input-placeholder, textarea:-ms-input-placeholder {
 /*Content Body*/
 .content-body {
   padding: 30px;
-  margin-top: 110px;
+  margin-top: 50px;
   -webkit-transition: all 0.3s ease 0s;
   -o-transition: all 0.3s ease 0s;
   transition: all 0.3s ease 0s;
@@ -7209,7 +7209,7 @@ table.data-table.collapsed tbody tr.child td.child ul li .dtr-title {
   -webkit-flex: 0 0 270px;
       -ms-flex: 0 0 270px;
           flex: 0 0 270px;
-  height: 110px;
+  height: 50px;
 }
 
 .header-logo a {
@@ -7410,7 +7410,7 @@ table.data-table.collapsed tbody tr.child td.child ul li .dtr-title {
     left: 0;
     top: 0;
     width: 100%;
-    height: 110px;
+    height: 50px;
     background-color: #fafafa;
     z-index: 99;
     padding: 15px 80px;
@@ -9043,10 +9043,10 @@ body.header-top-green .header-notification-area > li > a .user .name {
 .side-header {
   width: 270px !important;
   background-color: #161824;
-  height: calc(100vh - 110px);
+  height: calc(100vh - 50px);
   position: fixed;
   left: 0;
-  top: 110px;
+  top: 50px;
   -webkit-transition: all 0.3s ease 0s;
   -o-transition: all 0.3s ease 0s;
   transition: all 0.3s ease 0s;
@@ -14501,7 +14501,8 @@ body.skin-dark .cus-radio.light .icon::before {
     padding-right: 0 !important;
   }
   [dir="rtl"] .header-notification-area > li:last-child {
-    padding-left: 0 !important;
+    padding-left: 0
+ !important;
     padding-right: 10px !important;
   }
 }

@@ -1,16 +1,16 @@
 package rk.dao;
 
 import org.apache.ibatis.annotations.Param;
-import org.apache.ibatis.annotations.Select;
-import rk.po.WebUser;
+import rk.po.User;
 
 public interface UserDao{
 
 
-    @Select("select u.* from web_user u where userName = #{userName }")
-    WebUser queryUserByUserName(@Param("userName") String userName);
+    User queryUser(String userName);
+    User queryUserById(Integer id);
 
-    int insert(WebUser user);
+    int insert(User user);
 
-    int updateById(WebUser user);
+    int updateById(User user);
+
 }

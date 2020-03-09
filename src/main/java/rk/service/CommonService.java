@@ -1,6 +1,6 @@
 package rk.service;
 
-import rk.Model.ResultInfo;
+import rk.model.ResultInfo;
 
 public class CommonService {
 

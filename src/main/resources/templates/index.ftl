@@ -1,5 +1,18 @@
 <html lang="zh">
 <head>
-    <meta http-equiv="refresh" content="0;url=/login">
+    <#include 'common.ftl'>
 </head>
+<body>
+
+</body>
+
+<#include 'jsCommon.ftl'>
+<script>
+    if(Cookies.get('ui') == null){
+        window.location.replace('/login')
+    }else{
+        window.location.replace('/main')
+    }
+
+</script>
 </html>

@@ -3,7 +3,6 @@
 
 <!-- CSS
 ============================================ -->
-
 <!-- Bootstrap CSS -->
 <link rel="stylesheet" href="/css/vendor/bootstrap.min.css">
 
@@ -20,9 +19,9 @@
 <link rel="stylesheet" href="/css/helper.css">
 
 <!-- Main Style CSS -->
-<link rel="stylesheet" href="/css/style.css">
+<link rel="stylesheet" href="/css/style-<#if user.preferColor??>#{user.preferColor}<#else>primary</#if>.css">
 
 <!-- Custom Style CSS Only For Demo Purpose -->
-<link id="cus-style" rel="stylesheet" href="/css/style-primary.css">
+<#--<link id="cus-style" rel="stylesheet" href="/css/style-primary.css">-->
 <!-- Global Vendor, plugins & Activation JS -->
 

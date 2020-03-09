@@ -8,3 +8,36 @@
 <!--Main JS-->
 <script src="/js/main.js"></script>
 <script src="/js/common.js"></script>
+
+<script src="/js/js.cookie-2.2.1.min.js"></script>
+<!--Moment-->
+<script src="/js/plugins/moment/moment.min.js"></script>
+
+<!--Daterange Picker-->
+<script src="/js/plugins/daterangepicker/daterangepicker.js"></script>
+<script src="/js/plugins/daterangepicker/daterangepicker.active.js"></script>
+
+<!--Echarts-->
+<script src="/js/plugins/chartjs/Chart.min.js"></script>
+<script src="/js/plugins/chartjs/chartjs.active.js"></script>
+
+<!--VMap-->
+<script src="/js/plugins/vmap/jquery.vmap.min.js"></script>
+<script src="/js/plugins/vmap/maps/jquery.vmap.world.js"></script>
+<script src="/js/plugins/vmap/maps/samples/jquery.vmap.sampledata.js"></script>
+<script src="/js/plugins/vmap/vmap.active.js"></script>
+
+<script src="/js/plugins/vmap/maps/jquery.vmap.usa.js"></script>
+<script src="/js/plugins/vmap/maps/continents/jquery.vmap.asia.js"></script>
+<script src="/js/plugins/vmap/maps/continents/jquery.vmap.australia.js"></script>
+<script src="/js/plugins/vmap/maps/continents/jquery.vmap.europe.js"></script>
+<script src="/js/plugins/vmap/maps/continents/jquery.vmap.africa.js"></script>
+
+
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCfmCVTjRI007pC1Yk2o2d_EhgkjTsFVN8"></script>
+<script src="/js/plugins/google-map/googlemap.active.js"></script>
+
+<script src="/js/plugins/filepond/filepond.min.js"></script>
+<script src="/js/plugins/filepond/filepond-plugin-image-exif-orientation.min.js"></script>
+<script src="/js/plugins/filepond/filepond-plugin-image-preview.min.js"></script>
+<script src="/js/plugins/filepond/filepond.active.js"></script>

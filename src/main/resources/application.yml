@@ -1,10 +1,8 @@
-
-
 spring:
   redis:
     database: 5
     host: 127.0.0.1
-    password: 123456
+    password: Perhaps0..
     port: 6379
     timeout: 3s
     jedis:
@@ -14,14 +12,11 @@ spring:
         max-idle: 500
         min-idle: 50
 
-    sentinel:
-      master: mymaster
-      nodes: 127.0.0.1:26379,127.0.0.1:26380,127.0.0.1:26381
   datasource:
     driver-class-name: com.mysql.jdbc.Driver
     username: root
-    password: admin
-    url: "jdbc:mysql://122.144.206.146:3306/web?useUnicode=true&characterEncoding=utf8&useSSL=false"
+    password: Perhaps0..
+    url: "jdbc:mysql://127.0.0.1:3306/crm?useUnicode=true&allowPublicKeyRetrieval=true&characterEncoding=utf8&useSSL=false"
   freemarker:
     charset: UTF-8
     cache: false #缓存配置
@@ -37,12 +32,15 @@ spring:
       datetime_format: yyyy-MM-dd hh:mm:ss
     request-context-attribute: req  #req访问request
 
-#mybatis:
-#  configuration:
-#    mapUnderscoreToCamelCase: true
-#  mapper-locations: classpath:/mappers/*.xml
+mybatis:
+  mapper-locations: classpath:/mappers/*.xml
+
 server:
-  port: 8080
-
-
+  port: 8443
+  ssl:
+    key-store-type: PKCS12
+    key-store: classpath:cert/keystore.p12
+    key-store-password: Perhaps0..
+    key-alias: tomcat
+    key-password: Perhaps0..
 

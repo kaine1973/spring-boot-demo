@@ -41,6 +41,10 @@ public final class StringUtil {
 		return s;
 	}
 
+	public static void main(String[] args) {
+		System.out.println(encypt("123456"));
+	}
+
 	public static String bytesToHex(byte[] bytes) {
 		StringBuffer hexStr = new StringBuffer();
 		int num;
@@ -66,8 +70,5 @@ public final class StringUtil {
 		return s;
 	}
 
-	public static void main(String[] args) {
-		System.out.println(genNewFileName());
-	}
 
 }
