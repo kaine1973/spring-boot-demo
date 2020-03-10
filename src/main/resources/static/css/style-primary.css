@@ -468,7 +468,7 @@ input:-ms-input-placeholder, textarea:-ms-input-placeholder {
 
 @media only screen and (min-width: 768px) and (max-width: 991px) {
   .content-body {
-    margin-top: 80px;
+    margin-top: 50px;
   }
 }
 
@@ -7238,7 +7238,7 @@ table.data-table.collapsed tbody tr.child td.child ul li .dtr-title {
     -webkit-flex: 0 0 auto;
         -ms-flex: 0 0 auto;
             flex: 0 0 auto;
-    height: 80px;
+    height: 50px;
     padding-left: 30px;
   }
 }
@@ -7250,7 +7250,7 @@ table.data-table.collapsed tbody tr.child td.child ul li .dtr-title {
         -ms-flex: 0 0 auto;
             flex: 0 0 auto;
     padding-left: 30px;
-    height: 80px;
+    height: 50px;
   }
 }
 
@@ -7413,7 +7413,7 @@ table.data-table.collapsed tbody tr.child td.child ul li .dtr-title {
     height: 50px;
     background-color: #fafafa;
     z-index: 99;
-    padding: 15px 80px;
+    padding: 15px 50px;
     -webkit-transform: translateY(-100%);
         -ms-transform: translateY(-100%);
             transform: translateY(-100%);
@@ -7449,7 +7449,7 @@ table.data-table.collapsed tbody tr.child td.child ul li .dtr-title {
 
 @media only screen and (min-width: 768px) and (max-width: 991px), only screen and (max-width: 767px) {
   .header-search-form {
-    height: 80px;
+    height: 50px;
   }
 }
 
@@ -9107,10 +9107,10 @@ body.header-top-green .header-notification-area > li > a .user .name {
   }
 }
 
-@media only screen and (min-width: 768px) and (max-width: 991px) {
+@media only screen and (min-width: 768px) and (max-width: 1199px) {
   .side-header {
-    top: 80px;
-    height: calc(100vh - 80px);
+    top: 40px;
+    height: calc(100vh - 40px);
   }
 }
 
@@ -10118,7 +10118,7 @@ body.side-header-green .side-header .side-header-close {
     opacity: 0;
     visibility: hidden;
     position: fixed;
-    top: 80px;
+    top: 50px;
   }
   .chat-app-wrap .chat-contacts .chat-contacts-close {
     opacity: 0;
@@ -10388,7 +10388,7 @@ body.side-header-green .side-header .side-header-close {
             flex-direction: column !important;
   }
   .chat .body .image, .widget-chat .body .image {
-    max-width: 80px;
+    max-width: 50px;
   }
   .chat .body .content, .widget-chat .body .content {
     margin: 15px 0 0 !important;

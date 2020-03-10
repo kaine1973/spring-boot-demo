@@ -1,6 +1,5 @@
 
 <link rel="shortcut icon" type="image/x-icon" href="/images/favicon.ico">
-
 <!-- CSS
 ============================================ -->
 <!-- Bootstrap CSS -->
@@ -11,6 +10,10 @@
 <link rel="stylesheet" href="/css/vendor/font-awesome.min.css">
 <link rel="stylesheet" href="/css/vendor/themify-icons.css">
 <link rel="stylesheet" href="/css/vendor/cryptocurrency-icons.css">
+
+<#--nice Selector-->
+<link rel="stylesheet" href="/css/niceSelect/nice-select.css">
+<link rel="stylesheet" href="/css/niceSelect/style.css">
 
 <!-- Plugins CSS -->
 <link rel="stylesheet" href="/css/plugins/plugins.css">

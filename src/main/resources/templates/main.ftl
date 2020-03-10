@@ -456,7 +456,7 @@
 </div><!-- Side Header End -->
 
 <!-- Content Body Start -->
-<div class="content-body" id="main">
+<div class="content-body" id="main" >
     <div class="spinner-grow spinner-lg hidden">
         <span class="sr-only">Loading...</span>
     </div>
@@ -477,15 +477,15 @@
 
 </div>
 
-<!-- JS
-============================================ -->
-
-<!-- Global Vendor, plugins & Activation JS -->
-
-
 </body>
+<#include "jsCommon.ftl">
 <script>
-
+    $('#main').click(function () {
+        if($(document).width() < 1214){
+            $('.side-header').removeClass('show');
+            $('.side-header').addClass('hide');
+        }
+    })
 
     function addStaticContent(page) {
         $('.spinner-grow').removeClass('hidden')
@@ -498,6 +498,8 @@
             success: function (data) {
                 if(data.code === 200){
                     $('#main').html(data.result);
+                    window.scrollTo(0,0)
+                    $('select').niceSelect();
                 }else{
                     alertWarning(data.msg)
                 }
@@ -513,6 +515,7 @@
             $('.side-header').removeClass('show');
             $('.side-header').addClass('hide');
         }
+
     }
     function alertWarning(content) {
 
@@ -540,5 +543,4 @@
     }
 </script>
 
-<#include "jsCommon.ftl">
 </html>

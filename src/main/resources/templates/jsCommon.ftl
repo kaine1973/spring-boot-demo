@@ -22,20 +22,23 @@
 <script src="/js/plugins/chartjs/chartjs.active.js"></script>
 
 <!--VMap-->
-<script src="/js/plugins/vmap/jquery.vmap.min.js"></script>
-<script src="/js/plugins/vmap/maps/jquery.vmap.world.js"></script>
-<script src="/js/plugins/vmap/maps/samples/jquery.vmap.sampledata.js"></script>
-<script src="/js/plugins/vmap/vmap.active.js"></script>
+<#--<script src="/js/plugins/vmap/jquery.vmap.min.js"></script>-->
+<#--<script src="/js/plugins/vmap/maps/jquery.vmap.world.js"></script>-->
+<#--<script src="/js/plugins/vmap/maps/samples/jquery.vmap.sampledata.js"></script>-->
+<#--<script src="/js/plugins/vmap/vmap.active.js"></script>-->
+<#--<script src="/js/plugins/vmap/maps/jquery.vmap.usa.js"></script>-->
+<#--<script src="/js/plugins/vmap/maps/continents/jquery.vmap.asia.js"></script>-->
+<#--<script src="/js/plugins/vmap/maps/continents/jquery.vmap.australia.js"></script>-->
+<#--<script src="/js/plugins/vmap/maps/continents/jquery.vmap.europe.js"></script>-->
+<#--<script src="/js/plugins/vmap/maps/continents/jquery.vmap.africa.js"></script>-->
 
-<script src="/js/plugins/vmap/maps/jquery.vmap.usa.js"></script>
-<script src="/js/plugins/vmap/maps/continents/jquery.vmap.asia.js"></script>
-<script src="/js/plugins/vmap/maps/continents/jquery.vmap.australia.js"></script>
-<script src="/js/plugins/vmap/maps/continents/jquery.vmap.europe.js"></script>
-<script src="/js/plugins/vmap/maps/continents/jquery.vmap.africa.js"></script>
+<#--niceSelect-->
+<script src="/js/niceSelect/fastclick.js"></script>
+<script src="/js/niceSelect/prism.js"></script>
+<script src="/js/niceSelect/jquery.nice-select.min.js"></script>
 
-
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCfmCVTjRI007pC1Yk2o2d_EhgkjTsFVN8"></script>
-<script src="/js/plugins/google-map/googlemap.active.js"></script>
+<#--<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCfmCVTjRI007pC1Yk2o2d_EhgkjTsFVN8"></script>-->
+<#--<script src="/js/plugins/google-map/googlemap.active.js"></script>-->
 
 <script src="/js/plugins/filepond/filepond.min.js"></script>
 <script src="/js/plugins/filepond/filepond-plugin-image-exif-orientation.min.js"></script>

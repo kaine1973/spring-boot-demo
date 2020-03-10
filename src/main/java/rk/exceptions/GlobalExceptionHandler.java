@@ -26,12 +26,13 @@ public class GlobalExceptionHandler {
 
 
     @ExceptionHandler(PageAccessException.class)
-    public String pageExceptionHandler(Exception e){
+    @ResponseBody
+    public ModelAndView pageExceptionHandler(Exception e){
         PageAccessException error = (PageAccessException) e;
         Map<String,Object> params = new HashMap<>();
         params.put("code",error.code);
         params.put("msg",error.msg);
-        return "/index";
+        return new ModelAndView( "/login" ).addAllObjects( params );
     }
 
 }

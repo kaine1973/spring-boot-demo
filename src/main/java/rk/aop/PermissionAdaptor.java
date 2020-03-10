@@ -20,7 +20,6 @@ import rk.util.UserIDBase64;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
@@ -58,12 +57,6 @@ public class PermissionAdaptor {
         RequestPermission permission = method.getAnnotation(RequestPermission.class);
         String aclValue = permission.aclValue();
         List<String> permissions = (List<String>) session.getAttribute(CrmConstant.USER_PERMISSIONS);
-
-
-        /***
-         * 是否有权限码
-         * 1. 没有，没登录，检查是否保持登录
-         */
 
         if(CollectionUtils.isEmpty(permissions)){
             AssertUtil.requestPage(!rememeredCheck(),"请先登录");

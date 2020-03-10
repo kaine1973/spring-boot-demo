@@ -14,8 +14,6 @@ import rk.service.UserService;
 import rk.util.StringUtil;
 import rk.util.UserIDBase64;
 
-import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -23,9 +21,10 @@ import java.util.Arrays;
 @Controller
 public class IndexController {
 
-    @RequestMapping("index")
+    @RequestPermission(aclValue = "0")
+    @RequestMapping("/")
     public String index(){
-        return "/index";
+        return "/main";
     }
 
     @RequestMapping("login")

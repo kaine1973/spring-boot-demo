@@ -5,16 +5,19 @@
                 <!-- Page Heading Start -->
                 <div class="col-12 col-lg-auto mb-20">
                     <div class="page-heading">
-                        <h3>eCommerce <span>/ Add Product</span></h3>
+                        <h3>产品 <span>/ 添加</span></h3>
                     </div>
                 </div><!-- Page Heading End -->
 
                 <!-- Page Button Group Start -->
                 <div class="col-12 col-lg-auto mb-20">
                     <div class="buttons-group">
-                        <button class="button button-outline button-primary">Save & Publish</button>
-                        <button class="button button-outline button-info">Save to Draft</button>
-                        <button class="button button-outline button-danger">Delete Product</button>
+                        <button class="button button-outline button-primary">保存</button>
+                        <button class="button button-outline button-dark">清空</button>
+                        <#if product.id??>
+                            <button class="button button-outline button-info">撤销修改</button>
+                            <button class="button button-outline button-danger">删除</button>
+                        </#if>
                     </div>
                 </div><!-- Page Button Group End -->
 
@@ -26,24 +29,32 @@
                 <div class="add-edit-product-form">
                     <form action="#">
 
-                        <h4 class="title">About Product</h4>
+                        <h4 class="title">基本信息</h4>
 
                         <div class="row">
-                            <div class="col-lg-6 col-12 mb-30"><input class="form-control" type="text" placeholder="Product Name / Title*"></div>
-                            <div class="col-lg-6 col-12 mb-30"><input class="form-control" type="text" placeholder="Product Sub-title"></div>
-                            <div class="col-lg-6 col-12 mb-30"><input class="form-control" type="text" placeholder="Product Price*"></div>
-                            <div class="col-lg-6 col-12 mb-30"><input class="form-control" type="text" placeholder="Product Discount"></div>
-                            <div class="col-12 mb-30"><textarea class="form-control" placeholder="Product Description*"></textarea></div>
-                            <div class="col-lg-6 col-12 mb-30">
-                                <select class="form-control select2">
+                            <div class="col-lg-5 col-12 mb-25"><input class="form-control form-control-sm" type="text" placeholder="产品名称*" name="name"></div>
+                            <div class="col-lg-5 col-12 mb-25"><input class="form-control form-control-sm" type="text" placeholder="品牌" name="brand"></div>
+                            <div class="col-lg-5 col-12 mb-25"><input class="form-control form-control-sm" type="text" placeholder="货号" name="productId"></div>
+                            <div class="col-lg-5 col-12 mb-25">
+                                <select class="form-control form-control-sm nice-select wide" name="category">
+                                    <option data-display="产品类型" value="0">默认</option>
+                                    <option value="1">类别1</option>
+                                    <option value="1" disabled>不能选</option>
+                                    <option value="2">类别2</option>
+                                </select>
+                            </div>
+                            <div class="col-lg-3 col-12 mb-25" >
+                                <input class="form-control form-control-sm" type="text" placeholder="单位" name="unit">
+                            </div>
+                            <div class="col-lg-5 col-12 mb-25">
+                                <select class="form-control form-control-sm select2">
                                     <option value="status">Status</option>
                                     <option value="publish">Publish</option>
                                     <option value="draft">Draft</option>
                                 </select>
                             </div>
-                            <div class="col-lg-6 col-12 mb-30"><input class="form-control" type="text" placeholder="Meta Title"></div>
-                            <div class="col-lg-6 col-12 mb-30"><input class="form-control" type="text" placeholder="Meta Keyword"></div>
-                            <div class="col-lg-6 col-12 mb-30"><input class="form-control" type="text" placeholder="Aditional Description Image Link"></div>
+
+                            <div class="col-10 mb-25"><textarea class="form-control form-control-sm" placeholder="备注"></textarea></div>
                         </div>
 
                         <h4 class="title">Product Gallery</h4>
@@ -57,14 +68,6 @@
 
                         <h4 class="title">Additional Information</h4>
 
-                        <div class="row">
-                            <div class="col-lg-4 col-12 mb-30"><input class="form-control" type="text" placeholder="Information 1"></div>
-                            <div class="col-lg-4 col-12 mb-30"><input class="form-control" type="text" placeholder="Information 2"></div>
-                            <div class="col-lg-4 col-12 mb-30"><input class="form-control" type="text" placeholder="Information 3"></div>
-                            <div class="col-lg-4 col-12 mb-30"><input class="form-control" type="text" placeholder="Information 4"></div>
-                            <div class="col-lg-4 col-12 mb-30"><input class="form-control" type="text" placeholder="Information 5"></div>
-                            <div class="col-lg-4 col-12 mb-30"><input class="form-control" type="text" placeholder="Information 6"></div>
-                        </div>
 
                         <!-- Button Group Start -->
                         <div class="row">

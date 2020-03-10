@@ -13,8 +13,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @MapperScan(basePackages = "rk.dao")
 public class App implements CommandLineRunner
 {
-
-
     public static void main( String[] args )
     {
         SpringApplication.run(App.class,args);
