@@ -2,7 +2,6 @@
 <html class="no-js" lang="en">
 
 <head>
-    <#include "common.ftl" >
     <meta charset="utf-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
     <title>Adomx - Responsive Bootstrap 4 Admin Template</title>
@@ -11,7 +10,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <!-- Favicon -->
 
-
+    <#include "common.ftl" >
 </head>
 <style>
     /*iframe {width: 100%; height: 100%; border: none; margin: 0; padding: 0; display: block;}*/

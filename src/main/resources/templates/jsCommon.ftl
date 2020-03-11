@@ -8,6 +8,7 @@
 <!--Main JS-->
 <script src="/js/main.js"></script>
 <script src="/js/common.js"></script>
+<script src="/js/product.js"></script>
 
 <script src="/js/js.cookie-2.2.1.min.js"></script>
 <!--Moment-->
@@ -16,6 +17,8 @@
 <!--Daterange Picker-->
 <script src="/js/plugins/daterangepicker/daterangepicker.js"></script>
 <script src="/js/plugins/daterangepicker/daterangepicker.active.js"></script>
+
+<script src="/js/popper.min.js"></script>
 
 <!--Echarts-->
 <script src="/js/plugins/chartjs/Chart.min.js"></script>

@@ -9043,10 +9043,10 @@ body.header-top-green .header-notification-area > li > a .user .name {
 .side-header {
   width: 270px !important;
   background-color: #161824;
-  height: calc(100vh - 50px);
+  height: calc(100vh - 51px);
   position: fixed;
   left: 0;
-  top: 50px;
+  top: 51px;
   -webkit-transition: all 0.3s ease 0s;
   -o-transition: all 0.3s ease 0s;
   transition: all 0.3s ease 0s;
