@@ -12,10 +12,6 @@
 
     <#include "common.ftl" >
 </head>
-<style>
-    /*iframe {width: 100%; height: 100%; border: none; margin: 0; padding: 0; display: block;}*/
-    /*iframe {display: block; width: 100%; height: 100%; border: none;}*/
-</style>
 <body>
 <div class="alert alert-danger hidden" id="warningDiv" style="position:fixed;
         z-index: 99999;left: 50%;top: 5px;-webkit-transform: translate(-50%, -50%);
@@ -310,7 +306,7 @@
                 </li>
                 <li class="has-sub-menu"><a href="#"><i class="ti-palette"></i> <span>产品管理</span></a>
                     <ul class="side-header-sub-menu">
-                        <li><a href="javascript:addStaticContent('sample/add-product')"> <span>添加产品</span></a>
+                        <li><a href="javascript:addDynamicContent('/product/getProductPage')"> <span>添加产品</span></a>
                         </li>
                         <li><a href="javascript:addStaticContent('sample/manage-products')"> <span>库存管理</span> </a>
                         </li>
@@ -487,7 +483,7 @@
     })
 
     function addStaticContent(page) {
-        $('.spinner-grow').removeClass('hidden')
+        // $('.spinner-grow').removeClass('hidden')
         $.ajax({
             url: 'staticWeb',
             type: 'get',
@@ -516,6 +512,16 @@
         }
 
     }
+    function alertSuccess(msg) {
+        $('#warning').text(msg);
+        $('#warningDiv').removeClass('alert-danger')
+        $('#warningDiv').addClass('alert-success')
+
+        $('#warningDiv').removeClass('hidden')
+        setTimeout(function () {
+            $('#warningDiv').addClass('hidden')
+        },3000)
+    }
     function alertWarning(content) {
 
         $('#warning').text(content);
@@ -540,6 +546,30 @@
             }
         })
     }
+    function addDynamicContent(url) {
+        $.ajax({
+            url: url,
+            type: 'get',
+            success: function (data) {
+                if(data.code === 200){
+                    $('#main').html(data.result);
+                    window.scrollTo(0,0)
+                    $('select').niceSelect();
+                }else{
+                    alertWarning(data.msg)
+                }
+            },
+            error: function () {
+                alertWarning("请求服务器失败，请重试，或者联系管理员。")
+            }
+
+        })
+        if ($(document).width() < 1214) {
+            $('.side-header').removeClass('show');
+            $('.side-header').addClass('hide');
+        }
+    }
+
 </script>
 
 </html>

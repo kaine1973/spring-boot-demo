@@ -35,4 +35,13 @@ public class GlobalExceptionHandler {
         return new ModelAndView( "/login" ).addAllObjects( params );
     }
 
+//    @ResponseBody
+//    @ExceptionHandler(Exception.class)
+//    public ResultInfo ExceptionHandler(HttpServletRequest request, Exception e ){
+//        System.out.println(request.getRequestURI());
+//        System.out.println(e.getMessage());
+//        e.printStackTrace();
+//        return new ResultInfo(500,e.getMessage());
+//    }
+
 }

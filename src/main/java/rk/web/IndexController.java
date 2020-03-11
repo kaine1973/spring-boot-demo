@@ -32,22 +32,6 @@ public class IndexController {
         return "login";
     }
 
-    @Autowired
-    private UserService userService;
-
-
-    @ResponseBody
-    @RequestMapping(value = "/user/login",method = RequestMethod.POST)
-    public ResultInfo login(User user, String remember, HttpSession session){
-        User login = userService.queryUserByName(user);
-        session.setAttribute("user",login);
-        session.setAttribute(CrmConstant.USER_PERMISSIONS, new ArrayList<>(Arrays.asList("0")));
-        ResultInfo resultInfo = new ResultInfo(200, "登录成功");
-        if ("true".equals(remember)) {
-            resultInfo.setResult(new UserInfo(UserIDBase64.encoderUserID(login.getId()),StringUtil.encypt(UserIDBase64.encoderUserID(login.getId())+login.getSalt())));
-        }
-        return resultInfo;
-    }
     @RequestPermission(aclValue = "0")
     @RequestMapping("main")
     public String main(){

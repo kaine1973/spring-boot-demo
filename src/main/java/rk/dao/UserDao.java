@@ -1,6 +1,5 @@
 package rk.dao;
 
-import org.apache.ibatis.annotations.Param;
 import rk.po.User;
 
 public interface UserDao{

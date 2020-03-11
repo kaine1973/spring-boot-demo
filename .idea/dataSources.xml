@@ -1,11 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="DataSourceManagerImpl" format="xml" multifile-model="true">
-    <data-source source="LOCAL" name="CRM@localhost" uuid="d2f0f72d-061a-492b-880f-49f342532956">
+    <data-source source="LOCAL" name="crm@122.144.206.146" uuid="489c712b-1de7-4940-9099-66c0a049e405">
       <driver-ref>mysql.8</driver-ref>
       <synchronize>true</synchronize>
       <jdbc-driver>com.mysql.cj.jdbc.Driver</jdbc-driver>
-      <jdbc-url>jdbc:mysql://localhost:3306/CRM</jdbc-url>
+      <jdbc-url>jdbc:mysql://122.144.206.146:3306/crm</jdbc-url>
+    </data-source>
+    <data-source source="LOCAL" name="crm@127.0.0.1" uuid="bf9a130b-4fcf-4876-a2ac-b49c3e3a11c7">
+      <driver-ref>mysql.8</driver-ref>
+      <synchronize>true</synchronize>
+      <jdbc-driver>com.mysql.cj.jdbc.Driver</jdbc-driver>
+      <jdbc-url>jdbc:mysql://127.0.0.1:3306/crm</jdbc-url>
     </data-source>
   </component>
 </project>
