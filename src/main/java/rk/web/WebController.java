@@ -23,7 +23,7 @@ public class WebController {
     FreeMarkerConfigurer configurer;
 
     @RequestPermission(aclValue = "0")
-    @RequestMapping("staticWeb")
+    @RequestMapping("/staticWeb")
     @ResponseBody
     public ResultInfo staticWebController(HttpServletRequest request, String requestPage) {
         String s = null;

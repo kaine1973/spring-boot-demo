@@ -12,6 +12,11 @@
 
     <#include "common.ftl" >
 </head>
+<style>
+    td:hover{
+
+    }
+</style>
 <body>
 <div class="alert alert-danger hidden" id="warningDiv" style="position:fixed;
         z-index: 99999;left: 50%;top: 5px;-webkit-transform: translate(-50%, -50%);
@@ -58,7 +63,9 @@
 
                                         <div class="header-search-form">
                                             <form action="#">
-                                                <input type="text" placeholder="搜索_">
+                                                <label>
+                                                    <input type="text" placeholder="搜索_">
+                                                </label>
                                                 <button><i class="zmdi zmdi-search"></i></button>
                                             </form>
                                             <button class="header-search-close d-block d-xl-none"><i class="zmdi zmdi-close"></i></button>
@@ -308,7 +315,7 @@
                     <ul class="side-header-sub-menu">
                         <li><a href="javascript:addDynamicContent('/product/getProductPage')"> <span>添加产品</span></a>
                         </li>
-                        <li><a href="javascript:addStaticContent('sample/manage-products')"> <span>库存管理</span> </a>
+                        <li><a href="javascript:addDynamicContent('/product/manage')"> <span>库存管理</span> </a>
                         </li>
                     </ul>
                 </li>

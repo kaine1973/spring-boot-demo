@@ -39,7 +39,7 @@ public class PermissionAdaptor {
     @Autowired
     private HttpServletRequest request;
 
-    @Pointcut("@annotation(rk.annotations.RequestPermission)")
+    @Pointcut("@annotation(rk.annotations.RequestPermission),@annotation(SessionAttribute.class)")
     public void cut(){}
 
     @Around("cut()")

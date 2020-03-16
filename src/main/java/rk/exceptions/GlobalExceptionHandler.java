@@ -1,5 +1,6 @@
 package rk.exceptions;
 
+import jdk.nashorn.internal.runtime.logging.Logger;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -23,8 +24,6 @@ public class GlobalExceptionHandler {
         System.out.println(e.getMessage());
         return new ResultInfo(error.code,error.msg);
     }
-
-
     @ExceptionHandler(PageAccessException.class)
     @ResponseBody
     public ModelAndView pageExceptionHandler(Exception e){
@@ -34,14 +33,13 @@ public class GlobalExceptionHandler {
         params.put("msg",error.msg);
         return new ModelAndView( "/login" ).addAllObjects( params );
     }
-
-//    @ResponseBody
-//    @ExceptionHandler(Exception.class)
-//    public ResultInfo ExceptionHandler(HttpServletRequest request, Exception e ){
-//        System.out.println(request.getRequestURI());
-//        System.out.println(e.getMessage());
-//        e.printStackTrace();
-//        return new ResultInfo(500,e.getMessage());
-//    }
+    @Logger()
+    @ResponseBody
+    @ExceptionHandler(Exception.class)
+    public ResultInfo ExceptionHandler(HttpServletRequest request, Exception e ){
+        System.out.println(request.getRequestURI());
+        System.out.println(e.getMessage());
+        return new ResultInfo(500,"操作失败");
+    }
 
 }

@@ -8,7 +8,7 @@
     <result column="passwd" property="userPwd" jdbcType="VARCHAR"/>
     <result column="salt" property="salt" jdbcType="VARCHAR"/>
     <result column="header" property="header" jdbcType="VARCHAR"/>
-    <result column="preferColor" property="prefer" jdbcType="VARCHAR"/>
+    <result column="preferColor" property="preferColor" jdbcType="VARCHAR"/>
 </resultMap>
 
     <select id="queryUser" resultMap="user" parameterType="java.lang.String">
@@ -16,7 +16,7 @@
         from user where uname = #{userName}
     </select>
     <select id="queryUserById" resultMap="user" parameterType="java.lang.Integer">
-        select uname,salt,header,preferColor
+        select id,uname,salt,header,preferColor
         from user where id = #{id}
     </select>
 

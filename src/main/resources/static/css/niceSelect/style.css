@@ -275,9 +275,9 @@ a:not(.button) {
   text-decoration: none;
   -webkit-transition: all 0.2s ease-in-out;
   transition: all 0.2s ease-in-out;
-  border-bottom: 1px solid transparent; }
+  border-bottom: 0px solid transparent; }
   a:not(.button):hover, a:not(.button):focus {
-    border-bottom: 1px solid #88bfff; }
+    border-bottom: 0px solid #88bfff; }
 
 ::-moz-selection {
   background: #f3f4f7; }

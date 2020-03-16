@@ -32,6 +32,13 @@ public interface BaseDao<T> {
      */
     public  T queryById(Integer id) throws  DataAccessException;
 
+    /**
+     * 查询单条记录，根据userID和ID
+     * @param id
+     * @return
+     * @throws DataAccessException
+     */
+    public  T queryById(Integer id,Integer userId) throws  DataAccessException;
 
     /**
      * 多条件查询

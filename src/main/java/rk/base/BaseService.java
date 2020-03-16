@@ -2,6 +2,7 @@ package rk.base;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import org.springframework.transaction.annotation.Transactional;
 import rk.util.AssertUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
@@ -60,7 +61,7 @@ public abstract class BaseService<T> {
         return new PageInfo<T>(entities);
     }
 
-
+    @Transactional(readOnly = true)
     public Map<String,Object> queryForPage(BaseQuery baseQuery) throws  DataAccessException{
         PageHelper.startPage(baseQuery.getPageNum(),baseQuery.getPageSize());
         List<T> entities=baseDao.queryByParams(baseQuery);

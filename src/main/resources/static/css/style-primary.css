@@ -460,7 +460,7 @@ input:-ms-input-placeholder, textarea:-ms-input-placeholder {
 /*Content Body*/
 .content-body {
   padding: 30px;
-  margin-top: 50px;
+  margin-top: 110px;
   -webkit-transition: all 0.3s ease 0s;
   -o-transition: all 0.3s ease 0s;
   transition: all 0.3s ease 0s;
@@ -468,7 +468,7 @@ input:-ms-input-placeholder, textarea:-ms-input-placeholder {
 
 @media only screen and (min-width: 768px) and (max-width: 991px) {
   .content-body {
-    margin-top: 50px;
+    margin-top: 80px;
   }
 }
 
@@ -7209,7 +7209,7 @@ table.data-table.collapsed tbody tr.child td.child ul li .dtr-title {
   -webkit-flex: 0 0 270px;
       -ms-flex: 0 0 270px;
           flex: 0 0 270px;
-  height: 50px;
+  height: 110px;
 }
 
 .header-logo a {
@@ -7238,7 +7238,7 @@ table.data-table.collapsed tbody tr.child td.child ul li .dtr-title {
     -webkit-flex: 0 0 auto;
         -ms-flex: 0 0 auto;
             flex: 0 0 auto;
-    height: 50px;
+    height: 80px;
     padding-left: 30px;
   }
 }
@@ -7250,7 +7250,7 @@ table.data-table.collapsed tbody tr.child td.child ul li .dtr-title {
         -ms-flex: 0 0 auto;
             flex: 0 0 auto;
     padding-left: 30px;
-    height: 50px;
+    height: 80px;
   }
 }
 
@@ -7410,10 +7410,10 @@ table.data-table.collapsed tbody tr.child td.child ul li .dtr-title {
     left: 0;
     top: 0;
     width: 100%;
-    height: 50px;
+    height: 110px;
     background-color: #fafafa;
     z-index: 99;
-    padding: 15px 50px;
+    padding: 15px 80px;
     -webkit-transform: translateY(-100%);
         -ms-transform: translateY(-100%);
             transform: translateY(-100%);
@@ -7449,7 +7449,7 @@ table.data-table.collapsed tbody tr.child td.child ul li .dtr-title {
 
 @media only screen and (min-width: 768px) and (max-width: 991px), only screen and (max-width: 767px) {
   .header-search-form {
-    height: 50px;
+    height: 80px;
   }
 }
 
@@ -9043,10 +9043,10 @@ body.header-top-green .header-notification-area > li > a .user .name {
 .side-header {
   width: 270px !important;
   background-color: #161824;
-  height: calc(100vh - 51px);
+  height: calc(100vh - 110px);
   position: fixed;
   left: 0;
-  top: 51px;
+  top: 110px;
   -webkit-transition: all 0.3s ease 0s;
   -o-transition: all 0.3s ease 0s;
   transition: all 0.3s ease 0s;
@@ -9107,10 +9107,10 @@ body.header-top-green .header-notification-area > li > a .user .name {
   }
 }
 
-@media only screen and (min-width: 768px) and (max-width: 1199px) {
+@media only screen and (min-width: 768px) and (max-width: 991px) {
   .side-header {
-    top: 40px;
-    height: calc(100vh - 40px);
+    top: 80px;
+    height: calc(100vh - 80px);
   }
 }
 
@@ -10118,7 +10118,7 @@ body.side-header-green .side-header .side-header-close {
     opacity: 0;
     visibility: hidden;
     position: fixed;
-    top: 50px;
+    top: 80px;
   }
   .chat-app-wrap .chat-contacts .chat-contacts-close {
     opacity: 0;
@@ -10388,7 +10388,7 @@ body.side-header-green .side-header .side-header-close {
             flex-direction: column !important;
   }
   .chat .body .image, .widget-chat .body .image {
-    max-width: 50px;
+    max-width: 80px;
   }
   .chat .body .content, .widget-chat .body .content {
     margin: 15px 0 0 !important;
@@ -14501,8 +14501,7 @@ body.skin-dark .cus-radio.light .icon::before {
     padding-right: 0 !important;
   }
   [dir="rtl"] .header-notification-area > li:last-child {
-    padding-left: 0
- !important;
+    padding-left: 0 !important;
     padding-right: 10px !important;
   }
 }

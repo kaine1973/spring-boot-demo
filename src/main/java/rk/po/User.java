@@ -14,7 +14,7 @@ public class User {
     private String salt;
     private String userToken;
     private String header;
-    private String prefer;
+    private String preferColor;
 
     public void setId(Integer id) {
         this.id = id;

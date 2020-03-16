@@ -22,7 +22,7 @@
 <link rel="stylesheet" href="/css/helper.css">
 
 <!-- Main Style CSS -->
-<link rel="stylesheet" href="/css/style-<#if user.preferColor??>#{user.preferColor}<#else>primary</#if>.css">
+<link rel="stylesheet" href="/css/style-<#if user.preferColor??>${user.preferColor}<#else>primary</#if>.css">
 
 <!-- Custom Style CSS Only For Demo Purpose -->
 <#--<link id="cus-style" rel="stylesheet" href="/css/style-primary.css">-->

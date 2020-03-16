@@ -1,3 +1,4 @@
+<!-- Global Vendor, plugins & Activation JS -->
 <script src="/js/vendor/modernizr-3.6.0.min.js"></script>
 <script src="/js/vendor/jquery-3.3.1.min.js"></script>
 <script src="/js/vendor/popper.min.js"></script>
@@ -5,12 +6,8 @@
 <!--Plugins JS-->
 <script src="/js/plugins/perfect-scrollbar.min.js"></script>
 <script src="/js/plugins/tippy4.min.js.js"></script>
-<!--Main JS-->
-<script src="/js/main.js"></script>
-<script src="/js/common.js"></script>
-<script src="/js/product.js"></script>
 
-<script src="/js/js.cookie-2.2.1.min.js"></script>
+<!-- Plugins & Activation JS For Only This Page -->
 <!--Moment-->
 <script src="/js/plugins/moment/moment.min.js"></script>
 
@@ -18,11 +15,19 @@
 <script src="/js/plugins/daterangepicker/daterangepicker.js"></script>
 <script src="/js/plugins/daterangepicker/daterangepicker.active.js"></script>
 
-<script src="/js/popper.min.js"></script>
-
 <!--Echarts-->
 <script src="/js/plugins/chartjs/Chart.min.js"></script>
 <script src="/js/plugins/chartjs/chartjs.active.js"></script>
+
+<!--Main JS-->
+<script src="/js/main.js"></script>
+<script src="/js/common.js"></script>
+<script src="/js/product.js"></script>
+
+<script src="/js/js.cookie-2.2.1.min.js"></script>
+
+
+<script src="/js/popper.min.js"></script>
 
 <!--VMap-->
 <#--<script src="/js/plugins/vmap/jquery.vmap.min.js"></script>-->

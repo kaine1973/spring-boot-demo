@@ -1,6 +1,6 @@
 (function ($) {
     "use strict";
-    /*--最新最全最好的Bootstrap模板：http://www.booTstrapmb.com
+    /*--锟斤拷锟斤拷锟斤拷全锟斤拷玫锟紹ootstrap模锟藉：http://www.booTstrapmb.com
     Commons Variables
 -----------------------------------*/
 var $window = $(window);
@@ -227,7 +227,6 @@ $chatContactClose.on('click', function(){
     $chatContacts.removeClass('show');
 });
 
-
 // Common Resize function
 function resize() {
     $sideHeaderClassToggle();
@@ -245,4 +244,5 @@ $('.custom-scroll').each( function() {
 });
     
 })(jQuery);
+
 

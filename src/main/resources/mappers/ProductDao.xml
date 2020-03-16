@@ -9,13 +9,38 @@
     </resultMap>
 
     <resultMap id="productInformation" type="rk.po.Product">
-        <id column="id" javaType="java.lang.Integer" jdbcType="INTEGER" property="id"/>
+        <id column="id" javaType="java.lang.Integer" jdbcType="INTEGER" property="productId"/>
         <result column="product_name" javaType="java.lang.String" jdbcType="VARCHAR" property="productName"/>
         <result column="brand" javaType="java.lang.String" jdbcType="VARCHAR" property="brand"/>
         <result column="model" javaType="java.lang.String" jdbcType="VARCHAR" property="model"/>
-        <result column="unit" javaType="java.lang.String" jdbcType="VARCHAR" property="unit"/>
-        <result column="product_id" javaType="java.lang.Integer" jdbcType="INTEGER" property="parentId"/>
+        <result column="product_unit" javaType="java.lang.String" jdbcType="VARCHAR" property="productUnit"/>
+        <result column="product_serial" javaType="java.lang.String" jdbcType="VARCHAR" property="productSerial"/>
+        <result column="category_id" javaType="java.lang.Integer" jdbcType="INTEGER" property="categoryId"/>
+        <result column="create_date" javaType="java.util.Date" jdbcType="TIMESTAMP" property="createDate"/>
     </resultMap>
+
+    <select id="queryByParams" resultMap="productInformation" resultType="rk.po.Product" parameterType="rk.query.ProductQuery">
+        select *
+        from crm.product
+        <where>
+            user_id = #{userId}
+            <if test="null != productName and '' != productName">
+             and product_name like concat('%',#{productName},'%')
+            </if>
+            <if test="null != brand and '' != brand">
+                and brand like concat('%',#{brand},'%')
+            </if>
+            <if test="null != model and '' != model">
+                and model like concat('%',#{model},'%')
+            </if>
+            <if test="null != categoryId and '' != categoryId">
+                and category_id like concat('%',#{categoryId},'%')
+            </if>
+            <if test="null != createDate and '' != createDate">
+                and create_date &lt;= #{createDate}
+            </if>
+        </where>
+    </select>
 
     <select id="queryProductById" resultMap="productInformation" resultType="rk.po.Product">
         select *
@@ -23,6 +48,82 @@
         where id = #{id} and user_id = #{userId}
     </select>
 
+    <insert id="insertProduct"
+            useGeneratedKeys="true"
+            parameterType="rk.po.Product"
+            keyProperty="productId"
+            keyColumn="id">
+        insert into product
+            <trim prefix="(" suffix=")" suffixOverrides=",">
+                <if test="userId != null">
+                    user_id,
+                </if>
+                <if test="brand != null">
+                    brand,
+                </if>
+                <if test="productUnit != null">
+                    product_unit,
+                </if>
+                <if test="productSerial != null">
+                    product_serial,
+                </if>
+                <if test="productName != null">
+                    product_name,
+                </if>
+                <if test="model != null">
+                    model,
+                </if>
+                <if test="categoryId != null">
+                    category_id,
+                </if>
+                <if test="createDate != null">
+                    create_date,
+                </if>
+                <if test="updateDate != null">
+                    update_date,
+                </if>
+            </trim>
+            <trim prefix="VALUES (" suffix=")" suffixOverrides=",">
+                <if test="userId != null">
+                    #{userId,jdbcType=INTEGER},
+                </if>
+                <if test="brand != null">
+                    #{brand,jdbcType=VARCHAR},
+                </if>
+                <if test="productUnit != null">
+                    #{productUnit,jdbcType=VARCHAR},
+                </if>
+                <if test="productSerial != null">
+                    #{productSerial,jdbcType=VARCHAR},
+                </if>
+                <if test="productName != null">
+                    #{productName,jdbcType=VARCHAR},
+                </if>
+                <if test="model != null">
+                    #{model,jdbcType=VARCHAR},
+                </if>
+                <if test="categoryId != null">
+                    #{categoryId,jdbcType=VARCHAR},
+                </if>
+                <if test="createDate != null">
+                    #{createDate,jdbcType=TIMESTAMP},
+                </if>
+                <if test="updateDate != null">
+                    #{updateDate,jdbcType=TIMESTAMP},
+                </if>
+            </trim>
+    </insert>
+
+    <insert id="insertproductSpecifications" parameterType="java.util.List">
+        insert into product_specification (product_id, specification_name, price, amount)
+        VALUES
+        <foreach collection="list" item="productSpecification" separator=",">
+            (#{productSpecification.productId,jdbcType=INTEGER},
+                #{productSpecification.specificationName,jdbcType=VARCHAR},
+                #{productSpecification.price,jdbcType=VARCHAR},
+                #{productSpecification.amount,jdbcType=INTEGER})
+        </foreach>
+    </insert>
 
     <select id="selectCategoryOfLevel" resultMap="categoryOfParent" resultType="java.lang.String" parameterType="java.lang.Integer">
         select *
