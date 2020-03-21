@@ -4,6 +4,7 @@ package rk.model;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 @Data
 @NoArgsConstructor
@@ -17,4 +18,5 @@ public class ResultInfo {
         this.code = code;
         this.msg = msg;
     }
+
 }

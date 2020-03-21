@@ -71,29 +71,29 @@ public class UserController{
 //        return new ModelAndView("login");
 //    }
 
-    @RequestMapping("update")
-    public ResultInfo update(MultipartFile head, User AltUser, HttpSession session){
-        User currentUser = (User)session.getAttribute("user");
-        try {
-            if (null != head) {
-                String headFileName = StringUtil.genNewFileName()+".jpg";
-                String realPath = session.getServletContext().getRealPath("/");
-                File path = new File("/Users/kaidan/ProjectFiles/UserHeader/"+currentUser.getId(),headFileName);
-                if(!path.getParentFile().exists()){
-                    if ( path.getParentFile().mkdirs()) {
-                        if (path.createNewFile())
-                            FileUtil.copyFile("/Users/kaidan/ProjectFiles/DefaultFiles/defaultHeadPic.jpg", "/Users/kaidan/ProjectFiles/UserHeader/"+currentUser.getId() + "/defaultHeadPic.jpg");
-                    }else{
-                            throw new ParamRequestException("操作失败");
-                    }
-                }
-                head.transferTo(path);
-                currentUser.setHeader(headFileName);
-            }
-        } catch (IOException e) {
-            throw new ParamRequestException(300,e.getMessage());
-        }
-        return userService.updateUser(currentUser);
-    }
+//    @RequestMapping("update")
+//    public ResultInfo update(MultipartFile head, User AltUser, HttpSession session){
+//        User currentUser = (User)session.getAttribute("user");
+//        try {
+//            if (null != head) {
+//                String headFileName = StringUtil.genNewFileName()+".jpg";
+//                String realPath = session.getServletContext().getRealPath("/");
+//                File path = new File("/Users/kaidan/ProjectFiles/UserHeader/"+currentUser.getId(),headFileName);
+//                if(!path.getParentFile().exists()){
+//                    if ( path.getParentFile().mkdirs()) {
+//                        if (path.createNewFile())
+//                            FileUtil.copyFile("/Users/kaidan/ProjectFiles/DefaultFiles/defaultHeadPic.jpg", "/Users/kaidan/ProjectFiles/UserHeader/"+currentUser.getId() + "/defaultHeadPic.jpg");
+//                    }else{
+//                            throw new ParamRequestException("操作失败");
+//                    }
+//                }
+//                head.transferTo(path);
+//                currentUser.setHeader(headFileName);
+//            }
+//        } catch (IOException e) {
+//            throw new ParamRequestException(300,e.getMessage());
+//        }
+//        return userService.updateUser(currentUser);
+//    }
 
 }

@@ -1,5 +1,6 @@
 package rk.service;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import rk.model.ResultInfo;
 import rk.dao.UserDao;
 import rk.po.User;
@@ -7,12 +8,10 @@ import org.springframework.stereotype.Service;
 import rk.util.AssertUtil;
 import rk.util.StringUtil;
 
-import javax.annotation.Resource;
-
 @Service
-public class UserService extends CommonService {
+public class UserService{
 
-    @Resource
+    @Autowired
     private UserDao userDao;
 
     public User queryUserByName(User user){
@@ -23,17 +22,12 @@ public class UserService extends CommonService {
         return has_user;
     }
 
-
-    public void insertUser(User user){
-        AssertUtil.isTrue(StringUtil.isNullorEmpty(user.getUserName(),user.getUserPwd()),"缺少必填项");
-        AssertUtil.isTrue(userDao.queryUser(user.getUserName())!=null,"用户名已存在");
-        user.setUserPwd(StringUtil.encypt(user.getUserPwd()));
-        AssertUtil.isTrue(userDao.insert(user)!=1,"注册失败");
-    }
-
-    public ResultInfo updateUser(User user) {
-        return userDao.updateById(user)==1?success("用户信息修改成功",null):failed(300,"用户信息修改失败");
-    }
+//    public void insertUser(User user){
+//        AssertUtil.isTrue(StringUtil.isNullorEmpty(user.getUserName(),user.getUserPwd()),"缺少必填项");
+//        AssertUtil.isTrue(userDao.queryUser(user.getUserName())!=null,"用户名已存在");
+//        user.setUserPwd(StringUtil.encypt(user.getUserPwd()));
+//        AssertUtil.isTrue(userDao.insert(user)!=1,"注册失败");
+//    }
 
     public ResultInfo updateUserPwd(String pwd, String newPwd, String newPwdRepeat, String id) {
         AssertUtil.isTrue(StringUtil.isNullorEmpty(pwd,newPwd,newPwdRepeat),"缺少必填项");

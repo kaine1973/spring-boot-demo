@@ -1,7 +1,9 @@
 package rk.dao;
 
+import org.springframework.stereotype.Component;
 import rk.po.User;
 
+@Component
 public interface UserDao{
 
 

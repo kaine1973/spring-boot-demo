@@ -16,7 +16,9 @@
                 <!--Manage Product List Start-->
                 <div class="col-12">
                     <div class="table-responsive">
-                        <table class="table table-vertical-middle">
+                        <table class="table table-bordered table-vertical-middle"
+                               data-toggle="table"
+                                data-height="200" >
                             <thead>
                                 <tr>
                                     <th hidden>产品ID</th>

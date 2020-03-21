@@ -19,16 +19,6 @@ public abstract class BaseService<T> {
     private BaseDao<T> baseDao;
 
     /**
-     * 添加记录
-     * @param entity
-     * @return
-     * @throws DataAccessException
-     */
-    public  Integer save(T entity) throws DataAccessException{
-        return baseDao.save(entity);
-    }
-
-    /**
      * 批量添加记录
      * @param entities
      * @return
@@ -36,6 +26,14 @@ public abstract class BaseService<T> {
      */
     public  Integer saveBatch(List<T> entities) throws  DataAccessException{
         return baseDao.saveBatch(entities);
+    }
+
+    @Transactional
+    public Integer saveUpdate(T entity,Integer id){
+        if(null == id){
+            return baseDao.save(entity);
+        }
+        return baseDao.update(entity);
     }
 
     /**

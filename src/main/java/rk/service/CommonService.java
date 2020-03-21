@@ -1,14 +1,30 @@
 package rk.service;
 
-import rk.model.ResultInfo;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import rk.dao.CommonDao;
+import rk.po.common.Area;
+import rk.po.common.CustomerLevel;
+import rk.po.common.CustomerPosition;
 
-public class CommonService {
+import java.util.List;
 
-    protected ResultInfo success(String msg,Object res){
-        return new ResultInfo(200,msg,res);
+@Service
+public class CommonService{
+
+    @Autowired
+    private CommonDao commonDao;
+
+    public List<CustomerLevel> queryCustomerLevelById(Integer id){
+        return commonDao.queryCustomerLevel( id );
     }
 
-    protected ResultInfo failed(Integer code,String msg){
-        return new ResultInfo(code,msg);
+    public List<CustomerPosition> queryCustomerPositionById(Integer id){
+        return commonDao.queryCustomerPosition( id );
     }
+
+    public List<Area> queryAreaByParentId(Integer parentId){
+        return commonDao.queryAreaByParentId( parentId );
+    }
+
 }

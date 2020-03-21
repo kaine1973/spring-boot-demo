@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="rk.dao.CommonDao">
+<!--    省市区地址map-->
+    <resultMap id="AreaDetail" type="rk.po.common.Area">
+        <id column="id" jdbcType="INTEGER" javaType="java.lang.Integer" property="id"/>
+        <result column="area_name" jdbcType="VARCHAR" javaType="java.lang.String" property="areaName"/>
+        <result column="parentid" javaType="java.lang.Integer" property="parentId" jdbcType="INTEGER"/>
+        <result column="sort" javaType="java.lang.Integer" property="sort" jdbcType="INTEGER"/>
+    </resultMap>
+<!--    职务map-->
+    <resultMap id="customerPositionDetail" type="rk.po.common.CustomerPosition">
+        <id column="id" jdbcType="INTEGER" javaType="java.lang.Integer" property="id"/>
+        <result column="position_name" jdbcType="VARCHAR" javaType="java.lang.String" property="positionName"/>
+    </resultMap>
+<!--客户星级map-->
+    <resultMap id="customerLevelDetail" type="rk.po.common.CustomerLevel">
+        <id column="id" jdbcType="INTEGER" javaType="java.lang.Integer" property="id"/>
+        <result column="level_sign" jdbcType="VARCHAR" javaType="java.lang.String" property="levelSign"/>
+    </resultMap>
+
+<!--    查询客户星级-->
+    <select id="queryCustomerLevel" resultMap="customerLevelDetail" parameterType="java.lang.Integer" resultType="rk.po.common.CustomerLevel">
+        SELECT A.id,A.level_sign from crm.customer_level as A
+        <where>
+            1 = 1
+            <if test="null != id and '' != id">
+                and A.id = ${id}
+            </if>
+        </where>
+    </select>
+    <!--        SELECT A.id,B.id,C.id FROM crm.area as A left join crm.area as B on A.id = B.parentid left join crm.area as C on C.parentid = B.id where C.id = 110101;-->
+
+<!--    查询客户职务-->
+    <select id="queryCustomerPosition" resultMap="customerPositionDetail" parameterType="java.lang.Integer" resultType="rk.po.common.CustomerPosition">
+        SELECT A.id,A.position_name from crm.customer_position as A
+        <where>
+            1 = 1
+            <if test="null != id and '' != id">
+                and A.id = ${id}
+            </if>
+        </where>
+        ORDER BY A.sort
+    </select>
+
+<!--    查询地区-->
+    <select id="queryAreaByParentId" resultMap="AreaDetail" parameterType="java.lang.Integer">
+        SELECT A.id,A.area_name,A.parentid,A.sort from crm.area as A
+        where A.parentid = #{parentId}
+        ORDER BY A.sort
+    </select>
+</mapper>
+

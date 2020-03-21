@@ -16,14 +16,15 @@ import java.util.Map;
 public class GlobalExceptionHandler {
 
 
-    @ResponseBody
     @ExceptionHandler(ParamRequestException.class)
+    @ResponseBody
     public ResultInfo ParamExceptionHandler(HttpServletRequest request, Exception e ){
         ParamRequestException error = (ParamRequestException) e;
         System.out.println(request.getRequestURI());
         System.out.println(e.getMessage());
         return new ResultInfo(error.code,error.msg);
     }
+
     @ExceptionHandler(PageAccessException.class)
     @ResponseBody
     public ModelAndView pageExceptionHandler(Exception e){
@@ -33,13 +34,14 @@ public class GlobalExceptionHandler {
         params.put("msg",error.msg);
         return new ModelAndView( "/login" ).addAllObjects( params );
     }
-    @Logger()
-    @ResponseBody
-    @ExceptionHandler(Exception.class)
-    public ResultInfo ExceptionHandler(HttpServletRequest request, Exception e ){
-        System.out.println(request.getRequestURI());
-        System.out.println(e.getMessage());
-        return new ResultInfo(500,"操作失败");
-    }
+
+//    @Logger()
+//    @ResponseBody
+//    @ExceptionHandler(Exception.class)
+//    public ResultInfo ExceptionHandler(HttpServletRequest request, Exception e ){
+//        System.out.println(request.getRequestURI());
+//        System.out.println(e.getMessage());
+//        return new ResultInfo(500,"操作失败");
+//    }
 
 }

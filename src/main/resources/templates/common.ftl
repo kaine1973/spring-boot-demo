@@ -4,7 +4,9 @@
 ============================================ -->
 <!-- Bootstrap CSS -->
 <link rel="stylesheet" href="/css/vendor/bootstrap.min.css">
+<link rel="stylesheet" href="/css/vendor/bootstrap-table.min.css">
 
+<#--<link rel="stylesheet" href="/css/vendor/bootstrap-select.min.css">-->
 <!-- Icon Font CSS -->
 <link rel="stylesheet" href="/css/vendor/material-design-iconic-font.min.css">
 <link rel="stylesheet" href="/css/vendor/font-awesome.min.css">

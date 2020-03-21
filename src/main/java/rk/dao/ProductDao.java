@@ -1,6 +1,5 @@
 package rk.dao;
 
-import org.apache.ibatis.annotations.Param;
 import rk.base.BaseDao;
 import rk.po.Product;
 import rk.po.ProductCategory;

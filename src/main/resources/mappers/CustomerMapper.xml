@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="rk.dao.CustomerDao">
+
+    <resultMap id="customerDetail" type="rk.po.Customer">
+        <id column="id" jdbcType="INTEGER" property="id" javaType="java.lang.Integer"/>
+        <result column="user_id" jdbcType="INTEGER" property="userId" javaType="java.lang.Integer"/>
+        <result column="customer_name" jdbcType="VARCHAR" property="customerName" javaType="java.lang.String"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime" javaType="java.util.Date"/>
+        <result column="phone" jdbcType="VARCHAR" property="phone" javaType="java.lang.String"/>
+        <result column="gender" jdbcType="TINYINT" property="gender" javaType="java.lang.Byte"/>
+        <result column="address_id" jdbcType="INTEGER" property="addressId" javaType="java.lang.Integer"/>
+        <result column="address_detail" jdbcType="VARCHAR" property="addressDetail" javaType="java.lang.String"/>
+        <result column="level_id" jdbcType="INTEGER" property="levelId" javaType="java.lang.Integer"/>
+        <result column="position_id" jdbcType="INTEGER" property="positionId" javaType="java.lang.Integer"/>
+        <result column="customer_id" jdbcType="VARCHAR" property="customerId" javaType="java.lang.String"/>
+        <result column="company" jdbcType="VARCHAR" property="company" javaType="java.lang.String"/>
+        <result column="note" jdbcType="VARCHAR" property="note" javaType="java.lang.String"/>
+    </resultMap>
+
+    <select id="queryCustomerByParams" parameterType="rk.query.CustomerQuery">
+
+    </select>
+
+    <insert id="save" parameterType="rk.po.Customer" >
+        INSERT INTO crm.customer
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            user_id,
+            <if test="null != customerName">
+                customer_name,
+            </if>
+            <if test="null != phone">
+                phone,
+            </if>
+            <if test="null != gender">
+                gender,
+            </if>
+            <if test="null != addressId">
+                address_id,
+            </if>
+            <if test="null != addressDetail">
+                address_detail,
+            </if>
+            <if test="null != levelId">
+                level_id,
+            </if>
+            <if test="null != positionId">
+                position_id,
+            </if>
+            <if test="null != customerId">
+                customer_id,
+            </if>
+            <if test="null != company">
+                company,
+            </if>
+            <if test="null != note">
+                note,
+            </if>
+        </trim>
+        <trim prefix="VALUES (" suffix=")" suffixOverrides=",">
+            #{userId},
+            <if test="null != customerName">
+                #{customerName},
+            </if>
+            <if test="null != phone">
+                #{phone},
+            </if>
+            <if test="null != gender">
+                #{gender},
+            </if>
+            <if test="null != addressId">
+                #{addressId},
+            </if>
+            <if test="null != addressDetail">
+                #{addressDetail},
+            </if>
+            <if test="null != levelId">
+                #{levelId},
+            </if>
+            <if test="null != positionId">
+                #{positionId},
+            </if>
+            <if test="null != customerId">
+                #{customerId},
+            </if>
+            <if test="null != company">
+                #{company},
+            </if>
+            <if test="null != note">
+                #{note},
+            </if>
+        </trim>
+    </insert>
+
+
+
+</mapper>

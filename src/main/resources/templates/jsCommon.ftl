@@ -3,6 +3,8 @@
 <script src="/js/vendor/jquery-3.3.1.min.js"></script>
 <script src="/js/vendor/popper.min.js"></script>
 <script src="/js/vendor/bootstrap.min.js"></script>
+
+<#--<script src="/js/vendor/bootstrap-select.min.js"></script>-->
 <!--Plugins JS-->
 <script src="/js/plugins/perfect-scrollbar.min.js"></script>
 <script src="/js/plugins/tippy4.min.js.js"></script>
@@ -23,6 +25,7 @@
 <script src="/js/main.js"></script>
 <script src="/js/common.js"></script>
 <script src="/js/product.js"></script>
+<script src="/js/customer.js"></script>
 
 <script src="/js/js.cookie-2.2.1.min.js"></script>
 

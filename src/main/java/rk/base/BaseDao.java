@@ -1,12 +1,15 @@
 package rk.base;
 
 import org.springframework.dao.DataAccessException;
+import org.springframework.stereotype.Component;
+
 import java.util.List;
 import java.util.Map;
 
 /**
  * Created by lp on 2018/1/3.
  */
+@Component
 public interface BaseDao<T> {
     /**
      * 添加记录

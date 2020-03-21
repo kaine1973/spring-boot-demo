@@ -39,7 +39,7 @@ public class ProductController {
         if (productId != null){
             params.put( "product", productService.queryProductById(productId,user.getId()));
         }
-        String page = TemplateParser.parseTemplate( "product/productDetail", params,configurer );
+        String page = TemplateParser.parseTemplate( "product/detail", params,configurer );
         return new ResultInfo( 200,"请求成功",page );
     }
 
@@ -73,7 +73,7 @@ public class ProductController {
     public ResultInfo productManage(ProductQuery productQuery, @SessionAttribute("user") User user){
         productQuery.setUserId( user.getId() );
         productQuery.setPageNum( 0 );
-        productQuery.setPageSize( 20 );
+        productQuery.setPageSize( 15 );
         Map<String, Object> results = productService.queryForPage( productQuery );
         return new ResultInfo(200,"请求成功",TemplateParser.parseTemplate( "/product/manage", results, configurer ));
 
