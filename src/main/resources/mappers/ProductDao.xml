@@ -42,9 +42,9 @@
         </where>
     </select>
 
-    <select id="queryProductById" resultMap="productInformation" resultType="rk.po.Product">
+    <select id="queryById" resultMap="productInformation" resultType="rk.po.Product" >
         select *
-        from crm.product
+        from product
         where id = #{id} and user_id = #{userId}
     </select>
 

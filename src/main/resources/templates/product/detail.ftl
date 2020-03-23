@@ -1,21 +1,20 @@
+<#if !product??>
+    <!-- Page Headings Start -->
+    <div class="row justify-content-between align-items-center mb-10">
 
-            <!-- Page Headings Start -->
-            <div class="row justify-content-between align-items-center mb-10">
+        <!-- Page Heading Start -->
+        <div class="col-12 col-lg-auto mb-20">
+            <div class="page-heading">
+                <h3>产品 <span>/ 添加</span></h3>
+            </div>
+        </div><!-- Page Heading End -->
 
-                <!-- Page Heading Start -->
-                <div class="col-12 col-lg-auto mb-20">
-                    <div class="page-heading">
-                        <h3>产品 <span>/ 添加</span></h3>
-                    </div>
-                </div><!-- Page Heading End -->
-
-                <!-- Page Button Group Start -->
-                <!-- Page Button Group End -->
-
-            </div><!-- Page Headings End -->
-
+        <!-- Page Button Group Start -->
+        <!-- Page Button Group End -->
+    </div><!-- Page Headings End -->
+</#if>
             <!-- Add or Edit Product Start -->
-            <div class="add-edit-product-wrap col-12">
+            <div >
 
                 <div class="add-edit-product-form">
                     <form onsubmit="return false">
@@ -28,19 +27,23 @@
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col-lg-5 col-12 mb-25"><input class="form-control form-control-sm" type="text" placeholder="产品名称*" name="name" id="productName" value="<#if product??>product.productName</#if>"></div>
-                            <div class="col-lg-5 col-12 mb-25"><input class="form-control form-control-sm" type="text" placeholder="品牌*" id="brand" name="brand" value="<#if product??>product.brand</#if>"></div>
-                            <div class="col-lg-5 col-12 mb-25"><input class="form-control form-control-sm" type="text" placeholder="货号*" id="productSerial" name="productSerial" value="<#if product??>product.productSerial</#if>"></div>
+                            <div class="<#if product??>col-lg-6<#else>col-lg-4</#if> col-12 mb-25"><input class="form-control form-control-sm" type="text" placeholder="产品名称*" name="name" id="productName" value="<#if product??>${product.productName}</#if>"></div>
+                            <div class="<#if product??>col-lg-6<#else>col-lg-4</#if> col-12 mb-25"><input class="form-control form-control-sm" type="text" placeholder="品牌*" id="brand" name="brand" value="<#if product??>${product.brand}</#if>"></div>
+                        </div>
+                        <div class="row">
+                            <div class="<#if product??>col-lg-6<#else>col-lg-4</#if> col-12 mb-25"><input class="form-control form-control-sm" type="text" placeholder="货号*" id="productSerial" name="productSerial" value="<#if product??>${product.productSerial}</#if>"></div>
 
-                            <div class="col-lg-5 col-12 mb-25" >
-                                <input class="form-control form-control-sm" type="text" placeholder="型号" id="model" name="model" value="<#if product??>product.model</#if>">
+                            <div class="<#if product??>col-lg-6<#else>col-lg-4</#if> col-12 mb-25" >
+                                <input class="form-control form-control-sm" type="text" placeholder="型号" id="model" name="model" value="<#if product??>${product.model}</#if>">
                             </div>
-                            <div class="col-lg-3 col-12 mb-25" >
-                                <input class="form-control form-control-sm" type="text" placeholder="单位*" id="productUnit" onfocusout="changeUnit()" name="unit" value="<#if product??>product.productUnit</#if>">
+                        </div>
+                        <div class="row">
+                            <div class="<#if product??>col-lg-6<#else>col-lg-3</#if> col-12 mb-25" >
+                                <input class="form-control form-control-sm" type="text" placeholder="单位*" id="productUnit" onfocusout="changeUnit()" name="unit" value="<#if product??>${product.productUnit}</#if>">
                             </div>
-                            <div class="col-lg-5 col-12 mb-25 input-group">
+                            <div class="<#if product??>col-lg-6<#else>col-lg-5</#if> col-12 mb-25 input-group">
                                 <div class="input-group-prepend" style="height: 36px"><span class="input-group-text" style="font-size: 13px">类别*</span> </div>
-                                <select class="form-control form-control-sm nice-select wide" style="height: 36px" name="category" id="category" value="<#if product??>product.categoryId</#if>">
+                                <select class="form-control form-control-sm nice-select wide" style="height: 36px" name="category" id="category" value="<#if product??>${product.categoryId}</#if>">
                                     <#if categorys??>
                                         <#list categorys as category>
                                             <option value="${category.id}" <#if (product.productId == category.id)>default</#if>>${category.categoryName}</option>
@@ -50,26 +53,20 @@
                                 </select>
                             </div>
                         </div>
-                        <div>
-                            <h4 class="title">产品规格</h4>
-                            <ul class="list-group" id="specification">
-                                <li class="list-group-item col-lg-10 col-12">
-                                    <div class="row">
-                                        <div class="col-sm-3 col-12 mb-2 input-group">
-                                            <input class="form-control form-control-sm" type="text" placeholder="规格*" name="specificationName">
-                                        </div>
-                                        <div class="col-sm-3 col-12 mb-2 input-group">
-                                            <input class="form-control form-control-sm" type="number" step="any" placeholder="价格*" name="price">
-                                        </div>
-                                        <div class="col-sm-4 col-12 mb-2 input-group" style="height: 36px">
-                                            <input class="form-control" type="number" step="any" placeholder="数量" name="amount" style="height: 36px;font-size: 13px">
-                                            <div class="input-group-append" style="height: 36px">
-                                                <span class="input-group-text" id="unitSpan" style="font-size: 13px"></span>
-                                            </div>
+                        <h4 class="title">产品规格</h4>
+                        <div  id="specification">
+                            <div class="row">
+                                <div class="<#if product??>col-lg-12<#else>col-lg-8</#if> col-12">
+                                    <div class="input-group">
+                                        <input class="form-control form-control-sm" type="text" placeholder="规格*" name="specificationName">
+                                        <input class="form-control form-control-sm" type="number" step="any" placeholder="价格*" name="price">
+                                        <input class="form-control" type="number" step="any" placeholder="数量" name="amount" style="height: 36px;font-size: 13px">
+                                        <div class="input-group-append" style="height: 36px">
+                                            <span class="input-group-text" id="unitSpan" style="font-size: 13px"></span>
                                         </div>
                                     </div>
-                                </li>
-                            </ul>
+                                </div>
+                            </div>
                         </div>
                         <div class="row mt-10">
                             <div class="col-sm-3 mb-5">

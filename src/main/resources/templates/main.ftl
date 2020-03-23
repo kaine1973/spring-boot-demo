@@ -13,8 +13,21 @@
     <#include "common.ftl" >
 </head>
 <style>
-    td:hover{
 
+    @media only screen and (max-width: 767px){
+        .hide-responsive{
+            display: none;
+        }
+    }
+    td {
+        overflow: hidden;
+        text-overflow:ellipsis;
+        white-space: nowrap;
+        max-width: 200px;
+        text-align: left;
+        /*vertical-align: middle;*/
+        table-layout: fixed;
+        word-break: break-all;
     }
 </style>
 <body>
@@ -459,11 +472,30 @@
 
 <!-- Content Body Start -->
 <div class="content-body" id="main" >
-    <div class="spinner-grow spinner-lg hidden">
-        <span class="sr-only">Loading...</span>
-    </div>
     <#include "dashboard.ftl">
 </div>
+
+
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModalLong" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLongTitle">Modal title</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body" id="modalBody">
+                    ...
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Save changes</button>
+                </div>
+            </div>
+        </div>
+    </div>
 <!-- Content Body End -->
 
 <!-- Footer Section Start -->
@@ -477,8 +509,10 @@
     </div>
 </div><!-- Footer Section End -->
 
+    <button type="button" id="showModalButton" class="btn btn-primary" data-toggle="modal" hidden data-target="#exampleModalLong">
+        Launch demo modal
+    </button>
 </div>
-
 </body>
 <#include "jsCommon.ftl">
 <script>
@@ -488,6 +522,7 @@
             $('.side-header').addClass('hide');
         }
     })
+    window.scrollTo(0,0)
 
     function addStaticContent(page) {
         // $('.spinner-grow').removeClass('hidden')
@@ -547,6 +582,7 @@
             type:'get',
             success:function (data) {
                 if(data.code === 200){
+
                     window.location.replace('/login')
                 }else{
                     alertWarning(data.msg)

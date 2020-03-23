@@ -1,5 +1,20 @@
 function appendSpecification(){
-    var specificationHtml = "<li class=\"list-group-item col-lg-10 col-12 notRequired\">\n" +
+    var specificationHtml = "<div class=\"row\">\n" +
+        "                                <div class=\"<#if product??>col-lg-12<#else>col-lg-8</#if> col-12\">\n" +
+        "                                    <div class=\"input-group\">\n" +
+        "                                        <input class=\"form-control form-control-sm\" type=\"text\" placeholder=\"规格*\" name=\"specificationName\">\n" +
+        "                                        <input class=\"form-control form-control-sm\" type=\"number\" step=\"any\" placeholder=\"价格*\" name=\"price\">\n" +
+        "                                        <input class=\"form-control\" type=\"number\" step=\"any\" placeholder=\"数量\" name=\"amount\" style=\"height: 36px;font-size: 13px\">\n" +
+        "                                        <div class=\"input-group-append\" style=\"height: 36px\">\n" +
+        "                                            <span class=\"input-group-text\" id=\"unitSpan\" style=\"font-size: 13px\"></span>\n" +
+        "                                        </div>\n" +
+        "                                    </div>\n" +
+        "       <div class=\"col-sm-1 col-12 ml-0 mb-0\"><button class='button button-box button-sm button-danger' style='margin-top: 3px' onclick='removeSpecification(this)'><i class='zmdi zmdi-minus-circle'></i>删除</button></div>" +
+
+        "                                </div>\n" +
+        "                            </div>"
+
+    "<li class=\"list-group-item col-lg-10 col-12 notRequired\">\n" +
     "   <div class=\"row\">\n" +
     "       <div class=\"col-sm-3 col-12 mb-0\"><input class=\"form-control form-control-sm\" type=\"text\" placeholder=\"规格\" name=\"specificationName\"></div>\n" +
     "       <div class=\"col-sm-3 col-12 mb-0\"><input class=\"form-control form-control-sm\" type=\"number\" step=\"any\" placeholder=\"价格\" name=\"price\"></div>\n" +
@@ -11,14 +26,13 @@ function appendSpecification(){
     "       </div>\n" +
     "       <div class=\"col-sm-1 col-12 ml-0 mb-0\"><button class='button button-box button-sm button-danger' style='margin-top: 3px' onclick='removeSpecification(this)'><i class='zmdi zmdi-minus-circle'></i>删除</button></div>" +
     "   </div>\n" +
-    "</li>"
+    "</li>";
 
-    $('#specification').append(specificationHtml)
+    $('#specification').append(specificationHtml);
 
     changeUnit()
     // $('#specification').children('div.selfhide').show('300')
 }
-
 function removeSpecification(button) {
     $(button).parent().parent().parent('li.list-group-item').fadeOut('300',function () {
         $(button).parent().parent().parent('li.list-group-item').remove()
@@ -30,6 +44,27 @@ function changeUnit() {
     if(unit !== ""|| null !== unit){
         $('span#unitSpan').text(unit)
     }
+}
+
+function showInfoModal(e) {
+    var productId = $(e).children('td').html()
+    $.ajax({
+        url:"/product/getProductPage",
+        data:{
+            "productId":productId
+        },
+        success:function (data) {
+            if(data.code === 200){
+                $('#modalBody').html(data.result)
+                $('#showModalButton').click()
+            }else{
+                alertWarning(data.msg)
+            }
+        },
+        error:function () {
+            alertWarning("请求服务器失败，请重试，或者联系管理员。")
+        }
+    })
 }
 
 function cleanForm() {

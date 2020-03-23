@@ -73,7 +73,7 @@ public class ProductController {
     public ResultInfo productManage(ProductQuery productQuery, @SessionAttribute("user") User user){
         productQuery.setUserId( user.getId() );
         productQuery.setPageNum( 0 );
-        productQuery.setPageSize( 15 );
+        productQuery.setPageSize( 10 );
         Map<String, Object> results = productService.queryForPage( productQuery );
         return new ResultInfo(200,"请求成功",TemplateParser.parseTemplate( "/product/manage", results, configurer ));
 

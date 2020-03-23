@@ -1,5 +1,6 @@
 package rk.base;
 
+import org.apache.ibatis.annotations.Param;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Component;
 
@@ -41,7 +42,7 @@ public interface BaseDao<T> {
      * @return
      * @throws DataAccessException
      */
-    public  T queryById(Integer id,Integer userId) throws  DataAccessException;
+    public  T queryById(@Param( "id" ) Integer id, @Param( "userId" ) Integer userId) throws  DataAccessException;
 
     /**
      * 多条件查询

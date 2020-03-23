@@ -15,7 +15,7 @@
             </div><!-- Page Headings End -->
 
             <!-- Add or Edit Product Start -->
-            <div class="add-edit-product-wrap col-12">
+            <div >
 
                 <div class="add-edit-product-form">
                     <form onsubmit="return false">
