@@ -1,32 +1,19 @@
 function appendSpecification(){
-    var specificationHtml = "<div class=\"row\">\n" +
-        "                                <div class=\"<#if product??>col-lg-12<#else>col-lg-8</#if> col-12\">\n" +
-        "                                    <div class=\"input-group\">\n" +
-        "                                        <input class=\"form-control form-control-sm\" type=\"text\" placeholder=\"规格*\" name=\"specificationName\">\n" +
-        "                                        <input class=\"form-control form-control-sm\" type=\"number\" step=\"any\" placeholder=\"价格*\" name=\"price\">\n" +
+    var specificationHtml = "<div class=\"row notRequired mt-5\">\n" +
+        "                                <div class=\"col-12\">\n" +
+        "                                    <div class=\"input-group\" style=\"height: 36px\">\n" +
+        "                                        <input class=\"form-control form-control-sm\" type=\"text\" placeholder=\"规格*\" name=\"specificationName\"  style=\"height: 36px\">\n" +
+        "                                        <input class=\"form-control form-control-sm\" type=\"number\" step=\"any\" placeholder=\"价格*\" name=\"price\"  style=\"height: 36px\">\n" +
         "                                        <input class=\"form-control\" type=\"number\" step=\"any\" placeholder=\"数量\" name=\"amount\" style=\"height: 36px;font-size: 13px\">\n" +
         "                                        <div class=\"input-group-append\" style=\"height: 36px\">\n" +
         "                                            <span class=\"input-group-text\" id=\"unitSpan\" style=\"font-size: 13px\"></span>\n" +
         "                                        </div>\n" +
+        "                                        <button class='button button-box button-sm button-danger' style='height:36px;' onclick='removeSpecification(this)'>\n" +
+        "                                            <i class='zmdi zmdi-minus-circle'></i>\n" +
+        "                                        </button>\n" +
         "                                    </div>\n" +
-        "       <div class=\"col-sm-1 col-12 ml-0 mb-0\"><button class='button button-box button-sm button-danger' style='margin-top: 3px' onclick='removeSpecification(this)'><i class='zmdi zmdi-minus-circle'></i>删除</button></div>" +
-
         "                                </div>\n" +
         "                            </div>"
-
-    "<li class=\"list-group-item col-lg-10 col-12 notRequired\">\n" +
-    "   <div class=\"row\">\n" +
-    "       <div class=\"col-sm-3 col-12 mb-0\"><input class=\"form-control form-control-sm\" type=\"text\" placeholder=\"规格\" name=\"specificationName\"></div>\n" +
-    "       <div class=\"col-sm-3 col-12 mb-0\"><input class=\"form-control form-control-sm\" type=\"number\" step=\"any\" placeholder=\"价格\" name=\"price\"></div>\n" +
-    "       <div class=\"col-sm-4 col-12 mb-0 mr-0 input-group\" style=\"height: 36px\">\n" +
-    "           <input class=\"form-control\" type=\"number\" step=\"any\" placeholder=\"数量\" name=\"amount\" style=\"height: 36px\">\n" +
-    "           <div class=\"input-group-append\" style=\"height: 36px\">\n" +
-    "               <span class=\"input-group-text\" id=\"unitSpan\"></span>\n" +
-    "           </div>\n" +
-    "       </div>\n" +
-    "       <div class=\"col-sm-1 col-12 ml-0 mb-0\"><button class='button button-box button-sm button-danger' style='margin-top: 3px' onclick='removeSpecification(this)'><i class='zmdi zmdi-minus-circle'></i>删除</button></div>" +
-    "   </div>\n" +
-    "</li>";
 
     $('#specification').append(specificationHtml);
 
@@ -34,8 +21,8 @@ function appendSpecification(){
     // $('#specification').children('div.selfhide').show('300')
 }
 function removeSpecification(button) {
-    $(button).parent().parent().parent('li.list-group-item').fadeOut('300',function () {
-        $(button).parent().parent().parent('li.list-group-item').remove()
+    $(button).parent().parent().parent().fadeOut('300',function () {
+        $(button).parent().parent().parent().remove()
     })
 }
 
@@ -70,7 +57,7 @@ function showInfoModal(e) {
 function cleanForm() {
     $('form').trigger('reset')
     $("#category option:eq(0)").prop("selected", true);
-    $('#specification').children('li.notRequired').remove()
+    $('#specification').children('div .notRequired').remove()
     changeUnit()
 }
 

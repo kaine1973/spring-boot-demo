@@ -29,40 +29,46 @@
                         <div class="row">
                             <div class="<#if product??>col-lg-6<#else>col-lg-4</#if> col-12 mb-25"><input class="form-control form-control-sm" type="text" placeholder="产品名称*" name="name" id="productName" value="<#if product??>${product.productName}</#if>"></div>
                             <div class="<#if product??>col-lg-6<#else>col-lg-4</#if> col-12 mb-25"><input class="form-control form-control-sm" type="text" placeholder="品牌*" id="brand" name="brand" value="<#if product??>${product.brand}</#if>"></div>
+                            <div class="<#if product??>col-lg-6<#else>col-lg-4</#if> col-12 mb-25"><input class="form-control form-control-sm" type="text" placeholder="货号*" id="productSerial" name="productSerial" value="<#if product??>${product.productSerial}</#if>"></div>
                         </div>
                         <div class="row">
-                            <div class="<#if product??>col-lg-6<#else>col-lg-4</#if> col-12 mb-25"><input class="form-control form-control-sm" type="text" placeholder="货号*" id="productSerial" name="productSerial" value="<#if product??>${product.productSerial}</#if>"></div>
-
                             <div class="<#if product??>col-lg-6<#else>col-lg-4</#if> col-12 mb-25" >
                                 <input class="form-control form-control-sm" type="text" placeholder="型号" id="model" name="model" value="<#if product??>${product.model}</#if>">
                             </div>
-                        </div>
-                        <div class="row">
-                            <div class="<#if product??>col-lg-6<#else>col-lg-3</#if> col-12 mb-25" >
-                                <input class="form-control form-control-sm" type="text" placeholder="单位*" id="productUnit" onfocusout="changeUnit()" name="unit" value="<#if product??>${product.productUnit}</#if>">
-                            </div>
-                            <div class="<#if product??>col-lg-6<#else>col-lg-5</#if> col-12 mb-25 input-group">
+                            <div class="<#if product??>col-lg-6<#else>col-lg-4</#if> col-12 mb-25 input-group">
                                 <div class="input-group-prepend" style="height: 36px"><span class="input-group-text" style="font-size: 13px">类别*</span> </div>
                                 <select class="form-control form-control-sm nice-select wide" style="height: 36px" name="category" id="category" value="<#if product??>${product.categoryId}</#if>">
                                     <#if categorys??>
                                         <#list categorys as category>
                                             <option value="${category.id}" <#if (product.productId == category.id)>default</#if>>${category.categoryName}</option>
-<#--                                            <text style="display: none" id="category-${category.id}">${category.parentId}</text>-->
+                                        <#--                                            <text style="display: none" id="category-${category.id}">${category.parentId}</text>-->
                                         </#list>
                                     </#if>
                                 </select>
                             </div>
+                            <div class="<#if product??>col-lg-6<#else>col-lg-4</#if> col-12 mb-25" >
+                                <input class="form-control form-control-sm" type="text" placeholder="单位*" id="productUnit" onfocusout="changeUnit()" name="unit" value="<#if product??>${product.productUnit}</#if>">
+                            </div>
+                        </div>
+                        <div class="row">
+
+
                         </div>
                         <h4 class="title">产品规格</h4>
                         <div  id="specification">
                             <div class="row">
-                                <div class="<#if product??>col-lg-12<#else>col-lg-8</#if> col-12">
-                                    <div class="input-group">
-                                        <input class="form-control form-control-sm" type="text" placeholder="规格*" name="specificationName">
-                                        <input class="form-control form-control-sm" type="number" step="any" placeholder="价格*" name="price">
+                                <div class="col-lg-12 col-12">
+                                    <div class="input-group" style="height: 36px">
+                                        <input class="form-control form-control-sm" type="text" placeholder="规格*" name="specificationName"  style="height: 36px">
+                                        <input class="form-control form-control-sm" type="number" step="any" placeholder="价格*" name="price"  style="height: 36px">
                                         <input class="form-control" type="number" step="any" placeholder="数量" name="amount" style="height: 36px;font-size: 13px">
                                         <div class="input-group-append" style="height: 36px">
                                             <span class="input-group-text" id="unitSpan" style="font-size: 13px"></span>
+                                        </div>
+                                        <div class="input-group-append">
+                                            <button class='button button-box button-sm button-danger' style='height:36px;visibility: hidden' onclick='removeSpecification(this)'>
+                                                <i class='zmdi zmdi-minus-circle'></i>
+                                            </button>
                                         </div>
                                     </div>
                                 </div>
@@ -75,7 +81,7 @@
                         </div>
                         <div class="row">
                             <div class="col-lg-12 ml-0" style="margin-top: 40px;">
-                                <#if product.id??>
+                                <#if product??>
                                     <button class="button button-danger"><span><i class="zmdi zmdi-delete"></i>删除</span></button>
                                     <button class="button button-success"><span><i class="zmdi zmdi-refresh"></i>撤销</span></button>
                                 <#else >

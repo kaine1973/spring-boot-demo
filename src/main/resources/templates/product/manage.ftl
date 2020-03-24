@@ -66,7 +66,11 @@
     </div>
 <div class="row mt-5">
     <div class="col-sm-10 col-10 button-group">
-        <button class="button button-info"><<</button>
+        <#if page??>
+            <#if page.currentPage gt 1>
+                <button class="button button-info"><<</button>
+            </#if>
+        </#if>
         <button class="button button-info">1</button>
         <button class="button button-info">2</button>
         <button class="button button-info">3</button>
