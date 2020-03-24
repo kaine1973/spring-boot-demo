@@ -26,7 +26,7 @@
     <div class="main-wrapper">
 
         <!-- Content Body Start -->
-        <div class="content-body m-0 p-0" style="background-color: lightgoldenrodyellow">
+        <div class="content-body m-0 p-0">
 
             <div class="login-register-wrap">
                 <div class="row">

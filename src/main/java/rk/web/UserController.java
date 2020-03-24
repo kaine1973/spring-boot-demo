@@ -16,6 +16,7 @@ import rk.util.UserIDBase64;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.*;
 import java.util.ArrayList;
@@ -44,17 +45,9 @@ public class UserController{
 
     @RequestMapping("logout")
     @ResponseBody
-    private ResultInfo logOut(HttpSession session, HttpServletRequest request){
+    private ResultInfo logOut(HttpSession session, HttpServletRequest request, HttpServletResponse response){
         session.removeAttribute("user");
         session.removeAttribute(CrmConstant.USER_PERMISSIONS);
-        Cookie[] cookies = request.getCookies();
-        if(null != cookies){
-            for(Cookie cookie:cookies){
-                if(cookie.getName().equals("ui") || cookie.getName().equals("ut")){
-                    cookie.setMaxAge(1);
-                }
-            }
-        }
         return new ResultInfo(200,"退出完成");
     }
 
