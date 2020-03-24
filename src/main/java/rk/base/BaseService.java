@@ -70,7 +70,6 @@ public abstract class BaseService<T> {
         return map;
     }
 
-
     /**
      * 更新单条记录
      * @param entity

@@ -466,6 +466,12 @@ input:-ms-input-placeholder, textarea:-ms-input-placeholder {
   transition: all 0.3s ease 0s;
 }
 
+@media only screen and (min-width: 1201px) {
+  .content-body {
+    margin-right: 10%;
+  }
+}
+
 @media only screen and (min-width: 768px) and (max-width: 1200px) {
   .content-body {
     margin-top: 41px;
@@ -15134,7 +15140,7 @@ body.skin-dark .cus-radio.light .icon::before {
 }
 
 [dir="rtl"] .mail-options .mail-options-group > *:first-child {
-  margin-left: 15;
+  margin-left: 15px;
   margin-right: 0;
 }
 

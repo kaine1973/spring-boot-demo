@@ -5,7 +5,6 @@ import rk.po.Product;
 import rk.po.ProductCategory;
 import rk.po.ProductSpecification;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public interface ProductDao extends BaseDao<Product> {
@@ -14,5 +13,5 @@ public interface ProductDao extends BaseDao<Product> {
 
     Integer insertProduct(Product product);
 
-    Integer insertproductSpecifications(ArrayList<ProductSpecification> productSpecifications);
+    Integer insertproductSpecifications(List<ProductSpecification> productSpecifications);
 }

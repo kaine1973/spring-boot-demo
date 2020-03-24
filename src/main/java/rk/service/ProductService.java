@@ -32,16 +32,13 @@ public class ProductService extends BaseService<Product> {
     @Transactional
     public void insertOrUpdateProduct(Product product) {
         AssertUtil.isTrue( productDao.insertProduct(product)<1,"产品添加失败" );
-        ArrayList<ProductSpecification> productSpecifications = new ArrayList<>();
-        for(int i=0;i < product.getSpecificationNames().size();i++){
-            String name = product.getSpecificationNames().get( i );
+        for(int i=0;i < product.getProductSpecifications().size();i++){
+            ProductSpecification productSpecification = product.getProductSpecifications().get( i );
+            String name = productSpecification.getSpecificationName();
             if("".equals( name )||null == name){
                 throw new ParamRequestException( 300, "产品规格名不能为空" );
             }
-            Double price = product.getPrices().get(i)==null?0d:product.getPrices().get( 0 );
-            Integer amount = product.getAmounts().get(i) == null?0:product.getAmounts().get(i);
-            productSpecifications.add(new ProductSpecification(null,product.getProductId(),name,price,amount));
         }
-        AssertUtil.isTrue( productDao.insertproductSpecifications(productSpecifications)<1,"产品规格添加失败" );
+        AssertUtil.isTrue( productDao.insertproductSpecifications(product.getProductSpecifications())<1,"产品规格添加失败" );
     }
 }

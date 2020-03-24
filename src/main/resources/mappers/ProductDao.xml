@@ -3,49 +3,91 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="rk.dao.ProductDao">
     <resultMap id="categoryOfParent" type="rk.po.ProductCategory">
-        <id column="id" javaType="java.lang.Integer" jdbcType="INTEGER" property="id"/>
-        <result column="category_name" javaType="java.lang.String" jdbcType="VARCHAR" property="categoryName"/>
-        <result column="parent_id" javaType="java.lang.Integer" jdbcType="INTEGER" property="parentId"/>
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="category_name"  jdbcType="VARCHAR" property="categoryName"/>
+        <result column="parent_id" jdbcType="INTEGER" property="parentId"/>
     </resultMap>
 
     <resultMap id="productInformation" type="rk.po.Product">
-        <id column="id" javaType="java.lang.Integer" jdbcType="INTEGER" property="productId"/>
-        <result column="product_name" javaType="java.lang.String" jdbcType="VARCHAR" property="productName"/>
-        <result column="brand" javaType="java.lang.String" jdbcType="VARCHAR" property="brand"/>
-        <result column="model" javaType="java.lang.String" jdbcType="VARCHAR" property="model"/>
-        <result column="product_unit" javaType="java.lang.String" jdbcType="VARCHAR" property="productUnit"/>
-        <result column="product_serial" javaType="java.lang.String" jdbcType="VARCHAR" property="productSerial"/>
-        <result column="category_id" javaType="java.lang.Integer" jdbcType="INTEGER" property="categoryId"/>
+        <id column="id" jdbcType="INTEGER" property="productId"/>
+        <result column="product_name" property="productName"/>
+        <result column="brand"  jdbcType="VARCHAR" property="brand"/>
+        <result column="model"  jdbcType="VARCHAR" property="model"/>
+        <result column="product_unit"  jdbcType="VARCHAR" property="productUnit"/>
+        <result column="product_serial"  jdbcType="VARCHAR" property="productSerial"/>
+        <result column="category_id" jdbcType="INTEGER" property="categoryId"/>
         <result column="create_date" javaType="java.util.Date" jdbcType="TIMESTAMP" property="createDate"/>
+        <collection property="productSpecifications"  ofType="rk.po.ProductSpecification">
+            <id column="specification_id"  jdbcType="INTEGER"  property="id"/>
+            <result column="product_id" jdbcType="INTEGER" property="productId"/>
+            <result column="specification_name"   jdbcType="VARCHAR"  property="specificationName"/>
+            <result column="price"   jdbcType="DECIMAL"  property="price"/>
+            <result column="amount" jdbcType="INTEGER" property="amount"/>
+        </collection>
     </resultMap>
 
+<!--    <resultMap id="specification" type="rk.po.ProductSpecification">-->
+<!--    </resultMap>-->
+
+<!--    <sql id="select">-->
+<!--                -->
+<!--    </sql>-->
+
     <select id="queryByParams" resultMap="productInformation" resultType="rk.po.Product" parameterType="rk.query.ProductQuery">
-        select *
-        from crm.product
+        select
+        A.id,
+        A.product_name,
+        A.brand,
+        A.model,
+        A.product_unit,
+        A.product_serial,
+        A.category_id,
+        A.create_date,
+        B.id as specification_id,
+        B.product_id as product_id,
+        B.specification_name as specification_name,
+        B.price as price,
+        B.amount as amount
+        from crm.product as A left join crm.product_specification as B on A.id = B.product_id
         <where>
-            user_id = #{userId}
+            A.user_id = #{userId,jdbcType=INTEGER,javaType=Integer}
             <if test="null != productName and '' != productName">
-             and product_name like concat('%',#{productName},'%')
+             and A.product_name like concat('%',#{productName,jdbcType=VARCHAR,javaType=String},'%')
             </if>
             <if test="null != brand and '' != brand">
-                and brand like concat('%',#{brand},'%')
+                and A.brand like concat('%',#{brand,jdbcType=VARCHAR,javaType=String},'%')
             </if>
             <if test="null != model and '' != model">
-                and model like concat('%',#{model},'%')
+                and A.model like concat('%',#{model,jdbcType=VARCHAR,javaType=String},'%')
             </if>
             <if test="null != categoryId and '' != categoryId">
-                and category_id like concat('%',#{categoryId},'%')
+                and A.category_id like concat('%',#{categoryId,jdbcType=INTEGER,javaType=Integer},'%')
             </if>
             <if test="null != createDate and '' != createDate">
-                and create_date &lt;= #{createDate}
+                and A.create_date &lt;= #{createDate,jdbcType=TIMESTAMP,javaType=Date}
             </if>
         </where>
+        GROUP BY A.id
     </select>
 
     <select id="queryById" resultMap="productInformation" resultType="rk.po.Product" >
-        select *
-        from product
-        where id = #{id} and user_id = #{userId}
+        select
+            A.id,
+            A.product_name,
+            A.brand,
+            A.model,
+            A.product_unit,
+            A.product_serial,
+            A.category_id,
+            A.create_date,
+            B.id as specification_id,
+            B.product_id as product_id,
+            B.specification_name as specification_name,
+            B.price as price,
+            B.amount as amount
+        from crm.product as A left join crm.product_specification as B on A.id = B.product_id
+        where A.id = #{id} and A.user_id = #{userId}
+        GROUP BY A.id
     </select>
 
     <insert id="insertProduct"
@@ -130,10 +172,5 @@
         from crm.product_category
         where parent_id = #{parentId}
     </select>
-
-
-
-
-
 
 </mapper>

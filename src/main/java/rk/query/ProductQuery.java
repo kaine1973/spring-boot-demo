@@ -3,14 +3,15 @@ package rk.query;
 import lombok.Data;
 import rk.base.BaseQuery;
 
+import java.util.Date;
+
 @Data
 public class ProductQuery extends BaseQuery {
-    Integer userId;
-    String productName;
-    String brand;
-    String model;
-    String categoryId;
-    String createDate;
-    String updateDate;
+    private Integer userId;
+    private String productName;
+    private String brand;
+    private String model;
+    private Integer categoryId;
+    private Date createDate;
 
 }

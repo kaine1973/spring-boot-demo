@@ -1,5 +1,6 @@
 package rk.web;
 
+import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -74,7 +75,9 @@ public class ProductController {
         productQuery.setUserId( user.getId() );
         productQuery.setPageNum( 0 );
         productQuery.setPageSize( 10 );
-        Map<String, Object> results = productService.queryForPage( productQuery );
+        PageInfo<Product> productPageInfo = productService.queryByParams( productQuery );
+        HashMap<String, Object> results = new HashMap<>();
+        results.put( "rows", productPageInfo.getList());
         return new ResultInfo(200,"请求成功",TemplateParser.parseTemplate( "/product/manage", results, configurer ));
 
     }
