@@ -38,6 +38,7 @@ public class ProductService extends BaseService<Product> {
             if("".equals( name )||null == name){
                 throw new ParamRequestException( 300, "产品规格名不能为空" );
             }
+            productSpecification.setProductId( product.getProductId() );
         }
         AssertUtil.isTrue( productDao.insertproductSpecifications(product.getProductSpecifications())<1,"产品规格添加失败" );
     }

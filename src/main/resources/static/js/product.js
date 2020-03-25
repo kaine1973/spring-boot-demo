@@ -70,13 +70,12 @@ function submitProductData(){
     var model = $('#model').val()
     var productUnit = $('#productUnit').val()
     var category = $('#category').val()
-    var specificationNames = generateValArrayFromInputArray($("input[name='specificationName']"))
-    var prices = generateValArrayFromInputArray($("input[name='price']"))
-    var amounts = generateValArrayFromInputArray($("input[name='amount']"))
+    var specifications = generateValArrayFromInputArray()
 
     $.ajax({
         url:'/product/insertOrUpdate',
         type:'get',
+        contentType:'application/json;charset=utf-8',
         data:{
             'productId':productId,
             'productName':productName,
@@ -85,9 +84,7 @@ function submitProductData(){
             'model':model,
             'productUnit':productUnit,
             'category':category,
-            'specificationNames':specificationNames,
-            'prices':prices,
-            'amounts':amounts
+            'specifications':JSON.stringify(specifications)
         },
         traditional:true,
         success:function (data) {
@@ -103,19 +100,26 @@ function submitProductData(){
         }
     })
 }
+function productSpecification(specificationName,price,amount) {
+    this.specificationName = specificationName
+    this.price = price
+    this.amount = amount
+}
+function generateValArrayFromInputArray() {
+    var specificationNames = $("input[name='specificationName']")
+    var prices = $("input[name='price']")
+    var amounts = $("input[name='amount']")
 
-function generateValArrayFromInputArray(inputArray) {
-    var data = "";
-    var a=0
-    inputArray.each(
-        function () {
-            if(a===0){
-                data = $(this).val()
-            }else{
-                data += "," + $(this).val()
-            }
-            a+=1;
-        }
-    )
+    var data = []
+
+    for(var i = 0;i<specificationNames.length;i++){
+        var productSpecification = {}
+        productSpecification.specificationName = specificationNames[i].value
+        productSpecification.price = prices[i].value
+        productSpecification.amount = amounts[i].value
+        data[i] = productSpecification
+        // data[i] = '{specificationName:'+specificationNames[i].value+',price:'+prices[i].value+',amount:'+amounts[i].value+'}'
+    }
+    // data = data.substring(0,data.length-1) + ']'
     return data
 }

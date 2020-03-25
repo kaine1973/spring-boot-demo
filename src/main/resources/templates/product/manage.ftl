@@ -22,7 +22,7 @@
         </div>
     </div>
     <div class="row">
-        <div class="col-lg-10 col-12 table-responsive">
+        <div class="col-lg-10 col-12">
             <table class="table table-bordered table-hover table-striped"
                    data-toggle="table"
                    data-height="200">
@@ -40,7 +40,6 @@
                 </tr>
                 </thead>
                 <tbody>
-
                 <#if rows??>
                     <#list rows as product>
                         <tr height="41px" onclick="showInfoModal(this)">

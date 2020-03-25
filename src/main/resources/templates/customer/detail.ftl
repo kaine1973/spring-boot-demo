@@ -78,7 +78,7 @@
                                     <span class="input-group-text" style="font-size: 13px">地址</span>
                                 </div>
                                 <select class="form-control form-control-sm nice-select" data-live-search="true" id="province" onchange="getChildArea(this,'#city')"  style="height:36px">
-                                    <option data-display="省/市/自治区" >省/市/自治区</option>
+                                    <option data-display="省/市/自治区" style="min-width: 113px">省/市/自治区</option>
                                     <#if provinces??>
                                         <#list provinces as province>
                                             <option class="marker" value="${province.id}">${province.areaName}</option>

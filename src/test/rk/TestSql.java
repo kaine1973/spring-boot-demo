@@ -10,7 +10,9 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
 import rk.App;
 import rk.base.BaseQuery;
+import rk.dao.ProductDao;
 import rk.po.Product;
+import rk.po.ProductSpecification;
 import rk.query.ProductQuery;
 import rk.service.ProductService;
 
@@ -23,6 +25,9 @@ public class TestSql {
     @Autowired
     ProductService productService;
 
+    @Autowired
+    ProductDao productDao;
+
     @Test
     public void queryProductByParam(){
         ProductQuery productQuery = new ProductQuery();
@@ -32,6 +37,8 @@ public class TestSql {
         PageInfo<Product> productPageInfo = productService.queryByParams( productQuery );
         List<Product> list = productPageInfo.getList();
         System.out.println(list.toString());
+        List<ProductSpecification> productSpecifications = productDao.queryProductSpecificationByProductId(14);
+        System.out.println(productSpecifications);
     }
 
 
