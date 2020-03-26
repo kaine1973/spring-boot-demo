@@ -22,7 +22,7 @@
 
                         <div class="row">
                             <div class="col-lg-5 col-12 mb-25" style="display: none">
-                                <input  type="hidden" id="productId" name="id" <#if product??>value="${product.id}"</#if>>
+                                <input  type="hidden" id="productId" name="id" <#if product??>value="${product.productId}"</#if>>
                             </div>
                         </div>
                         <div class="row">
@@ -36,10 +36,10 @@
                             </div>
                             <div class="col-lg-4 col-12 mb-25 input-group">
                                 <div class="input-group-prepend" style="height: 36px"><span class="input-group-text" style="font-size: 13px">类别*</span> </div>
-                                <select class="form-control form-control-sm nice-select wide" style="height: 36px" name="category" id="category" value="<#if product??>${product.categoryId}</#if>">
-                                    <#if categorys??>
-                                        <#list categorys as category>
-                                            <option value="${category.id}" <#if (product.productId == category.id)>default</#if>>${category.categoryName}</option>
+                                <select class="form-control form-control-sm nice-select wide" style="height: 36px" name="category" id="category">
+                                    <#if categories??>
+                                        <#list categories as category>
+                                            <option value="${category.id}" <#if (product.categoryId == category.id)>selected</#if>>${category.categoryName}</option>
                                         <#--                                            <text style="display: none" id="category-${category.id}">${category.parentId}</text>-->
                                         </#list>
                                     </#if>
@@ -57,15 +57,24 @@
                         <div  id="specification">
                             <#if product??>
                                 <#list product.productSpecifications as specification>
-                                    <div class="row">
+                                    <div class="row mb-2">
                                         <div class="col-lg-12 col-12">
                                             <div class="input-group" style="height: 36px">
                                                 <input type="hidden" value="${specification.id}">
+<#--                                                <div class="input-group-prepend" style='height:36px;'>-->
+<#--                                                    <span class="input-group-text" style="font-size: 13px">名称</span>-->
+<#--                                                </div>-->
                                                 <input class="form-control form-control-sm" type="text" placeholder="规格*" name="specificationName"  style="height: 36px" value="${specification.specificationName}">
+<#--                                                <div class="input-group-prepend" style='height:36px;'>-->
+<#--                                                    <span class="input-group-text" style="font-size: 13px">单价</span>-->
+<#--                                                </div>-->
                                                 <input class="form-control form-control-sm" type="number" step="any" placeholder="价格*" name="price"  style="height: 36px" value="${specification.price}">
+<#--                                                <div class="input-group-prepend" style='height:36px;'>-->
+<#--                                                    <span class="input-group-text" style="font-size: 13px">数量</span>-->
+<#--                                                </div>-->
                                                 <input class="form-control" type="number" step="any" placeholder="数量" name="amount" style="height: 36px;font-size: 13px" value="${specification.amount}">
                                                 <div class="input-group-append" style="height: 36px">
-                                                    <span class="input-group-text" id="unitSpan" style="font-size: 13px"></span>
+                                                    <span class="input-group-text" id="unitSpan" style="font-size: 13px">${product.productUnit}</span>
                                                 </div>
                                                 <div class="input-group-append">
                                                     <button class='button button-box button-sm button-danger' style='height:36px;' onclick='removeSpecification(this)'>
@@ -104,12 +113,14 @@
                         <div class="row">
                             <div class="col-lg-12 ml-0" style="margin-top: 40px;">
                                 <#if product??>
-                                    <button class="button button-danger"><span><i class="zmdi zmdi-delete"></i>删除</span></button>
-                                    <button class="button button-success"><span><i class="zmdi zmdi-refresh"></i>撤销</span></button>
+                                    <button class="button button-info" onclick="closeModal()"><span><i class="zmdi zmdi-close"></i>关闭</span></button>
+                                    <button class="button button-danger" onclick="deleteProduct('${product.productId}','${product.productName}')"><span><i class="zmdi zmdi-delete"></i>删除</span></button>
+<#--                                    <button class="button button-success"><span><i class="zmdi zmdi-refresh"></i>撤销</span></button>-->
                                 <#else >
                                     <button class="button button-dark" type="button" onclick="cleanForm()" ><span><i class="zmdi zmdi-refresh"></i>清空</span></button>
                                 </#if>
                                 <button class="button button-primary" onclick="submitProductData()"><span><i class="zmdi zmdi-save"></i>保存</span></button>
+
                             </div>
                         </div>
                     </form>

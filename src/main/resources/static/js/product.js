@@ -43,7 +43,8 @@ function showInfoModal(e) {
         success:function (data) {
             if(data.code === 200){
                 $('#modalBody').html(data.result)
-                $('#showModalButton').click()
+                $('select').niceSelect();
+                $('#exampleModalLong').modal('show')
             }else{
                 alertWarning(data.msg)
             }
@@ -52,6 +53,29 @@ function showInfoModal(e) {
             alertWarning("请求服务器失败，请重试，或者联系管理员。")
         }
     })
+}
+
+function deleteProduct(productId,productName) {
+    if(confirm('确认删除：'+productName)){
+        $.ajax({
+            url:'/product/delete',
+            data:{
+                'productId':productId
+            },
+            success:function (data) {
+                if(data.code === 200){
+                    alertSuccess("删除成功")
+                    $('#exampleModalLong').modal('hide')
+                    queryByParams(0)
+                }else{
+                    alertWarning(data.msg)
+                }
+            },
+            error:function(){
+                alertWarning("服务器未成功响应")
+            }
+        })
+    }
 }
 
 function cleanForm() {
@@ -63,7 +87,7 @@ function cleanForm() {
 
 function submitProductData(){
 
-    var productId = $('#id').val()
+    var productId = $('#productId').val()
     var productName = $('#productName').val()
     var brand = $('#brand').val()
     var productSerial = $('#productSerial').val()
@@ -71,7 +95,7 @@ function submitProductData(){
     var productUnit = $('#productUnit').val()
     var category = $('#category').val()
     var specifications = generateValArrayFromInputArray()
-
+    console.log(productId)
     $.ajax({
         url:'/product/insertOrUpdate',
         type:'get',
@@ -83,7 +107,7 @@ function submitProductData(){
             'productSerial':productSerial,
             'model':model,
             'productUnit':productUnit,
-            'category':category,
+            'categoryId':category,
             'specifications':JSON.stringify(specifications)
         },
         traditional:true,
@@ -91,6 +115,8 @@ function submitProductData(){
             if(data.code === 200){
                 alertSuccess(data.msg)
                 cleanForm()
+                $('#exampleModalLong').modal('hide')
+                queryByParams(0)
             }else{
                 alertWarning(data.msg)
             }
@@ -100,6 +126,55 @@ function submitProductData(){
         }
     })
 }
+
+function generateRow(id,productName,brand,productSerial,productUnit,categoryId,model,createDate) {
+    return "<tr height=\"41px\" onclick=\"showInfoModal(this)\">\n" +
+        "                            <td hidden>"+id+"</td>\n" +
+        "                            <td>"+productName+"</td>\n" +
+        "                            <td class=\"hide-responsive\">"+brand+"</td>\n" +
+        "                            <td class=\"hide-responsive\">"+productSerial+"</td>\n" +
+        "                            <td class=\"hide-responsive\">"+productUnit+"</td>\n" +
+        "                            <td class=\"hide-responsive\">"+categoryId+"</td>\n" +
+        "                            <td class=\"hide-responsive\">"+model+"</td>\n" +
+        "                            <td class=\"hide-responsive\">"+createDate+"</td>\n" +
+        "                        </tr>"
+}
+function queryByParams(startPage) {
+    var productName = $('#queryName').val()
+    var productSerial = $('#querySerial').val()
+    var brand = $('#queryBrand').val()
+    var categoryId = $('#queryCategory').val()
+    var pageSize = $('#pageSize').val()
+
+    $.ajax({
+        url:'/product/queryByParams',
+        data:{
+            'startPage':startPage,
+            'productName':productName,
+            'productSerial':productSerial,
+            'brand':brand,
+            'categoryId':categoryId,
+            'pageSize':pageSize
+        },
+        success:function (data) {
+            if(data.code === 200){
+                $('tbody').children('tr').remove()
+                $.each(data.result['rows'],function (index,product) {
+                    var categoryName = product.categoryId
+                    $.each(data.result['categories'],function (index,category) {
+                        if(category.id === product.categoryId){
+                            categoryName = category.categoryName
+                        }
+                    })
+                    $('tbody').append(generateRow(product.productId,product.productName,product.brand,product.productSerial,product.productUnit,categoryName,product.model,product.createDate))
+                })
+            }
+        }
+    })
+
+
+}
+
 function productSpecification(specificationName,price,amount) {
     this.specificationName = specificationName
     this.price = price

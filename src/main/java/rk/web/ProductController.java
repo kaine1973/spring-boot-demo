@@ -47,7 +47,7 @@ public class ProductController {
     public ResultInfo productDetail(Integer productId,HttpSession session) {
         User user = (User)session.getAttribute( "user" );
         HashMap<String, Object> params = new HashMap<>();
-        params.put( "categorys",productService.queryCategoryOfLevel( 0 ));
+        params.put( "categories",productService.queryCategoryOfLevel( 0 ));
         if (productId != null){
             params.put( "product", productService.queryProductById(productId,user.getId()));
         }
@@ -58,13 +58,15 @@ public class ProductController {
     @RequestPermission(aclValue = "0")
     @RequestMapping("insertOrUpdate")
     @ResponseBody
-    public ResultInfo insertOrUpdateProduct(Product product, @JsonFormat String specifications, HttpSession session) throws JsonProcessingException {
-        User user = (User)session.getAttribute( "user" );
+    public ResultInfo insertOrUpdateProduct(Product product,String specifications,@SessionAttribute User user) throws JsonProcessingException {
         product.setUserId( user.getId() );
         AssertUtil.isTrue( "".equals( product.getProductName() ),"产品名称不能为空" );
-        List<ProductSpecification> productSpecifications = objectMapper.readValue( specifications, new TypeReference<List<ProductSpecification>>() {
-        } );
-        product.setProductSpecifications( productSpecifications );
+        List<ProductSpecification> productSpecifications = objectMapper.readValue( specifications, new TypeReference<List<ProductSpecification>>() {} );
+        if(productSpecifications.size()>0) {
+            product.setProductSpecifications( productSpecifications );
+        }else{
+            return new ResultInfo( 300,"需要至少一个产品规格" );
+        }
         productService.insertOrUpdateProduct(product);
         return new ResultInfo( 200,"保存成功" );
     }
@@ -72,14 +74,14 @@ public class ProductController {
     @RequestPermission(aclValue = "0")
     @RequestMapping("queryCategoryOfLevel")
     @ResponseBody
-    public ResultInfo queryCategoryOfLevel(String parentId){
-        int pid = 0;
-        try{
-            pid = Integer.parseInt( parentId );
-        }catch (NumberFormatException e){
-            return new ResultInfo( 300,"获取产品分类失败，parentId不正确" );
-        }
-        return new ResultInfo( 200,"",productService.queryCategoryOfLevel( pid ) );
+    public ResultInfo queryCategoryOfLevel(Integer parentId){
+//        int pid = 0;
+//        try{
+//            pid = Integer.parseInt( parentId );
+//        }catch (NumberFormatException e){
+//            return new ResultInfo( 300,"获取产品分类失败，parentId不正确" );
+//        }
+        return new ResultInfo( 200,"",productService.queryCategoryOfLevel( parentId ) );
     }
 
     @RequestPermission(aclValue = "0")
@@ -92,8 +94,28 @@ public class ProductController {
         PageInfo<Product> productPageInfo = productService.queryByParams( productQuery );
         HashMap<String, Object> results = new HashMap<>();
         results.put( "rows", productPageInfo.getList());
+        results.put( "categories",productService.queryCategoryOfLevel( 0 ) );
         return new ResultInfo(200,"请求成功",TemplateParser.parseTemplate( "/product/manage", results, configurer ));
+    }
 
+    @RequestPermission(aclValue = "0")
+    @RequestMapping("queryByParams")
+    @ResponseBody
+    public ResultInfo queryByParams(ProductQuery productQuery, @SessionAttribute("user") User user){
+        productQuery.setUserId( user.getId() );
+        PageInfo<Product> productPageInfo = productService.queryByParams( productQuery );
+        HashMap<String, Object> results = new HashMap<>();
+        results.put( "rows", productPageInfo.getList());
+        results.put( "categories",productService.queryCategoryOfLevel( 0 ) );
+        return new ResultInfo(200,"请求成功",results);
+    }
+
+    @RequestPermission(aclValue = "0")
+    @RequestMapping("delete")
+    @ResponseBody
+    public ResultInfo deleteProduct(Integer productId){
+        productService.deleteProduct( productId );
+        return new ResultInfo( 200,"删除成功" );
     }
 
 }

@@ -59,19 +59,28 @@
             <if test="null != brand and '' != brand">
                 and brand like concat('%',#{brand,jdbcType=VARCHAR,javaType=String},'%')
             </if>
-            <if test="null != model and '' != model">
-                and model like concat('%',#{model,jdbcType=VARCHAR,javaType=String},'%')
+            <if test="null != productSerial and '' != productSerial">
+                and product_serial like concat('%',#{productSerial,jdbcType=VARCHAR,javaType=String},'%')
             </if>
             <if test="null != categoryId and '' != categoryId">
                 and category_id like concat('%',#{categoryId,jdbcType=INTEGER,javaType=Integer},'%')
             </if>
-            <if test="null != createDate and '' != createDate">
-                and create_date &lt;= #{createDate,jdbcType=TIMESTAMP,javaType=Date}
-            </if>
         </where>
     </select>
-
     <select id="queryById" resultMap="productInformation" resultType="rk.po.Product" >
+        select
+            id,
+            product_name,
+            brand,
+            model,
+            product_unit,
+            product_serial,
+            category_id,
+            create_date
+        from crm.product
+        where id = #{id}
+    </select>
+    <select id="queryByIdAndUserId" resultMap="productInformation" resultType="rk.po.Product" >
         select
             id,
             product_name,
@@ -85,7 +94,7 @@
         where id = #{id} and user_id = #{userId}
     </select>
 
-    <insert id="insertProduct"
+    <insert id="save"
             useGeneratedKeys="true"
             parameterType="rk.po.Product"
             keyProperty="productId"
@@ -151,6 +160,37 @@
             </trim>
     </insert>
 
+    <update id="update" parameterType="rk.po.Product" keyColumn="id" keyProperty="productId" useGeneratedKeys="true">
+        update crm.product
+        <set>
+            <if test="userId != null">
+                user_id = #{userId},
+            </if>
+            <if test="brand != null">
+                brand = #{brand},
+            </if>
+            <if test="productUnit != null">
+                product_unit = #{productUnit},
+            </if>
+            <if test="productSerial != null">
+                product_serial = #{productSerial},
+            </if>
+            <if test="productName != null">
+                product_name = #{productName},
+            </if>
+            <if test="model != null">
+                model = #{model},
+            </if>
+            <if test="categoryId != null">
+                category_id = #{categoryId},
+            </if>
+            <if test="createDate != null">
+                create_date = #{createDate},
+            </if>
+        </set>
+            where id = #{productId}
+    </update>
+
     <insert id="insertproductSpecifications" parameterType="java.util.List">
         insert into product_specification (product_id, specification_name, price, amount)
         VALUES
@@ -167,5 +207,15 @@
         from crm.product_category
         where parent_id = #{parentId}
     </select>
+
+
+
+    <delete id="delete" parameterType="java.lang.Integer">
+        delete from product where id = #{productId}
+    </delete>
+
+    <delete id="deleteProductSpecifications" parameterType="java.lang.Integer">
+        delete from product_specification where product_id = #{productId}
+    </delete>
 
 </mapper>

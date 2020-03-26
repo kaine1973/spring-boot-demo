@@ -38,11 +38,11 @@ public interface BaseDao<T> {
 
     /**
      * 查询单条记录，根据userID和ID
-     * @param id
+     * @param productId
      * @return
      * @throws DataAccessException
      */
-    public  T queryById(@Param( "id" ) Integer id, @Param( "userId" ) Integer userId) throws  DataAccessException;
+    public  T queryByIdAndUserId(@Param( "id" ) Integer productId, @Param( "userId" ) Integer userId) throws  DataAccessException;
 
     /**
      * 多条件查询

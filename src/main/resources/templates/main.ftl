@@ -13,7 +13,9 @@
     <#include "common.ftl" >
 </head>
 <style>
-
+    div .nice-select{
+        height: 36px
+    }
     @media only screen and (max-width: 767px){
         .hide-responsive{
             display: none;
@@ -474,11 +476,16 @@
 <div class="content-body" id="main" >
     <#include "dashboard.ftl">
 </div>
-
-
+    <!--    Alert-->
+<#--    <div class="alert alert-primary" role="alert" id="confirmAlert">-->
+<#--        <h3>Custom Content Title</h3>-->
+<#--        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Libero placeat, minima dolore similique culpa cumque nisi quam, quaerat expedita delectus incidunt sed sunt! Excepturi aspernatur enim reprehenderit exercitationem distinctio sit!</p>-->
+<#--        <button class="button button-success">submit</button>-->
+<#--        <button class="button button-danger" data-dismiss="alert">close</button>-->
+<#--    </div>-->
     <!-- Modal -->
     <div class="modal fade" id="exampleModalLong" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="exampleModalLongTitle">Details</h5>
@@ -496,6 +503,10 @@
             </div>
         </div>
     </div>
+
+    <button type="button" id="showModalButton" class="btn btn-primary" data-toggle="modal" hidden data-target="#exampleModalLong">
+        Launch demo modal
+    </button>
 <!-- Content Body End -->
 
 <!-- Footer Section Start -->
@@ -509,9 +520,6 @@
     </div>
 </div><!-- Footer Section End -->
 
-    <button type="button" id="showModalButton" class="btn btn-primary" data-toggle="modal" hidden data-target="#exampleModalLong">
-        Launch demo modal
-    </button>
 </div>
 </body>
 <#include "jsCommon.ftl">
@@ -523,6 +531,12 @@
         }
     })
     window.scrollTo(0,0)
+
+    function closeModal() {
+        if(confirm('未保存的更改将被舍弃')){
+            $('#exampleModalLong').modal('hide')
+        }
+    }
 
     function addStaticContent(page) {
         // $('.spinner-grow').removeClass('hidden')

@@ -27,11 +27,11 @@ public class ProductService extends BaseService<Product> {
     }
 
     public Product queryProductById(Integer productId,Integer userId) {
-        return productDao.queryById(productId,userId);
+        return productDao.queryByIdAndUserId(productId,userId);
     }
     @Transactional
     public void insertOrUpdateProduct(Product product) {
-        AssertUtil.isTrue( productDao.insertProduct(product)<1,"产品添加失败" );
+        AssertUtil.isTrue( this.saveUpdate( product,product.getProductId() )<1,"产品添加失败" );
         for(int i=0;i < product.getProductSpecifications().size();i++){
             ProductSpecification productSpecification = product.getProductSpecifications().get( i );
             String name = productSpecification.getSpecificationName();
@@ -40,6 +40,13 @@ public class ProductService extends BaseService<Product> {
             }
             productSpecification.setProductId( product.getProductId() );
         }
+        AssertUtil.isTrue( productDao.deleteProductSpecifications( product.getProductId() )<1,"产品规格删除失败" );
         AssertUtil.isTrue( productDao.insertproductSpecifications(product.getProductSpecifications())<1,"产品规格添加失败" );
+    }
+
+    @Transactional
+    public void deleteProduct(Integer productId) {
+        this.delete( productId );
+        AssertUtil.isTrue( productDao.deleteProductSpecifications( productId )<1,"删除失败" );
     }
 }

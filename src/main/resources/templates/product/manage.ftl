@@ -14,10 +14,18 @@
         <div class="col-lg-8 col-12">
             <div class="input-group">
                 <div class="input-group-prepend"><span class="input-group-text" style="height: 36px;font-size: 13px">搜索</span></div>
-                <input type="text" class="form-control" placeholder="名称" style="height:36px">
-                <input type="text" class="form-control hide-responsive" placeholder="品牌" style="height:36px">
-                <input type="text" class="form-control hide-responsive" placeholder="编号" style="height:36px">
-                <button type="button" class="button button-primary" style="height:36px"><span class="fooicon fooicon-search"></span></button>
+                <input type="text" class="form-control" placeholder="名称" style="height:36px" id="queryName">
+                <input type="text" class="form-control hide-responsive" placeholder="品牌" style="height:36px" id="queryBrand">
+                <input type="text" class="form-control hide-responsive" placeholder="编号" style="height:36px" id="querySerial">
+                <select class="form-control form-control-sm nice-select hide-responsive" style="height:36px" id="queryCategory">
+                    <option data-display="类别" value="">选择一项</option>
+                    <#if categories??>
+                        <#list categories as category>
+                            <option value="${category.id}">${category.categoryName}</option>
+                        </#list>
+                    </#if>
+                </select>
+                <button type="button" class="button button-primary" style="height:36px" onclick="queryByParams(0)"><span class="fooicon fooicon-search"></span></button>
             </div>
         </div>
     </div>
@@ -36,7 +44,6 @@
                     <th class="hide-responsive">类别</th>
                     <th class="hide-responsive">型号</th>
                     <th class="hide-responsive">添加日期</th>
-                    <th class="hide-responsive">操作</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -48,14 +55,19 @@
                             <td class="hide-responsive">${product.brand}</td>
                             <td class="hide-responsive">${product.productSerial}</td>
                             <td class="hide-responsive">${product.productUnit}</td>
-                            <td class="hide-responsive">${product.categoryId}</td>
+                            <td class="hide-responsive">
+                                <#if categories??>
+                                    <#list categories as category>
+                                        <#if category.id == product.categoryId>
+                                            ${category.categoryName}
+                                        </#if>
+                                    </#list>
+                                    <#else >
+                                    ${product.categoryId}
+                                </#if>
+                            </td>
                             <td class="hide-responsive">${product.model}</td>
                             <td class="hide-responsive">${product.createDate?datetime}</td>
-                            <td class="hide-responsive">
-                                <div class="button-group">
-
-                                </div>
-                            </td>
                         </tr>
                     </#list>
                 </#if>
@@ -80,5 +92,11 @@
             </#if>
         </#if>
     </div>
+<#--    <div class="col-sm-10 col-10 button-group">-->
+<#--        <div class="input-group-prepend">-->
+<#--            <span class="input-group-text">每页行数</span>-->
+<#--        </div>-->
+<#--        <input class="form-control form-control-lg" type="number" value="15" id="pageSize">-->
+<#--    </div>-->
 </div>
     <!--Manage Product List End-->

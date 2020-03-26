@@ -1,4 +1,4 @@
-create schema crm collate utf8;
+create schema crm collate utf8_bin;
 
 create table area
 (
