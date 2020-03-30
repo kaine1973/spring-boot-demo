@@ -8,6 +8,7 @@
 <!--Plugins JS-->
 <script src="/js/plugins/perfect-scrollbar.min.js"></script>
 <script src="/js/plugins/tippy4.min.js.js"></script>
+<script src="/js/jquery.ztree.core.min.js"></script>
 
 <!-- Plugins & Activation JS For Only This Page -->
 <!--Moment-->

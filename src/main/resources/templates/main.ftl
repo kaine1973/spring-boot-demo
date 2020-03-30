@@ -25,7 +25,7 @@
         overflow: hidden;
         text-overflow:ellipsis;
         white-space: nowrap;
-        max-width: 200px;
+        max-width: 250px;
         text-align: left;
         /*vertical-align: middle;*/
         table-layout: fixed;

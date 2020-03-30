@@ -5,6 +5,7 @@
 <!-- Bootstrap CSS -->
 <link rel="stylesheet" href="/css/vendor/bootstrap.min.css">
 <link rel="stylesheet" href="/css/vendor/bootstrap-table.min.css">
+<link rel="stylesheet" href="/css/plugins/bootstrap-treeview.min.css">
 
 <#--<link rel="stylesheet" href="/css/vendor/bootstrap-select.min.css">-->
 <!-- Icon Font CSS -->
@@ -30,3 +31,7 @@
 <#--<link id="cus-style" rel="stylesheet" href="/css/style-primary.css">-->
 <!-- Global Vendor, plugins & Activation JS -->
 
+
+<#--ztree-->
+<link rel="stylesheet" href="/css/zTreeStyle.css">
+<link rel="stylesheet" href="/css/bootstrapStyle/bootstrapStyle.css">

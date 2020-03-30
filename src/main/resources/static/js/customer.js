@@ -14,6 +14,7 @@ function getChildArea(e,nextNode) {
         success:function (data) {
             if(data.code === 200){
                 $(nextNode).children(".marker").remove()
+                $(nextNode).next("select").children(".marker").remove()
                 var nodes = data.result
                 for(var i = 0;i<nodes.length;i++){
                     // console.log(nodes[i])

@@ -32,6 +32,36 @@ function changeUnit() {
         $('span#unitSpan').text(unit)
     }
 }
+function categoryBoxGenerator() {
+    var zTreeObj,
+        setting = {
+            view: {
+                selectedMulti: false
+            }
+        },
+        zTreeNodes = [
+            {"name":"网站导航", open:true, children: [
+                    { "name":"google", "id":"http://g.cn"},
+                    { "name":"baidu", "id":"http://baidu.com"},
+                    { "name":"sina", "id":"http://www.sina.com.cn",children: [
+                            { "name":"google", "id":"http://g.cn"},
+                            { "name":"baidu", "id":"http://baidu.com"},
+                            { "name":"sina", "id":"http://www.sina.com.cn",children: [
+                                    { "name":"google", "id":"http://g.cn"},
+                                    { "name":"baidu", "id":"http://baidu.com"},
+                                    { "name":"sina", "id":"http://www.sina.com.cn",children: [
+                                            { "name":"google", "id":"http://g.cn"},
+                                            { "name":"baidubaidubaidubaidu", "id":"http://baidu.com"},
+                                            { "name":"sinabaidubaidubaidubaidu", "id":"http://www.sina.com.cn"}
+                                        ]}
+                                ]}
+                        ]}
+                ]
+            }
+        ];
+
+    zTreeObj = $.fn.zTree.init($("#tree"), setting, zTreeNodes);
+}
 
 function showInfoModal(e) {
     var productId = $(e).children('td').html()
@@ -197,4 +227,8 @@ function generateValArrayFromInputArray() {
     }
     // data = data.substring(0,data.length-1) + ']'
     return data
+}
+
+function openUl(e) {
+    $(e).next('ul').toggle()
 }
