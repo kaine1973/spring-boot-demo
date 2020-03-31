@@ -1,6 +1,9 @@
 package rk;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.pagehelper.PageInfo;
+import org.json.JSONObject;
 import org.junit.Test;
 import org.junit.runner.JUnitCore;
 import org.junit.runner.RunWith;
@@ -12,6 +15,7 @@ import rk.App;
 import rk.base.BaseQuery;
 import rk.dao.ProductDao;
 import rk.po.Product;
+import rk.po.ProductCategory;
 import rk.po.ProductSpecification;
 import rk.query.ProductQuery;
 import rk.service.ProductService;
@@ -29,16 +33,10 @@ public class TestSql {
     ProductDao productDao;
 
     @Test
-    public void queryProductByParam(){
-        ProductQuery productQuery = new ProductQuery();
-        productQuery.setPageSize( 10 );
-        productQuery.setPageNum( 0 );
-        productQuery.setUserId( 1 );
-        PageInfo<Product> productPageInfo = productService.queryByParams( productQuery );
-        List<Product> list = productPageInfo.getList();
-        System.out.println(list.toString());
-        List<ProductSpecification> productSpecifications = productDao.queryProductSpecificationByProductId(14);
-        System.out.println(productSpecifications);
+    public void queryProductByParam() throws JsonProcessingException {
+        List<ProductCategory> productCategories = productDao.selectCategoryOfLevel( 0 );
+        String s = new ObjectMapper().writeValueAsString( productCategories );
+        System.out.println(s);
     }
 
 

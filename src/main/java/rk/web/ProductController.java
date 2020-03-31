@@ -1,11 +1,10 @@
 package rk.web;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.pagehelper.PageInfo;
-import jdk.nashorn.internal.parser.JSONParser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,6 +14,7 @@ import org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer;
 import rk.annotations.RequestPermission;
 import rk.model.ResultInfo;
 import rk.po.Product;
+import rk.po.ProductCategory;
 import rk.po.ProductSpecification;
 import rk.po.User;
 import rk.query.ProductQuery;
@@ -26,7 +26,6 @@ import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 @Controller
 @RequestMapping("product")
@@ -72,41 +71,42 @@ public class ProductController {
     }
 
     @RequestPermission(aclValue = "0")
-    @RequestMapping("queryCategoryOfLevel")
+    @RequestMapping("queryCategory")
     @ResponseBody
-    public ResultInfo queryCategoryOfLevel(Integer parentId){
-//        int pid = 0;
-//        try{
-//            pid = Integer.parseInt( parentId );
-//        }catch (NumberFormatException e){
-//            return new ResultInfo( 300,"获取产品分类失败，parentId不正确" );
-//        }
-        return new ResultInfo( 200,"",productService.queryCategoryOfLevel( parentId ) );
+    public ResultInfo queryCategories() throws JsonProcessingException {
+        //zTree会将空的children
+        objectMapper.setSerializationInclusion( JsonInclude.Include.NON_EMPTY );
+        List<ProductCategory> productCategories = productService.queryCategoryOfLevel( 0 );
+        String s = objectMapper.writeValueAsString(productCategories );
+        return new ResultInfo( 200,"", s);
     }
 
     @RequestPermission(aclValue = "0")
     @RequestMapping("manage")
     @ResponseBody
     public ResultInfo productManage(ProductQuery productQuery, @SessionAttribute("user") User user){
-        productQuery.setUserId( user.getId() );
-        productQuery.setPageNum( 0 );
-        productQuery.setPageSize( 10 );
-        PageInfo<Product> productPageInfo = productService.queryByParams( productQuery );
+//        productQuery.setUserId( user.getId() );
+//        productQuery.setPageNum( 0 );
+//        productQuery.setPageSize( 10 );
+//        PageInfo<Product> productPageInfo = productService.queryByParams( productQuery );
         HashMap<String, Object> results = new HashMap<>();
-        results.put( "rows", productPageInfo.getList());
-        results.put( "categories",productService.queryCategoryOfLevel( 0 ) );
+//        results.put( "rows", productPageInfo.getList());
+//        results.put( "categories",productService.queryCategoryOfLevel( 0 ) );
         return new ResultInfo(200,"请求成功",TemplateParser.parseTemplate( "/product/manage", results, configurer ));
     }
 
     @RequestPermission(aclValue = "0")
     @RequestMapping("queryByParams")
     @ResponseBody
-    public ResultInfo queryByParams(ProductQuery productQuery, @SessionAttribute("user") User user){
+    public ResultInfo queryByParams(ProductQuery productQuery,String categoryIdString, @SessionAttribute("user") User user) throws JsonProcessingException {
         productQuery.setUserId( user.getId() );
+        if(!"".equals( categoryIdString )) {
+            productQuery.setCategoryId( objectMapper.readValue( categoryIdString, new TypeReference<ArrayList<Integer>>() {
+            } ) );
+        }
         PageInfo<Product> productPageInfo = productService.queryByParams( productQuery );
         HashMap<String, Object> results = new HashMap<>();
         results.put( "rows", productPageInfo.getList());
-        results.put( "categories",productService.queryCategoryOfLevel( 0 ) );
         return new ResultInfo(200,"请求成功",results);
     }
 

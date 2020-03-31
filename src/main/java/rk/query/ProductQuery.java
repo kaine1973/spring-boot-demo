@@ -3,6 +3,8 @@ package rk.query;
 import lombok.Data;
 import rk.base.BaseQuery;
 
+import java.util.ArrayList;
+
 @Data
 public class ProductQuery extends BaseQuery {
 
@@ -10,6 +12,6 @@ public class ProductQuery extends BaseQuery {
     private String productName;
     private String brand;
     private String productSerial;
-    private Integer categoryId;
+    private ArrayList<Integer> categoryId;
 
 }

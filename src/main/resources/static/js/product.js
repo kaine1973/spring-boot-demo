@@ -25,42 +25,11 @@ function removeSpecification(button) {
         $(button).parent().parent().parent().remove()
     })
 }
-
 function changeUnit() {
     var unit = $('#productUnit').val()
     if(unit !== ""|| null !== unit){
         $('span#unitSpan').text(unit)
     }
-}
-function categoryBoxGenerator() {
-    var zTreeObj,
-        setting = {
-            view: {
-                selectedMulti: false
-            }
-        },
-        zTreeNodes = [
-            {"name":"网站导航", open:true, children: [
-                    { "name":"google", "id":"http://g.cn"},
-                    { "name":"baidu", "id":"http://baidu.com"},
-                    { "name":"sina", "id":"http://www.sina.com.cn",children: [
-                            { "name":"google", "id":"http://g.cn"},
-                            { "name":"baidu", "id":"http://baidu.com"},
-                            { "name":"sina", "id":"http://www.sina.com.cn",children: [
-                                    { "name":"google", "id":"http://g.cn"},
-                                    { "name":"baidu", "id":"http://baidu.com"},
-                                    { "name":"sina", "id":"http://www.sina.com.cn",children: [
-                                            { "name":"google", "id":"http://g.cn"},
-                                            { "name":"baidubaidubaidubaidu", "id":"http://baidu.com"},
-                                            { "name":"sinabaidubaidubaidubaidu", "id":"http://www.sina.com.cn"}
-                                        ]}
-                                ]}
-                        ]}
-                ]
-            }
-        ];
-
-    zTreeObj = $.fn.zTree.init($("#tree"), setting, zTreeNodes);
 }
 
 function showInfoModal(e) {
@@ -157,25 +126,38 @@ function submitProductData(){
     })
 }
 
-function generateRow(id,productName,brand,productSerial,productUnit,categoryId,model,createDate) {
+function generateRow(id,productName,brand,productSerial,productUnit,model,createDate) {
+
     return "<tr height=\"41px\" onclick=\"showInfoModal(this)\">\n" +
         "                            <td hidden>"+id+"</td>\n" +
         "                            <td>"+productName+"</td>\n" +
         "                            <td class=\"hide-responsive\">"+brand+"</td>\n" +
         "                            <td class=\"hide-responsive\">"+productSerial+"</td>\n" +
         "                            <td class=\"hide-responsive\">"+productUnit+"</td>\n" +
-        "                            <td class=\"hide-responsive\">"+categoryId+"</td>\n" +
         "                            <td class=\"hide-responsive\">"+model+"</td>\n" +
         "                            <td class=\"hide-responsive\">"+createDate+"</td>\n" +
+        "                            <td class=\"hide-responsive\" style=\"padding-bottom: 3px;padding-top:8px\">\n" +
+        "\n" +
+        "                                    <button class=\"button button-box button-xs button-primary\" ><i class=\"zmdi zmdi-download\"></i></button>\n" +
+        "                                    <button class=\"button button-box button-xs button-primary\" onclick=\"showPurposeModal()\" ><i class=\"zmdi zmdi-upload\"></i></button>\n" +
+        "\n" +
+        "                            </td>" +
         "                        </tr>"
 }
-function queryByParams(startPage) {
+
+function showPurposeModal(){
+
+}
+
+function queryByParams(startPage,selectedCategory=0) {
     var productName = $('#queryName').val()
     var productSerial = $('#querySerial').val()
     var brand = $('#queryBrand').val()
-    var categoryId = $('#queryCategory').val()
+    var category = $.fn.zTree.getZTreeObj("tree").getSelectedNodes()[0]
+    var categoryId = category == null?null:JSON.stringify(category.childIds);
+    console.log(category)
+    console.log(categoryId)
     var pageSize = $('#pageSize').val()
-
     $.ajax({
         url:'/product/queryByParams',
         data:{
@@ -183,33 +165,59 @@ function queryByParams(startPage) {
             'productName':productName,
             'productSerial':productSerial,
             'brand':brand,
-            'categoryId':categoryId,
+            'categoryIdString':categoryId,
             'pageSize':pageSize
         },
         success:function (data) {
             if(data.code === 200){
                 $('tbody').children('tr').remove()
-                $.each(data.result['rows'],function (index,product) {
-                    var categoryName = product.categoryId
-                    $.each(data.result['categories'],function (index,category) {
-                        if(category.id === product.categoryId){
-                            categoryName = category.categoryName
-                        }
+                if(data.result['rows'].length > 0){
+                    $.each(data.result['rows'],function (index,product) {
+                        $('tbody').append(generateRow(product.productId,product.productName,product.brand,product.productSerial,product.productUnit,product.model,product.createDate))
                     })
-                    $('tbody').append(generateRow(product.productId,product.productName,product.brand,product.productSerial,product.productUnit,categoryName,product.model,product.createDate))
-                })
+                }else{
+                    $('tbody').append("<span style='font-size: large'>没有相关的数据!</span>")
+                }
+
             }
         }
     })
-
-
 }
-
-function productSpecification(specificationName,price,amount) {
-    this.specificationName = specificationName
-    this.price = price
-    this.amount = amount
+function initCategoryBox(e){
+    $.ajax({
+        url:"/product/queryCategory",
+        success:function (data) {
+            if(data.code === 200){
+                console.log(data.result)
+                var zTreeNodes = JSON.parse(data.result);
+                var setting = {
+                    view: {
+                        selectedMulti: false
+                    }
+                };
+                $.fn.zTree.init($(e), setting, zTreeNodes);
+                queryByParams(0)
+            }else{
+                alertWarning(data.msg)
+            }
+        },
+        error:function () {
+            alertWarning("连接服务器失败，请刷新页面重试")
+        }
+    });
 }
+function resetThenQuery() {
+    $('#search').trigger('reset');
+    let zTreeObj = $.fn.zTree.getZTreeObj('tree');
+    zTreeObj.cancelSelectedNode()
+    zTreeObj.expandAll(false)
+    queryByParams(0)
+}
+// function productSpecification(specificationName,price,amount) {
+//     this.specificationName = specificationName
+//     this.price = price
+//     this.amount = amount
+// }
 function generateValArrayFromInputArray() {
     var specificationNames = $("input[name='specificationName']")
     var prices = $("input[name='price']")

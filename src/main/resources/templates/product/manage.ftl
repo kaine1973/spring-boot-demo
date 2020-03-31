@@ -18,10 +18,9 @@
         </div>
     </div>
 
-    <style onload="categoryBoxGenerator()" ></style>
     <div class="mt-15 mb-25" >
         <h5>搜索</h5>
-        <form style="max-width: 95%">
+        <form id="search" style="max-width: 95%">
             <div class="form-group mt-2">
                 <label for="queryName">产品名称</label>
                 <input type="text" class="form-control" style="height:36px" id="queryName">
@@ -34,16 +33,19 @@
                 <label for="querySerial">编号</label>
                 <input type="text" class="form-control" style="height:36px" id="querySerial">
             </div>
-            <div class="form-group mt-2">
-                <button type="button" class="button button-primary" style="height:36px" onclick="queryByParams(0)">
-                    <span class="fooicon fooicon-search"></span>
+            <div class="button-group mt-2">
+                <button type="button" class="button button-sm button-primary" style="height:36px" onclick="queryByParams(0)">
+                    <span><i class="zmdi zmdi-search"></i>搜索</span>
+                </button>
+                <button type="button" class="button button-sm button-dark" style="height:36px" onclick="resetThenQuery()">
+                    <span><i class="zmdi zmdi-refresh"></i>重置</span>
                 </button>
             </div>
         </form>
     </div>
 </div>
-<div class="col-lg-9 col-12">
-    <div class="row">
+<div class="col-lg-9 col-12" style="height: 500px">
+    <div class="row" >
         <div class="col-lg-10 col-12">
             <table class="table table-bordered table-hover table-striped"
                    data-toggle="table"
@@ -55,43 +57,12 @@
                     <th class="hide-responsive">品牌</th>
                     <th class="hide-responsive">编号</th>
                     <th class="hide-responsive">单位</th>
-                    <th class="hide-responsive">类别</th>
                     <th class="hide-responsive">型号</th>
                     <th class="hide-responsive">添加日期</th>
                     <th class="hide-responsive">管理</th>
                 </tr>
                 </thead>
                 <tbody>
-                <#if rows??>
-                    <#list rows as product>
-                        <tr height="41px">
-                            <td hidden>${product.productId}</td>
-                            <td style="min-width: 200px" onclick="showInfoModal(this)">${product.productName}</td>
-                            <td class="hide-responsive">${product.brand}</td>
-                            <td class="hide-responsive">${product.productSerial}</td>
-                            <td class="hide-responsive">${product.productUnit}</td>
-                            <td class="hide-responsive">
-                                <#if categories??>
-                                    <#list categories as category>
-                                        <#if category.id == product.categoryId>
-                                            ${category.categoryName}
-                                        </#if>
-                                    </#list>
-                                <#else >
-                                    ${product.categoryId}
-                                </#if>
-                            </td>
-                            <td class="hide-responsive">${product.model}</td>
-                            <td class="hide-responsive">${product.createDate?datetime}</td>
-                            <td class="hide-responsive">
-
-                                    <button class="button button-box button-sm button-primary" style="height: 36px;width: 36px"><i class="zmdi-download"></i></button>
-                                    <button class="button button-box button-sm button-primary" style="height: 36px;width: 36px"><i class="zmdi-upload"></i></button>
-
-                            </td>
-                        </tr>
-                    </#list>
-                </#if>
                 </tbody>
             </table>
         </div>
@@ -123,3 +94,5 @@
 </div>
 </div>
 <!--Manage Product List End-->
+
+<style onload="initCategoryBox('#tree')" ></style>

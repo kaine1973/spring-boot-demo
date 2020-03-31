@@ -1,6 +1,6 @@
 package rk.po;
 
-import com.fasterxml.jackson.annotation.JsonAlias;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 
 import java.util.ArrayList;
@@ -9,9 +9,11 @@ import java.util.ArrayList;
 public class ProductCategory {
 
     private int id;
-    @JsonAlias("name")
+    @JsonProperty("name")
     private String categoryName;
+    @JsonProperty("pId")
     private int parentId;
+    private ArrayList<Integer> childIds;
     private ArrayList<ProductCategory> children;
 
 }

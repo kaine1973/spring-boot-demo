@@ -2,10 +2,11 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="rk.dao.ProductDao">
-    <resultMap id="categoryOfParent" type="rk.po.ProductCategory">
+    <resultMap id="category" type="rk.po.ProductCategory">
         <id column="id" jdbcType="INTEGER" property="id"/>
         <result column="category_name"  jdbcType="VARCHAR" property="categoryName"/>
         <result column="parent_id" jdbcType="INTEGER" property="parentId"/>
+        <collection column="id" property="children" javaType="java.util.ArrayList" ofType="rk.po.ProductCategory" select="selectCategoryOfLevel"/>
     </resultMap>
 
     <resultMap id="productInformation" type="rk.po.Product">
@@ -18,7 +19,6 @@
         <result column="product_serial"  jdbcType="VARCHAR" property="productSerial"/>
         <result column="category_id" jdbcType="INTEGER" property="categoryId"/>
         <result column="create_date" javaType="java.util.Date" jdbcType="TIMESTAMP" property="createDate"/>
-
         <collection property="productSpecifications"
                     column="id"
                     ofType="rk.po.ProductSpecification"
@@ -62,8 +62,10 @@
             <if test="null != productSerial and '' != productSerial">
                 and product_serial like concat('%',#{productSerial,jdbcType=VARCHAR,javaType=String},'%')
             </if>
-            <if test="null != categoryId and '' != categoryId">
-                and category_id like concat('%',#{categoryId,jdbcType=INTEGER,javaType=Integer},'%')
+            <if test="null != categoryId and categoryId.size() > 0" >
+                and category_id in <foreach item="categoryId" collection="categoryId" open="(" separator="," close=")">
+                #{categoryId}
+            </foreach>
             </if>
         </where>
     </select>
@@ -202,13 +204,11 @@
         </foreach>
     </insert>
 
-    <select id="selectCategoryOfLevel" resultMap="categoryOfParent" resultType="java.lang.String" parameterType="java.lang.Integer">
+    <select id="selectCategoryOfLevel" resultMap="category" resultType="rk.po.ProductCategory" parameterType="java.lang.Integer">
         select *
         from crm.product_category
         where parent_id = #{parentId}
     </select>
-
-
 
     <delete id="delete" parameterType="java.lang.Integer">
         delete from product where id = #{productId}

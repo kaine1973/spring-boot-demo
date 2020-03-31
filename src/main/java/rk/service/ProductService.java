@@ -23,7 +23,25 @@ public class ProductService extends BaseService<Product> {
     private ProductDao productDao;
 
     public List<ProductCategory> queryCategoryOfLevel(Integer parentId) {
-        return productDao.selectCategoryOfLevel( parentId );
+        List<ProductCategory> productCategories = productDao.selectCategoryOfLevel( parentId );
+        for(ProductCategory productCategory:productCategories){
+            setChildIds(productCategory);
+        }
+        return productCategories;
+    }
+    //获取所有子节点的ID
+    private ArrayList<Integer> setChildIds(ProductCategory productCategory) {
+        ArrayList<Integer> ids = new ArrayList<>();
+        ids.add(productCategory.getId());
+        for(ProductCategory childProductCategory:productCategory.getChildren()){
+            if(childProductCategory.getChildren().size()>0){
+                ids.addAll( setChildIds( childProductCategory ) );
+            }else{
+                ids.add(childProductCategory.getId());
+            }
+        }
+        productCategory.setChildIds( ids );
+        return ids;
     }
 
     public Product queryProductById(Integer productId,Integer userId) {

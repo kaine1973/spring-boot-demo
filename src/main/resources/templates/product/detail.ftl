@@ -13,8 +13,19 @@
         <!-- Page Button Group End -->
     </div><!-- Page Headings End -->
 </#if>
+
             <!-- Add or Edit Product Start -->
-            <div >
+            <div class="row">
+                <div class="col-lg-3 col-12 accordion accordion-icon" style="background-color: #e2e2e2;min-height: 100%;border-radius: 5px 5px 5px 5px">
+                    <div class="hide-responsive" style="margin-top: 25px;">
+                        <h5>分类</h5>
+                        <div id="categoryBox">
+                            <ul id="treeDetail" class="ztree" style="min-width:100%; overflow:auto;"></ul>
+                            <style onload="initCategoryBox('#treeDetail')"></style>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-9 col-12" >
                 <div class="add-edit-product-form">
                     <form onsubmit="return false">
 
@@ -33,17 +44,6 @@
                         <div class="row">
                             <div class="col-lg-4 col-12 mb-25" >
                                 <input class="form-control form-control-sm" type="text" placeholder="型号" id="model" name="model" value="<#if product??>${product.model}</#if>">
-                            </div>
-                            <div class="col-lg-4 col-12 mb-25 input-group">
-                                <div class="input-group-prepend" style="height: 36px"><span class="input-group-text" style="font-size: 13px">类别*</span> </div>
-                                <select class="form-control form-control-sm nice-select wide" style="height: 36px" name="category" id="category">
-                                    <#if categories??>
-                                        <#list categories as category>
-                                            <option value="${category.id}" <#if (product.categoryId == category.id)>selected</#if>>${category.categoryName}</option>
-                                        <#--                                            <text style="display: none" id="category-${category.id}">${category.parentId}</text>-->
-                                        </#list>
-                                    </#if>
-                                </select>
                             </div>
                             <div class="col-lg-4 col-12 mb-25" >
                                 <input class="form-control form-control-sm" type="text" placeholder="单位*" id="productUnit" onfocusout="changeUnit()" name="unit" value="<#if product??>${product.productUnit}</#if>">
@@ -125,6 +125,6 @@
                         </div>
                     </form>
                 </div>
-
+                </div>
             </div><!-- Add or Edit Product End -->
 
