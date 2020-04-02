@@ -9047,7 +9047,7 @@ body.header-top-green .header-notification-area > li > a .user .name {
 /*  08. Side Header CSS
 /*----------------------------------------*/
 .side-header {
-  width: 270px !important;
+  width: 170px !important;
   background-color: #161824;
   height: calc(100vh - 61px);
   position: fixed;
@@ -9063,7 +9063,7 @@ body.header-top-green .header-notification-area > li > a .user .name {
 }
 
 .side-header.hide {
-  left: -270px;
+  left: -170px;
 }
 
 .side-header.hide + .content-body, .side-header.hide ~ .footer-section {
