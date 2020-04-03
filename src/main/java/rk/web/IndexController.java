@@ -2,15 +2,17 @@ package rk.web;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
 import rk.annotations.RequestPermission;
 
 @Controller
 public class IndexController {
 
-    @RequestPermission(aclValue = "0")
     @RequestMapping("/")
-    public String index(){
-        return "/main";
+    @ResponseBody
+    public ModelAndView index(){
+        return new ModelAndView( "/main" );
     }
 
     @RequestMapping("/login")
@@ -20,8 +22,9 @@ public class IndexController {
 
     @RequestPermission(aclValue = "0")
     @RequestMapping("/main")
-    public String main(){
-        return "main";
+    @ResponseBody
+    public ModelAndView main(){
+        return new ModelAndView( "main" );
     }
 
 }

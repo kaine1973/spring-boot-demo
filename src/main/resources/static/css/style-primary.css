@@ -7757,17 +7757,17 @@ table.data-table.collapsed tbody tr.child td.child ul li .dtr-title {
 /*-- Header Notification Dropdown --*/
 .dropdown-menu-notifications {
   width: 415px;
-  background-color: #161824;
   padding: 0;
 }
 
 .dropdown-menu-notifications .head {
-  padding: 20px 30px;
+  padding: 10px 15px;
+  background-color: #e0e0e0;
   border-bottom: 1px solid #36384b;
 }
 
 .dropdown-menu-notifications .head .title {
-  color: #ffffff;
+  /*color: #ffffff;*/
   font-weight: 600;
   line-height: 30px;
   margin: 0;
@@ -7793,12 +7793,12 @@ table.data-table.collapsed tbody tr.child td.child ul li .dtr-title {
 .dropdown-menu-notifications .body ul li a {
   padding-left: 28px;
   position: relative;
-  color: rgba(255, 255, 255, 0.9);
+  /*color: rgba(255, 255, 255, 0.9);*/
 }
 
 .dropdown-menu-notifications .body ul li a i {
   position: absolute;
-  color: #7dfb9b;
+  /*color: #7dfb9b;*/
   left: 0;
   top: 1px;
   font-size: 20px;
@@ -7816,7 +7816,7 @@ table.data-table.collapsed tbody tr.child td.child ul li .dtr-title {
   font-size: 13px;
   line-height: 18px;
   font-weight: 300;
-  color: rgba(255, 255, 255, 0.9);
+  /*color: rgba(255, 255, 255, 0.9);*/
   display: block;
   padding: 0;
   margin-top: -6px;
@@ -9075,7 +9075,7 @@ body.header-top-green .header-notification-area > li > a .user .name {
 }
 
 .side-header.show + .content-body, .side-header.show ~ .footer-section {
-  margin-left: 270px;
+  margin-left: 200px;
 }
 
 .side-header .side-header-close {

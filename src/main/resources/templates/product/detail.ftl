@@ -21,7 +21,7 @@
                         <h5>分类</h5>
                         <div id="categoryBox">
                             <ul id="treeDetail" class="ztree" style="min-width:100%; overflow:auto;"></ul>
-                            <style onload="initCategoryBox('#treeDetail')"></style>
+                            <style onload="initCategoryBoxSetDefault(<#if product??>'${product.categoryId}'</#if>)"></style>
                         </div>
                     </div>
                 </div>

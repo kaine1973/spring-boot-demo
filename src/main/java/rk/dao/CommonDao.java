@@ -7,6 +7,7 @@ import rk.po.common.Area;
 import rk.po.common.CustomerLevel;
 import rk.po.common.CustomerPosition;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Component
@@ -18,4 +19,5 @@ public interface CommonDao extends BaseDao<Area> {
 
     List<CustomerLevel> queryCustomerLevel(Integer id);
 
+    ArrayList<String> queryPermissionByRoleId(Integer roleId);
 }

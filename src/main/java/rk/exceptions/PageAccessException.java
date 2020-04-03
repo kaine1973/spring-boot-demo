@@ -1,5 +1,7 @@
 package rk.exceptions;
 
+import rk.configuration.enuma.OperationStatus;
+
 public class PageAccessException extends RuntimeException {
 
     public Integer code = 300;
@@ -8,6 +10,12 @@ public class PageAccessException extends RuntimeException {
     public PageAccessException(String msg) {
         super(msg);
         this.msg = msg;
+    }
+
+    public PageAccessException(OperationStatus status) {
+        super(status.OPS_MSG);
+        this.code = status.OPS_CODE;
+        this.msg = status.OPS_MSG;
     }
 
     public PageAccessException(Integer code, String msg) {

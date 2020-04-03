@@ -15,6 +15,7 @@
         <h5>分类</h5>
         <div id="categoryBox">
             <ul id="tree" class="ztree" style="min-width:100%; overflow:auto;"></ul>
+            <style onload="initProductManage()" ></style>
         </div>
     </div>
 
@@ -34,7 +35,7 @@
                 <input type="text" class="form-control" style="height:36px" id="querySerial">
             </div>
             <div class="button-group mt-2">
-                <button type="button" class="button button-sm button-primary" style="height:36px" onclick="queryByParams(0)">
+                <button type="button" class="button button-sm button-primary" style="height:36px" onclick="queryByParams(1)">
                     <span><i class="zmdi zmdi-search"></i>搜索</span>
                 </button>
                 <button type="button" class="button button-sm button-dark" style="height:36px" onclick="resetThenQuery()">
@@ -58,7 +59,7 @@
                     <th class="hide-responsive">编号</th>
                     <th class="hide-responsive">单位</th>
                     <th class="hide-responsive">型号</th>
-                    <th class="hide-responsive">添加日期</th>
+<#--                    <th class="hide-responsive">添加日期</th>-->
                     <th class="hide-responsive">管理</th>
                 </tr>
                 </thead>
@@ -68,21 +69,14 @@
         </div>
     </div>
     <div class="row mt-5">
-        <div class="col-sm-10 col-10 button-group">
-            <#if page??>
-                <#if page.currentPage gt 1>
-                    <button class="button button-info"><<</button>
-                </#if>
-            </#if>
-            <button class="button button-info">1</button>
-            <button class="button button-info">2</button>
-            <button class="button button-info">3</button>
-            <#if page??>
-                <#if page.pageNum gt 3>
-                    <button class="button button-info">...</button>
-                    <button class="button button-info">>></button>
-                </#if>
-            </#if>
+        <div id="paginationContainer" class="col-lg-12">
+            <div class="pagination">
+                <a href="#" class="first" data-action="first">&laquo;</a>
+                <a href="#" class="previous" data-action="previous">&lsaquo;</a>
+                <input id="paginationText" type="text" readonly="readonly" data-max-page="40" />
+                <a href="#" class="next" data-action="next">&rsaquo;</a>
+                <a href="#" class="last" data-action="last">&raquo;</a>
+            </div>
         </div>
         <#--    <div class="col-sm-10 col-10 button-group">-->
         <#--        <div class="input-group-prepend">-->
@@ -94,5 +88,3 @@
 </div>
 </div>
 <!--Manage Product List End-->
-
-<style onload="initCategoryBox('#tree')" ></style>

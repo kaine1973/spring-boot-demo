@@ -4,6 +4,7 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
+import rk.configuration.enuma.OperationStatus;
 import rk.model.ResultInfo;
 
 import javax.servlet.http.HttpServletRequest;
@@ -21,7 +22,7 @@ public class GlobalExceptionHandler {
         ParamRequestException error = (ParamRequestException) e;
         System.out.println(request.getRequestURI());
         System.out.println(e.getMessage());
-        return new ResultInfo(error.code,error.msg);
+        return new ResultInfo( error.code,error.msg);
     }
 
     @ExceptionHandler(PageAccessException.class)

@@ -20,6 +20,11 @@
         <result column="level_sign" jdbcType="VARCHAR" javaType="java.lang.String" property="levelSign"/>
     </resultMap>
 
+    <select id="queryPermissionByRoleId" resultType="java.lang.String" parameterType="java.lang.Integer">
+        SELECT GROUP_CONCAT(acl_value)
+        FROM crm.permission WHERE role_id = ${roleId}
+    </select>
+
 <!--    查询客户星级-->
     <select id="queryCustomerLevel" resultMap="customerLevelDetail" parameterType="java.lang.Integer" resultType="rk.po.common.CustomerLevel">
         SELECT A.id,A.level_sign from crm.customer_level as A

@@ -1,6 +1,5 @@
 package rk.aop;
 
-import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
@@ -8,13 +7,11 @@ import org.aspectj.lang.annotation.Pointcut;
 import org.aspectj.lang.reflect.MethodSignature;
 import org.springframework.web.bind.annotation.ResponseBody;
 import rk.annotations.RequestPermission;
-import rk.constants.CrmConstant;
 import rk.po.User;
 import rk.service.UserService;
 import rk.util.AssertUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.springframework.util.CollectionUtils;
 import rk.util.StringUtil;
 import rk.util.UserIDBase64;
 
@@ -22,6 +19,7 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.lang.reflect.Method;
+import java.lang.reflect.Parameter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -36,9 +34,6 @@ public class PermissionAdaptor {
     @Autowired
     private HttpSession session;
 
-    @Autowired
-    private HttpServletRequest request;
-
     @Pointcut("@annotation(rk.annotations.RequestPermission),@annotation(SessionAttribute.class)")
     public void cut(){}
 
@@ -51,25 +46,25 @@ public class PermissionAdaptor {
          * */
         MethodSignature signature = (MethodSignature) pjp.getSignature();
         Method method = signature.getMethod();
-
-
-
+        System.out.println(method.getDeclaringClass());
+        System.out.println(method.getName());
+        for(Parameter param:method.getParameters()){
+            System.out.println(param.getName());
+            System.out.println(param.toString());
+        }
         RequestPermission permission = method.getAnnotation(RequestPermission.class);
         String aclValue = permission.aclValue();
-        List<String> permissions = (List<String>) session.getAttribute(CrmConstant.USER_PERMISSIONS);
+        User user = (User)session.getAttribute("user");
 
-        if(CollectionUtils.isEmpty(permissions)){
-            AssertUtil.requestPage(!rememeredCheck(),"请先登录");
-        }else {
-            //有ResponseBody的请求是数据请求
-            ResponseBody annotation = method.getAnnotation(ResponseBody.class);
-            //没有ResponseBody 就是响应页面
-            if(null == annotation){
-                AssertUtil.requestPage(!permissions.contains(aclValue), "页面请求失败，没有足够的权限");
-            }
-            AssertUtil.isTrue(!permissions.contains(aclValue), "数据请求失败，没有足够的权限");
-
+        //有ResponseBody的请求是数据请求
+        ResponseBody annotation = method.getAnnotation(ResponseBody.class);
+        //没有ResponseBody 就是响应页面
+        ArrayList<String> userPermission = userService.getUserPermission( user );
+        if(null == annotation){
+            AssertUtil.requestPage(!userPermission.contains(aclValue), "页面请求失败，没有足够的权限");
         }
+        AssertUtil.isTrue(!userPermission.contains(aclValue), "数据请求失败，没有足够的权限");
+
 
         Object proceed = pjp.proceed();// 继续执行
         return proceed;
@@ -77,31 +72,5 @@ public class PermissionAdaptor {
 
     @Autowired
     private UserService userService;
-
-    private boolean rememeredCheck(){
-        Cookie[] cookies = request.getCookies();
-        if(null == cookies){
-            return false;
-        }
-        String ui = null;
-        String ut = null;
-        for (Cookie cookie :cookies) {
-            if("ui".equals(cookie.getName())){
-                ui = cookie.getValue();
-            }else if("ut".equals(cookie.getName())){
-                ut = cookie.getValue();
-            }
-        }
-        if(null != ut && null != ui){
-            User user = userService.queryUserById(UserIDBase64.decoderUserID(ui));
-            String encypt = StringUtil.encypt(ui + user.getSalt());
-            if(ut.equals(encypt)){
-                session.setAttribute("user",user);
-                session.setAttribute(CrmConstant.USER_PERMISSIONS, new ArrayList<>(Arrays.asList("0")));
-            }
-            return true;
-        }
-        return false;
-    }
 
 }

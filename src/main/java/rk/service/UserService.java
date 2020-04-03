@@ -1,6 +1,7 @@
 package rk.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import rk.dao.CommonDao;
 import rk.model.ResultInfo;
 import rk.dao.UserDao;
 import rk.po.User;
@@ -8,11 +9,21 @@ import org.springframework.stereotype.Service;
 import rk.util.AssertUtil;
 import rk.util.StringUtil;
 
+import java.util.ArrayList;
+import java.util.Collection;
+
 @Service
 public class UserService{
 
     @Autowired
     private UserDao userDao;
+
+    @Autowired
+    private CommonDao commonDao;
+
+    public ArrayList<String> getUserPermission(User user) {
+        return commonDao.queryPermissionByRoleId(user.getRoleId());
+    }
 
     public User queryUserByName(User user){
         AssertUtil.isTrue(StringUtil.isNullorEmpty(user.getUserPwd(),user.getUserName()),"缺少必填项!");

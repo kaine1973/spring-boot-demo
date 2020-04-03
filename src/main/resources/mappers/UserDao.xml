@@ -9,14 +9,15 @@
     <result column="salt" property="salt" jdbcType="VARCHAR"/>
     <result column="header" property="header" jdbcType="VARCHAR"/>
     <result column="preferColor" property="preferColor" jdbcType="VARCHAR"/>
+    <result column="role_id" property="roleId" jdbcType="INTEGER"/>
 </resultMap>
 
     <select id="queryUser" resultMap="user" parameterType="java.lang.String">
-        select id,uname,passwd,salt,header,preferColor
-        from user where uname = #{userName}
+        SELECT id,uname,passwd,salt,header,preferColor,role_id
+        FROM crm.user WHERE uname = #{userName}
     </select>
     <select id="queryUserById" resultMap="user" parameterType="java.lang.Integer">
-        select id,uname,salt,header,preferColor
+        select id,uname,salt,header,preferColor,role_id
         from user where id = #{id}
     </select>
 

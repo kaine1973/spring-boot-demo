@@ -97,22 +97,6 @@
 
                         <ul class="header-notification-area">
 
-                            <!--Language-->
-<#--                            <li class="adomx-dropdown position-relative col-auto">-->
-<#--                                <a class="toggle" href="#"><img class="lang-flag" src="/images/flags/flag-1.jpg" alt=""><i-->
-<#--                                            class="zmdi zmdi-caret-down drop-arrow"></i></a>-->
-
-<#--                                <!-- Dropdown &ndash;&gt;-->
-<#--                                <ul class="adomx-dropdown-menu dropdown-menu-language">-->
-<#--                                    <li><a href="#"><img src="/images/flags/flag-1.jpg" alt=""> English</a></li>-->
-<#--                                    <li><a href="#"><img src="/images/flags/flag-2.jpg" alt=""> Japanese</a></li>-->
-<#--                                    <li><a href="#"><img src="/images/flags/flag-3.jpg" alt=""> Spanish </a></li>-->
-<#--                                    <li><a href="#"><img src="/images/flags/flag-4.jpg" alt=""> Germany</a></li>-->
-<#--                                </ul>-->
-
-<#--                            </li>-->
-
-                            <!--Mail-->
                             <li class="adomx-dropdown col-auto">
                                 <a class="toggle" href="#"><i class="zmdi zmdi-email-open"></i><span
                                             class="badge"></span></a>
@@ -179,8 +163,8 @@
                             </li>
 
                             <!--Notification-->
-                            <li class="adomx-dropdown col-auto">
-                                <a class="toggle" href="#"><i class="zmdi zmdi-notifications"></i><span
+                            <li class="adomx-dropdown col-auto" data-toggle="tooltip" data-placement="top" title="出库单">
+                                <a class="toggle" href="#"><i class="zmdi zmdi-calendar-note"></i><span
                                             class="badge"></span></a>
 
                                 <!-- Dropdown -->
@@ -189,70 +173,9 @@
                                         <h5 class="title">You have 4 new notification.</h5>
                                     </div>
                                     <div class="body custom-scroll">
-                                        <ul>
-                                            <li>
-                                                <a href="#">
-                                                    <i class="zmdi zmdi-notifications-none"></i>
-                                                    <p>There are many variations of pages available.</p>
-                                                    <span>11.00 am   Today</span>
-                                                </a>
-                                                <button class="delete"><i class="zmdi zmdi-close-circle-o"></i></button>
-                                            </li>
-                                            <li>
-                                                <a href="#">
-                                                    <i class="zmdi zmdi-block"></i>
-                                                    <p>There are many variations of pages available.</p>
-                                                    <span>11.00 am   Today</span>
-                                                </a>
-                                                <button class="delete"><i class="zmdi zmdi-close-circle-o"></i></button>
-                                            </li>
-                                            <li>
-                                                <a href="#">
-                                                    <i class="zmdi zmdi-info-outline"></i>
-                                                    <p>There are many variations of pages available.</p>
-                                                    <span>11.00 am   Today</span>
-                                                </a>
-                                                <button class="delete"><i class="zmdi zmdi-close-circle-o"></i></button>
-                                            </li>
-                                            <li>
-                                                <a href="#">
-                                                    <i class="zmdi zmdi-shield-security"></i>
-                                                    <p>There are many variations of pages available.</p>
-                                                    <span>11.00 am   Today</span>
-                                                </a>
-                                                <button class="delete"><i class="zmdi zmdi-close-circle-o"></i></button>
-                                            </li>
-                                            <li>
-                                                <a href="#">
-                                                    <i class="zmdi zmdi-notifications-none"></i>
-                                                    <p>There are many variations of pages available.</p>
-                                                    <span>11.00 am   Today</span>
-                                                </a>
-                                                <button class="delete"><i class="zmdi zmdi-close-circle-o"></i></button>
-                                            </li>
-                                            <li>
-                                                <a href="#">
-                                                    <i class="zmdi zmdi-block"></i>
-                                                    <p>There are many variations of pages available.</p>
-                                                    <span>11.00 am   Today</span>
-                                                </a>
-                                                <button class="delete"><i class="zmdi zmdi-close-circle-o"></i></button>
-                                            </li>
-                                            <li>
-                                                <a href="#">
-                                                    <i class="zmdi zmdi-info-outline"></i>
-                                                    <p>There are many variations of pages available.</p>
-                                                    <span>11.00 am   Today</span>
-                                                </a>
-                                                <button class="delete"><i class="zmdi zmdi-close-circle-o"></i></button>
-                                            </li>
-                                            <li>
-                                                <a href="#">
-                                                    <i class="zmdi zmdi-shield-security"></i>
-                                                    <p>There are many variations of pages available.</p>
-                                                    <span>11.00 am   Today</span>
-                                                </a>
-                                                <button class="delete"><i class="zmdi zmdi-close-circle-o"></i></button>
+                                        <ul id="stockOutList">
+                                            <li class="empty-cart">
+                                                <p >出库单上什么都没写</p>
                                             </li>
                                         </ul>
                                     </div>

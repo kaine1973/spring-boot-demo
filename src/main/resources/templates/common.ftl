@@ -34,4 +34,5 @@
 
 <#--ztree-->
 <link rel="stylesheet" href="/css/zTreeStyle/zTreeStyle.css">
+<link rel="stylesheet" href="/css/jqpagination.css">
 <link rel="stylesheet" href="/css/bootstrapStyle/bootstrapStyle.css">
