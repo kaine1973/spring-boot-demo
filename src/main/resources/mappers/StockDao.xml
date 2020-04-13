@@ -19,7 +19,6 @@
     <insert id="saveBatch" parameterType="java.util.List">
         insert into stock_operation (user_id, operation,product_id,specification_id,amount)
         VALUES <foreach collection="list" item="operation" separator=",">
-
             (#{operation.userId},
                     #{operation.operation},
                     #{operation.productId},

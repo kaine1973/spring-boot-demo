@@ -279,6 +279,27 @@ function addToStockOutList(productId,productName) {
         }
     })
 }
+
+function getCartStuffs() {
+    $.ajax({
+        url:"/stock/queryUnconfirmedStockOperationOfSTOCK_OUT",
+        success:function(data){
+            if(data.code === 200){
+                var cartContent = "";
+                $.each(data.result,function (index,item) {
+                    cartContent += "<li><h6 style='display: inline'>"+item.productName+"</h6><span >"+item.specificationName+"<br>"+item.amount+"</span></li>"
+                })
+                $('#stockOutList').html(cartContent)
+            }else{
+                alertWarning(data.msg)
+            }
+        },
+        error:function () {
+            alertWarning("server error")
+        }
+    })
+}
+
 function queryByParams(current_page) {
     var productName = $('#queryName').val()
     var productSerial = $('#querySerial').val()

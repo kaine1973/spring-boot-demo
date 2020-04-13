@@ -163,7 +163,7 @@
                             </li>
 
                             <!--Notification-->
-                            <li class="adomx-dropdown col-auto" data-toggle="tooltip" data-placement="top" title="出库单">
+                            <li class="adomx-dropdown col-auto" data-toggle="tooltip" onclick="getCartStuffs()" data-placement="top" title="出库单">
                                 <a class="toggle" href="#"><i class="zmdi zmdi-calendar-note"></i><span
                                             class="badge"></span></a>
 

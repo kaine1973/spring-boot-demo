@@ -5,6 +5,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttribute;
@@ -14,14 +15,13 @@ import rk.configuration.enuma.OperationStatus;
 import rk.configuration.enuma.StockOperationType;
 import rk.exceptions.ParamRequestException;
 import rk.model.ResultInfo;
+import rk.po.Product;
+import rk.po.ProductSpecification;
 import rk.po.StockOperation;
 import rk.po.User;
 import rk.service.ProductService;
 import rk.service.StockService;
 import rk.util.AssertUtil;
-import rk.util.TemplateParser;
-
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -33,6 +33,9 @@ public class StockController {
     private ObjectMapper objectMapper;
 
     @Autowired
+    private ProductService productService;
+
+    @Autowired
     private StockService stockService;
 
     @Autowired
@@ -41,10 +44,18 @@ public class StockController {
     @RequestPermission(aclValue = "0")
     @RequestMapping("insertStockOperation")
     @ResponseBody
-    public ResultInfo insertStockOperation(String stockOeprations, @SessionAttribute User user) {
-        List<StockOperation> operations = stockOperationParser(stockOeprations, user.getId());
+    public ResultInfo insertStockOperation(String stockOperations, @SessionAttribute User user) {
+        List<StockOperation> operations = stockOperationParser(stockOperations, user.getId());
         AssertUtil.isTrue(stockService.saveBatch(operations) != operations.size(),OperationStatus.processFailed);
         return new ResultInfo( 200,"操作成功" );
+    }
+
+    @RequestPermission(aclValue = "0")
+    @RequestMapping("queryUnconfirmedStockOperationOf{type}")
+    @ResponseBody
+    public ResultInfo queryAllStockOutUnconfirmed(@PathVariable("type")String type,@SessionAttribute User user){
+        List<StockOperation> stockOperations = stockService.queryUnconfirmedStockOperation( user.getId(), StockOperationType.valueOf( type ) );
+        return new ResultInfo( 200,"success",stockOperations );
     }
 
     @RequestPermission(aclValue = "0")
@@ -53,7 +64,7 @@ public class StockController {
     public ResultInfo showOrderPage(String stockOperations, @SessionAttribute User user) {
         List<StockOperation> operations = null;
         if(null == stockOperations){
-            operations = stockService.queryUnconfirmedOutStock(user.getId(), StockOperationType.STOCK_OUT);
+            operations = stockService.queryUnconfirmedStockOperation(user.getId(), StockOperationType.STOCK_OUT);
         }else{
             operations = stockOperationParser(stockOperations, user.getId());
             AssertUtil.isTrue(stockService.saveBatch(operations) != operations.size(),OperationStatus.processFailed);
@@ -75,10 +86,19 @@ public class StockController {
         }catch (JsonProcessingException e){
             throw new ParamRequestException( OperationStatus.paramNotAvailable );
         }
-
         AssertUtil.isTrue(oprations.size()<1,"没有选择规格");
         for(StockOperation stockOperation:oprations){
             AssertUtil.isTrue(stockOperation.checkProperties(),OperationStatus.paramNotAvailable);
+
+            Product product = productService.queryProductById( stockOperation.getProductId(), userId );
+            AssertUtil.isTrue( product==null,String.format( "产品%s不存在",stockOperation.getProductName() ));
+            boolean specificationDoesntExists = true;
+            for(ProductSpecification specification:product.getProductSpecifications()){
+                if(specification.getId() == stockOperation.getSpecificationId()){
+                    specificationDoesntExists = false;
+                }
+            }
+            AssertUtil.isTrue( specificationDoesntExists,String.format( "产品%s不存在对应的规格:%s",product.getProductName(),stockOperation.getSpecificationName() ) );
             stockOperation.setUserId(userId);
             stockOperation.setOperation(StockOperationType.STOCK_OUT);
         }

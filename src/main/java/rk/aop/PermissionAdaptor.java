@@ -12,17 +12,10 @@ import rk.service.UserService;
 import rk.util.AssertUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import rk.util.StringUtil;
-import rk.util.UserIDBase64;
-
-import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.lang.reflect.Method;
 import java.lang.reflect.Parameter;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
 /**
  * Created by xlf on 2019/2/21.
@@ -34,7 +27,7 @@ public class PermissionAdaptor {
     @Autowired
     private HttpSession session;
 
-    @Pointcut("@annotation(rk.annotations.RequestPermission),@annotation(SessionAttribute.class)")
+    @Pointcut("@annotation(rk.annotations.RequestPermission)")
     public void cut(){}
 
     @Around("cut()")

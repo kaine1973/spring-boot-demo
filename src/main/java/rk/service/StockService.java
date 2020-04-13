@@ -16,9 +16,10 @@ public class StockService extends BaseService<StockOperation> {
     @Autowired
     StockDao stockDao;
 
-    public List<StockOperation> queryUnconfirmedOutStock(Integer userId, StockOperationType operationType) {
+    public List<StockOperation> queryUnconfirmedStockOperation(Integer userId, StockOperationType operationType) {
         List<StockOperation> operations = stockDao.queryUnconfirmed(userId,operationType);
         AssertUtil.isTrue(operations.size()<1,"出库单上什么都没有");
         return operations;
     }
+
 }
