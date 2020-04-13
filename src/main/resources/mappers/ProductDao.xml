@@ -52,7 +52,8 @@
         create_date
         from crm.product
         <where>
-            user_id = #{userId,jdbcType=INTEGER,javaType=Integer}
+            user_id = #{userId,jdbcType=INTEGER,javaType=Integer} and
+            is_aviliable = 1
             <if test="null != productName and '' != productName">
              and product_name like concat('%',#{productName,jdbcType=VARCHAR,javaType=String},'%')
             </if>
@@ -80,7 +81,7 @@
             category_id,
             create_date
         from crm.product
-        where id = #{id}
+        where id = #{id} and is_aviliable = 1
     </select>
     <select id="queryByIdAndUserId" resultMap="productInformation" resultType="rk.po.Product" >
         select
@@ -93,7 +94,7 @@
             category_id,
             create_date
         from crm.product
-        where id = #{id} and user_id = #{userId}
+        where id = #{id} and user_id = #{userId} and is_aviliable = 1
     </select>
 
     <insert id="save"
@@ -211,7 +212,7 @@
     </select>
 
     <delete id="delete" parameterType="java.lang.Integer">
-        delete from product where id = #{productId}
+        update product set is_aviliable = 0 where id = #{productId}
     </delete>
 
     <delete id="deleteProductSpecifications" parameterType="java.lang.Integer">

@@ -4,7 +4,7 @@ import org.springframework.stereotype.Component;
 import rk.po.User;
 
 @Component
-public interface UserDao{
+public interface UserDao {
 
 
     User queryUser(String userName);

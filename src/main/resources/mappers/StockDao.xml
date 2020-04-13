@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="rk.dao.StockDao">
+
+    <resultMap id="stockOperationMap" type="rk.po.StockOperation">
+        <id column="id" property="id"/>
+        <result column="product_id" property="productId"/>
+        <result column="product_name" property="productName"/>
+        <result column="operation" property="operation"/>
+        <result column="specification_id" property="specificationId"/>
+        <result column="specification_name" property="specificationName"/>
+        <result column="amount" property="amount"/>
+        <result column="confirm_date" property="confirmDate"/>
+        <result column="add_date" property="addDate"/>
+        <result column="confirmed" property="confirmed"/>
+    </resultMap>
+
+    <insert id="saveBatch" parameterType="java.util.List">
+        insert into stock_operation (user_id, operation,product_id,specification_id,amount)
+        VALUES <foreach collection="list" item="operation" separator=",">
+
+            (#{operation.userId},
+                    #{operation.operation},
+                    #{operation.productId},
+                    #{operation.specificationId},
+                    #{operation.amount})
+        </foreach>
+    </insert>
+
+    <select id="queryUnconfirmed" resultMap="stockOperationMap">
+        select
+               st.id as id,
+               st.product_id as product_id,
+               p.product_name as product_name,
+               UPPER(st.operation) as operation,
+               sp.specification_name as specification_name,
+               st.amount as amount,
+               st.confirm_date as confirm_date,
+               st.add_date as add_date,
+               st.confirmed as confirmed
+        from stock_operation st join product p on st.product_id = p.id
+        join product_specification sp on st.specification_id = sp.id
+        where st.confirmed = 0 and st.user_id = #{userId} and st.operation = #{operationType}
+    </select>
+
+</mapper>

@@ -140,17 +140,4 @@ public class ProductController {
         return new ResultInfo( 200,"删除成功",specifications );
     }
 
-    @RequestPermission(aclValue = "0")
-    @RequestMapping("stockOut")
-    @ResponseBody
-    public ResultInfo stockOut(String stockOprations) {
-        try {
-            ArrayList<StockOpration> oprations = objectMapper.readValue( stockOprations, new TypeReference<ArrayList<StockOpration>>() {
-            } );
-            System.out.println(oprations);
-        }catch (JsonProcessingException e){
-            throw new ParamRequestException( OperationStatus.paramNotAvailable );
-        }
-        return new ResultInfo( 200,"操作成功" );
-    }
 }

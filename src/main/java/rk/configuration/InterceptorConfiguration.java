@@ -32,6 +32,7 @@ public class InterceptorConfiguration implements WebMvcConfigurer {
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor( apiInterceptor )
                 .addPathPatterns( "/product/**" )
+                .addPathPatterns( "/stock/**" )
                 .addPathPatterns( "/staticWeb/**" )
                 .addPathPatterns( "/user/**" )
                 .excludePathPatterns("/user/login").order( 0 );
@@ -103,8 +104,8 @@ class UserCheck{
                 String encypt = StringUtil.encypt( ui + user.getSalt() );
                 if (ut.equals( encypt )) {
                     request.getSession().setAttribute( "user", user );
+                    return true;
                 }
-                return true;
             }
             return false;
         }

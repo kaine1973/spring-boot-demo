@@ -35,12 +35,12 @@ public class GlobalExceptionHandler {
         return new ModelAndView( "/login" ).addAllObjects( params );
     }
 
-    @ResponseBody
-    @ExceptionHandler(Exception.class)
-    public ResultInfo ExceptionHandler(HttpServletRequest request, Exception e ){
-        System.out.println(request.getRequestURI());
-        System.out.println(e.getMessage());
-        return new ResultInfo(500,"操作失败");
-    }
+//    @ResponseBody
+//    @ExceptionHandler(Exception.class)
+//    public ResultInfo ExceptionHandler(HttpServletRequest request, Exception e ){
+//        System.out.println(request.getRequestURI());
+//        System.out.println(e.getMessage());
+//        return new ResultInfo(500,"操作失败");
+//    }
 
 }

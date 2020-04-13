@@ -427,21 +427,18 @@
         </div>
     </div>
 
-    <button type="button" id="showModalButton" class="btn btn-primary" data-toggle="modal" hidden data-target="#exampleModalLong">
-        Launch demo modal
-    </button>
 <!-- Content Body End -->
 
 <!-- Footer Section Start -->
-<div class="footer-section">
-    <div class="container-fluid">
+<#--<div class="footer-section">-->
+<#--    <div class="container-fluid">-->
 
-        <div class="footer-copyright text-center">
-            <p class="text-body-light">2020 &copy; <a href="http://www.eltbio.com">Enlighten</a></p>
-        </div>
+<#--        <div class="footer-copyright text-center">-->
+<#--            <p class="text-body-light">2020 &copy; <a href="http://www.eltbio.com">Enlighten</a></p>-->
+<#--        </div>-->
 
-    </div>
-</div><!-- Footer Section End -->
+<#--    </div>-->
+<#--</div><!-- Footer Section End &ndash;&gt;-->
 
 </div>
 </body>

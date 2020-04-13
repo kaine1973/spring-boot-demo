@@ -180,8 +180,7 @@ function generateRow(product) {
         // "                            <td class=\"hide-responsive\">"+createDate+"</td>\n" +
         "                            <td class=\"hide-responsive\" style=\"padding-bottom: 3px;padding-top:8px\">\n" +
         "                                    <button class=\"button button-box button-xs button-primary\" data-toggle=\"tooltip\" data-placement=\"top\" title=\"入库\"><i class=\"zmdi zmdi-download\"></i></button>\n" +
-        "                                    <button class=\"button button-box button-xs button-primary\" data-toggle=\"tooltip\" data-placement=\"top\" title=\"出库\" onclick=\"showPurposeModal()\" ><i class=\"zmdi zmdi-upload\"></i></button>\n" +
-        "                                    <button class=\"button button-box button-xs button-primary\" data-toggle=\"tooltip\" data-placement=\"top\" title=\"添加到出库单\" onclick=\"showSpecificationModal('出库',"+product.productId+",'"+product.productName+"')\" ><i class=\"zmdi zmdi-plus\"></i></button>\n" +
+        "                                    <button class=\"button button-box button-xs button-primary\" data-toggle=\"tooltip\" data-placement=\"top\" title=\"出库\" onclick=\"showSpecificationModal('出库','"+product.productId+"','"+product.productName+"')\" ><i class=\"zmdi zmdi-upload\"></i></button>\n" +
         "                            </td>" +
         "                            <td hidden id='specification-"+product.productId+"'>" +
         "                                   <li>" +
@@ -205,8 +204,9 @@ function showSpecificationModal(title,productId,productName){
         },
         success:function (data) {
             if(data.code === 200){
+
                 var table = "<h5>"+productName+"</h5><div class='row'><div class='col-lg-12 col-12'><table class='table table-bordered' id='stockTable'>"
-                    table += "<thead><tr><th>选择</th><th>规格</th><th>单价</th><th>库存</th><th>出货量</th></tr></thead><tbody>"
+                    table += "<thead><tr><th>选择</th><th>规格</th><th>单价</th><th>库存</th><th>数量</th></tr></thead><tbody>"
                 $.each(data.result,function (i,item) {
                     table += "<tr>"
                     table += "<td><input class='form-control' data-id='"+item.id+"' data-name='"+item.specificationName+"' type='checkbox'></td>"
@@ -217,10 +217,38 @@ function showSpecificationModal(title,productId,productName){
                     table += "</tr>"
                 })
                 table += "</tbody></table></div></div>" +
-                    "<div class='row'><div class='col-lg-12 col-12'><div class='button-group'><button class='button button-primary' onclick=\"addToStockOutList("+productId+",'"+productName+"')\"><span><i class='zmdi zmdi-check'></i>确认</span></button></div></div></div>"
+                    "<div class='row'><div class='col-lg-12 col-12'><div class='button-group'>" +
+                    "<button class='button button-primary' onclick=\"addToStockOutList("+productId+",'"+productName+"')\"><span><i class='zmdi zmdi-shopping-cart-add'></i>添加到购物车</span></button>" +
+                    "<button class='button button-success' onclick=\"showOrderPage("+productId+",'"+productName+"')\"><span><i class='zmdi zmdi-check'></i>立即购买</span></button>" +
+                    "</div></div></div>"
                 $('#exampleModalLongTitle').html(title)
                 $('#modalBody').html(table)
+                $('#exampleModalLong').modal('show')
+            }
+        }
+    })
+}
 
+function showOrderPage(productId,productName) {
+
+    let inputs = $('#stockTable').find('input');
+    var selectedItem = []
+    $.each(inputs,function (index,item) {
+        if(index % 2 + 1 === 1){
+            if($(item).is(":checked")){
+                selectedItem.push({productId:productId,productName:productName,specificationId:$(item).data('id'),specificationName:$(item).data('name'),amount:$(inputs[index+1]).val()})
+            }
+        }
+    })
+    $.ajax({
+        url:"/stock/showOrderPage",
+        data:{
+            "stockOperations":JSON.stringify(selectedItem)
+        },
+        success:function(data){
+            if(data.code === 200){
+                $('#exampleModalLongTitle').html("订单")
+                $('#modalBody').html(data.result)
                 $('#exampleModalLong').modal('show')
             }
         }
@@ -233,22 +261,23 @@ function addToStockOutList(productId,productName) {
     var selectedItem = []
     $.each(inputs,function (index,item) {
         if(index % 2 + 1 === 1){
-            console.log($(item).is(":checked"))
             if($(item).is(":checked")){
                 selectedItem.push({productId:productId,productName:productName,specificationId:$(item).data('id'),specificationName:$(item).data('name'),amount:$(inputs[index+1]).val()})
             }
         }
     })
     $.ajax({
-        url:"/product/stockOut",
-        data:{"stockOprations":JSON.stringify(selectedItem)},
+        url:"/stock/insertStockOperation",
+        data:{"stockOperations":JSON.stringify(selectedItem)},
         success:function (data) {
             if(data.code === 200){
-                alert(data.msg)
+                alertSuccess(data.msg)
+                $('#exampleModalLong').modal('hide')
+            }else{
+                alertWarning(data.msg)
             }
         }
     })
-    console.log(selectedItem)
 }
 function queryByParams(current_page) {
     var productName = $('#queryName').val()

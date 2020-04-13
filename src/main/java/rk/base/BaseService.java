@@ -3,6 +3,7 @@ package rk.base;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.springframework.transaction.annotation.Transactional;
+import rk.po.StockOperation;
 import rk.util.AssertUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
@@ -113,7 +114,6 @@ public abstract class BaseService<T> {
         AssertUtil.isTrue(null==ids||ids.length==0,"请选择待删除记录!");
         return baseDao.deleteBatch(ids);
     }
-
 
 
 }

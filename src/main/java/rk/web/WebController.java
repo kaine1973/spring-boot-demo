@@ -12,9 +12,11 @@ import org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer;
 import rk.annotations.RequestPermission;
 import rk.exceptions.ParamRequestException;
 import rk.model.ResultInfo;
+import rk.util.TemplateParser;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
+import java.util.HashMap;
 
 @Controller
 public class WebController {
@@ -25,17 +27,8 @@ public class WebController {
     @RequestPermission(aclValue = "0")
     @RequestMapping("/staticWeb")
     @ResponseBody
-    public ResultInfo staticWebController(HttpServletRequest request, String requestPage) {
-        String s = null;
-        try {
-            Template template = configurer.getConfiguration().getTemplate( requestPage+".ftl" );
-            s = FreeMarkerTemplateUtils.processTemplateIntoString(template, request);
-        } catch (TemplateNotFoundException e) {
-            throw new ParamRequestException(404,"页面未找到");
-        } catch (TemplateException | IOException e) {
-            e.printStackTrace();
-        }
-        return new ResultInfo(200,"页面请求成功",s);
+    public ResultInfo staticWebController(String requestPage) {
+        return new ResultInfo(200,"页面请求成功", TemplateParser.parseTemplate(requestPage,null,configurer));
     }
 
 }
