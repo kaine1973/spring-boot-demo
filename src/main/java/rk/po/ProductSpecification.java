@@ -22,9 +22,4 @@ public class ProductSpecification {
     //数量
     private Integer amount;
 
-    public ProductSpecification(String specificationName, BigDecimal price, Integer amount) {
-        this.specificationName = specificationName;
-        this.price = price;
-        this.amount = amount;
-    }
 }

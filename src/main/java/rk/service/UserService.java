@@ -6,10 +6,13 @@ import rk.model.ResultInfo;
 import rk.dao.UserDao;
 import rk.po.User;
 import org.springframework.stereotype.Service;
+import rk.po.common.Address;
 import rk.util.AssertUtil;
+import rk.util.RedisUtil;
 import rk.util.StringUtil;
 
 import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class UserService{
@@ -20,8 +23,16 @@ public class UserService{
     @Autowired
     private CommonDao commonDao;
 
+    @Autowired
+    private RedisUtil redisUtil;
+
     public ArrayList<String> getUserPermission(User user) {
-        return commonDao.queryPermissionByRoleId(user.getRoleId());
+//        ArrayList<String> permissions = (ArrayList<String>)redisUtil.get( "permission_" + user.getId() );
+//        if(null == permissions){
+        ArrayList<String> permissions = commonDao.queryPermissionByRoleId(user.getRoleId());
+//            redisUtil.set( "permission_" + user.getId(),permissions );
+//        }
+        return permissions;
     }
 
     public User queryUserByName(User user){
@@ -29,15 +40,9 @@ public class UserService{
         User has_user = userDao.queryUser(user.getUserName());
         AssertUtil.isTrue(null == has_user,"用户名或密码错误");
         AssertUtil.isTrue(!has_user.getUserPwd().equals(StringUtil.encypt(user.getUserPwd())),"用户名密码错误");
+//        redisUtil.set( "pass_"+user.getId(),has_user.getUserPwd() );
         return has_user;
     }
-
-//    public void insertUser(User user){
-//        AssertUtil.isTrue(StringUtil.isNullorEmpty(user.getUserName(),user.getUserPwd()),"缺少必填项");
-//        AssertUtil.isTrue(userDao.queryUser(user.getUserName())!=null,"用户名已存在");
-//        user.setUserPwd(StringUtil.encypt(user.getUserPwd()));
-//        AssertUtil.isTrue(userDao.insert(user)!=1,"注册失败");
-//    }
 
     public ResultInfo updateUserPwd(String pwd, String newPwd, String newPwdRepeat, String id) {
         AssertUtil.isTrue(StringUtil.isNullorEmpty(pwd,newPwd,newPwdRepeat),"缺少必填项");
@@ -48,4 +53,5 @@ public class UserService{
     public User queryUserById(Integer id) {
         return userDao.queryUserById(id);
     }
+
 }

@@ -5,7 +5,7 @@
                 <!-- Page Heading Start -->
                 <div class="col-12 col-lg-auto mb-20">
                     <div class="page-heading">
-                        <h3>客户 <span>/ <#if product??>修改信息<#else>新增</#if></span></h3>
+                        <h3>客户 <span>/ <#if customer??>修改信息<#else>新增</#if></span></h3>
                     </div>
                 </div><!-- Page Heading End -->
 
@@ -15,7 +15,7 @@
             </div><!-- Page Headings End -->
 
             <!-- Add or Edit Product Start -->
-            <div >
+            <div>
 
                 <div class="add-edit-product-form">
                     <form onsubmit="return false">
@@ -40,6 +40,10 @@
                                         </#list>
                                     </#if>
                                 </select>
+                                <#if positions??>
+                                    <#else >
+                                    <style onload="loadCustomerPosition()"></style>
+                                </#if>
                             </div>
                         </div>
                         <div class="row">
@@ -77,17 +81,21 @@
                                 <div class="input-group-prepend" style="height:36px" >
                                     <span class="input-group-text" style="font-size: 13px">地址</span>
                                 </div>
-                                <select class="form-control form-control-sm nice-select" data-live-search="true" id="province" onchange="getChildArea(this,'#city')"  style="height:36px">
-                                    <option data-display="省/市/自治区" style="min-width: 113px">省/市/自治区</option>
+                                <select class="form-control form-control-sm nice-select" id="province" onchange="getChildArea(this)"  style="height:36px">
+                                    <option data-display="省/市/自治区" style="min-width: 113px" selected value="0">省/市/自治区</option>
                                     <#if provinces??>
                                         <#list provinces as province>
                                             <option class="marker" value="${province.id}">${province.areaName}</option>
                                         </#list>
                                     </#if>
                                 </select>
+                                <#if provinces??>
+                                    <#else>
+                                        <style onload="getChildArea('#province','#province')"></style>
+                                </#if>
                             </div>
                             <div class="col-lg-2 col-12 mb-25">
-                                <select class="form-control form-control-sm nice-select" data-live-search="true" id="city" onchange="getChildArea(this,'#district')" style="height:36px">
+                                <select class="form-control form-control-sm nice-select" id="city" onchange="getChildArea(this,'#district')" style="height:36px">
                                     <option data-display="城市" >城市</option>
                                     <#if cities??>
                                         <#list cities as city>
@@ -110,9 +118,25 @@
                                 <input class="form-control form-control-sm" type="text" placeholder="详细地址" id="addressDetail">
                             </div>
                         </div>
+                        <div class="mt-10">
+                            <h4 style="display: inline" class="title">收货地址</h4>
+                            <span data-toggle="tooltip" data-placement="top" title="多个地址请点击添加，默认使用上面“基本信息”中的地址"><i class="zmdi zmdi-help-outline"></i></span>
+
+                            <div class="table-responsive">
+                                <table class="table">
+                                    <tbody id="addressTableBody">
+
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="row mt-10">
+                                <div class="col-sm-3 mb-5">
+                                    <button class="button button-primary button-xs" style="height: 36px" type="button" onclick="showReceiverInfo()"><i class="zmdi zmdi-plus"></i><span>添加</span></button>
+                                </div>
+                            </div>
+                        </div>
 
                         <h4 class="title" style="margin-top: 23px">其他信息</h4>
-
                         <div class="row">
                             <div class="col-lg-4 col-12 mb-25 input-group">
                                 <div class="input-group-prepend">

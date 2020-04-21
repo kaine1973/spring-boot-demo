@@ -32,7 +32,31 @@ function getCurrentDateTime(){
 	var seconds=date.getSeconds();
 	return year+"-"+formatZero(month)+"-"+formatZero(day)+" "+formatZero(hours)+":"+formatZero(minutes)+":"+formatZero(seconds);
 }
+var loading;
 
+function showLoadingDiv(){
+	var loadingDiv = $('.loading');
+	loadingDiv.css('width','0%');
+	loadingDiv.fadeIn();
+	loadingDiv.animate ({"width": "10%"}, 100);
+	loadingDiv.animate ({"width": "40%"}, 100);
+	loadingDiv.animate ({"width": "70%"}, 100);
+	loadingDiv.animate ({"width": "100%"}, 100);
+	loadingDiv.fadeOut();
+	loading = setInterval(function(){
+		loadingDiv.css('width','0%');
+		loadingDiv.fadeIn();
+		loadingDiv.animate ({"width": "10%"}, 100);
+		loadingDiv.animate ({"width": "40%"}, 100);
+		loadingDiv.animate ({"width": "70%"}, 100);
+		loadingDiv.animate ({"width": "100%"}, 100);
+		loadingDiv.fadeOut()
+	},2000)
+}
+
+function stopLoadingDiv(){
+	clearInterval(loading)
+}
 function getCurrentDate(){
 	var date = new Date();
 	var year = date.getFullYear();

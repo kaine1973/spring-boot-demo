@@ -13,14 +13,27 @@
         <result column="address_id" jdbcType="INTEGER" property="addressId" javaType="java.lang.Integer"/>
         <result column="address_detail" jdbcType="VARCHAR" property="addressDetail" javaType="java.lang.String"/>
         <result column="level_id" jdbcType="INTEGER" property="levelId" javaType="java.lang.Integer"/>
+        <result column="level_sign" jdbcType="VARCHAR" property="levelSign" javaType="java.lang.String"/>
         <result column="position_id" jdbcType="INTEGER" property="positionId" javaType="java.lang.Integer"/>
         <result column="customer_id" jdbcType="VARCHAR" property="customerId" javaType="java.lang.String"/>
         <result column="company" jdbcType="VARCHAR" property="company" javaType="java.lang.String"/>
         <result column="note" jdbcType="VARCHAR" property="note" javaType="java.lang.String"/>
     </resultMap>
 
-    <select id="queryCustomerByParams" parameterType="rk.query.CustomerQuery">
-
+    <select id="queryByParams" parameterType="rk.query.CustomerQuery" resultMap="customerDetail">
+        SELECT c.*,cl.level_sign from crm.customer as c join crm.customer_level as cl on cl.id = c.level_id
+        where user_id = #{userId}
+        <trim>
+            <if test="queryName != '' and queryName != null">
+                and customer_name = #{queryName}
+            </if>
+            <if test="queryCompany != '' and queryCompany != null">
+                and company = #{queryCompany}
+            </if>
+            <if test="queryLevel != '' and queryLevel != null">
+                and level_id = #{queryLevel}
+            </if>
+        </trim>
     </select>
 
     <insert id="save" parameterType="rk.po.Customer" >
@@ -35,12 +48,6 @@
             </if>
             <if test="null != gender">
                 gender,
-            </if>
-            <if test="null != addressId">
-                address_id,
-            </if>
-            <if test="null != addressDetail">
-                address_detail,
             </if>
             <if test="null != levelId">
                 level_id,
@@ -69,12 +76,6 @@
             <if test="null != gender">
                 #{gender},
             </if>
-            <if test="null != addressId">
-                #{addressId},
-            </if>
-            <if test="null != addressDetail">
-                #{addressDetail},
-            </if>
             <if test="null != levelId">
                 #{levelId},
             </if>
@@ -92,7 +93,5 @@
             </if>
         </trim>
     </insert>
-
-
 
 </mapper>

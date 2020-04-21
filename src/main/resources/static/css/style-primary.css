@@ -466,11 +466,11 @@ input:-ms-input-placeholder, textarea:-ms-input-placeholder {
   transition: all 0.3s ease 0s;
 }
 
-@media only screen and (min-width: 1201px) {
-  .content-body {
-    margin-right: 10%;
-  }
-}
+/*@media only screen and (min-width: 1201px) {*/
+/*  .content-body {*/
+/*    margin-right: 10%;*/
+/*  }*/
+/*}*/
 
 @media only screen and (min-width: 768px) and (max-width: 1200px) {
   .content-body {
@@ -7708,7 +7708,7 @@ table.data-table.collapsed tbody tr.child td.child ul li .dtr-title {
 }
 
 .dropdown-menu-mail .body ul li a .image {
-  min-width: 50px;
+  max-width: 50px;
   -webkit-box-flex: 1;
   -webkit-flex: 1 0 50px;
       -ms-flex: 1 0 50px;
@@ -7721,7 +7721,7 @@ table.data-table.collapsed tbody tr.child td.child ul li .dtr-title {
 }
 
 .dropdown-menu-mail .body ul li a .image img {
-  border-radius: 50px;
+  border-radius: 3px;
 }
 
 .dropdown-menu-mail .body ul li a .content {
@@ -13453,6 +13453,15 @@ body.skin-dark .daterangepicker .ranges ul li.active:hover {
 
 body.skin-dark .daterangepicker .drp-calendar {
   background-color: transparent;
+}
+
+.loading {
+  background: #11b4e1;
+  height: 5px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 99999;
 }
 
 body.skin-dark .daterangepicker .drp-calendar .calendar-table {

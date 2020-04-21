@@ -1,8 +1,8 @@
 spring:
   redis:
     database: 5
-    host: 127.0.0.1
-    password: Perhaps0..
+    host: 23.83.241.130
+    password: crmTest
     port: 6379
     timeout: 3s
     jedis:
@@ -16,7 +16,12 @@ spring:
     driver-class-name: com.mysql.cj.jdbc.Driver
     username: root
     password: Perhaps0..
-    url: "jdbc:mysql://127.0.0.1:3306/crm?useUnicode=true&allowPublicKeyRetrieval=true&characterEncoding=utf8&useSSL=false"
+    url: "jdbc:mysql://127.0.0.1:3306/crm?useUnicode=true
+          &allowPublicKeyRetrieval=true
+          &characterEncoding=utf8
+          &useSSL=false
+          &useTimezone=true
+          &serverTimezone=GMT%2B8"
   freemarker:
     charset: UTF-8
     cache: false #缓存配置

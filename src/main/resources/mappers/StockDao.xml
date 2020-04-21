@@ -7,10 +7,13 @@
         <id column="id" property="id"/>
         <result column="product_id" property="productId"/>
         <result column="product_name" property="productName"/>
+        <result column="product_brand" property="productBrand"/>
+        <result column="product_unit" property="productUnit"/>
         <result column="operation" property="operation"/>
         <result column="specification_id" property="specificationId"/>
         <result column="specification_name" property="specificationName"/>
         <result column="amount" property="amount"/>
+        <result column="price" property="price"/>
         <result column="confirm_date" property="confirmDate"/>
         <result column="add_date" property="addDate"/>
         <result column="confirmed" property="confirmed"/>
@@ -32,9 +35,12 @@
                st.id as id,
                st.product_id as product_id,
                p.product_name as product_name,
+               p.product_unit as product_unit,
+               p.brand as product_brand,
                UPPER(st.operation) as operation,
                sp.specification_name as specification_name,
                st.amount as amount,
+               sp.price as price,
                st.confirm_date as confirm_date,
                st.add_date as add_date,
                st.confirmed as confirmed
@@ -42,5 +48,26 @@
         join product_specification sp on st.specification_id = sp.id
         where st.confirmed = 0 and st.user_id = #{userId} and st.operation = #{operationType}
     </select>
+
+    <select id="queryById" resultMap="stockOperationMap">
+        select
+            st.id as id,
+            st.product_id as product_id,
+            p.product_name as product_name,
+            UPPER(st.operation) as operation,
+            sp.specification_name as specification_name,
+            st.amount as amount,
+            sp.price as price,
+            st.confirm_date as confirm_date,
+            st.add_date as add_date,
+            st.confirmed as confirmed
+        from stock_operation st join product p on st.product_id = p.id
+                                join product_specification sp on st.specification_id = sp.id
+        where st.id = #{id}
+    </select>
+
+    <delete id="delete" parameterType="java.lang.Integer">
+        delete from stock_operation where id = ${id}
+    </delete>
 
 </mapper>

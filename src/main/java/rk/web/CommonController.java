@@ -14,7 +14,6 @@ import java.util.List;
 @Controller
 @RequestMapping("common")
 public class CommonController {
-
     @Autowired
     CommonService commonService;
 
@@ -25,5 +24,4 @@ public class CommonController {
         List<Area> areas = commonService.queryAreaByParentId( parentId );
         return new ResultInfo( 200,"请求成功",areas );
     }
-
 }

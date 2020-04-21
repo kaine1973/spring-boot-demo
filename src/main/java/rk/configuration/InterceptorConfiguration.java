@@ -7,8 +7,6 @@ import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 import rk.configuration.enuma.OperationStatus;
-import rk.exceptions.PageAccessException;
-import rk.exceptions.ParamRequestException;
 import rk.po.User;
 import rk.service.UserService;
 import rk.util.AssertUtil;
@@ -18,7 +16,6 @@ import rk.util.UserIDBase64;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 @Configuration
 public class InterceptorConfiguration implements WebMvcConfigurer {
@@ -32,6 +29,8 @@ public class InterceptorConfiguration implements WebMvcConfigurer {
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor( apiInterceptor )
                 .addPathPatterns( "/product/**" )
+                .addPathPatterns( "/customer/**" )
+                .addPathPatterns( "/address/**" )
                 .addPathPatterns( "/stock/**" )
                 .addPathPatterns( "/staticWeb/**" )
                 .addPathPatterns( "/user/**" )

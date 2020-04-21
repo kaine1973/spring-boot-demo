@@ -12,7 +12,7 @@ public class IndexController {
     @RequestMapping("/")
     @ResponseBody
     public ModelAndView index(){
-        return new ModelAndView( "/main" );
+        return new ModelAndView( "main" );
     }
 
     @RequestMapping("/login")
@@ -23,8 +23,9 @@ public class IndexController {
     @RequestPermission(aclValue = "0")
     @RequestMapping("/main")
     @ResponseBody
-    public ModelAndView main(){
-        return new ModelAndView( "main" );
+    public ModelAndView main(String page){
+
+        return new ModelAndView( "main" ).addObject( "content",page );
     }
 
 }

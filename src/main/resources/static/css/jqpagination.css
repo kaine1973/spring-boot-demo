@@ -6,12 +6,12 @@
 .pagination a {
   display: block;
   float: left;
-  width: 30px;
-  height: 30px;
+  width: 35px;
+  height: 35px;
   outline: none;
   border-right: 1px solid #CDCDCD;
   border-left: 1px solid #CDCDCD;
-  color: #555555;
+  color: papayawhip;
   vertical-align: middle;
   text-align: center;
   text-decoration: none;

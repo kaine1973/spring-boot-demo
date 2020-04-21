@@ -39,12 +39,6 @@ public class PermissionAdaptor {
          * */
         MethodSignature signature = (MethodSignature) pjp.getSignature();
         Method method = signature.getMethod();
-        System.out.println(method.getDeclaringClass());
-        System.out.println(method.getName());
-        for(Parameter param:method.getParameters()){
-            System.out.println(param.getName());
-            System.out.println(param.toString());
-        }
         RequestPermission permission = method.getAnnotation(RequestPermission.class);
         String aclValue = permission.aclValue();
         User user = (User)session.getAttribute("user");

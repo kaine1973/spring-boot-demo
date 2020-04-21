@@ -27,6 +27,8 @@
 <script src="/js/common.js"></script>
 <script src="/js/product.js"></script>
 <script src="/js/customer.js"></script>
+<script src="/js/address.js"></script>
+<script src="/js/order.js"></script>
 <script src="/js/jquery.jqpagination.min.js"></script>
 
 <script src="/js/js.cookie-2.2.1.min.js"></script>

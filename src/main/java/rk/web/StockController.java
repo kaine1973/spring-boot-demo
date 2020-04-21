@@ -19,9 +19,12 @@ import rk.po.Product;
 import rk.po.ProductSpecification;
 import rk.po.StockOperation;
 import rk.po.User;
-import rk.service.ProductService;
-import rk.service.StockService;
+import rk.po.common.Address;
+import rk.po.common.Area;
+import rk.service.*;
 import rk.util.AssertUtil;
+import rk.util.TemplateParser;
+
 import java.util.HashMap;
 import java.util.List;
 
@@ -39,6 +42,12 @@ public class StockController {
     private StockService stockService;
 
     @Autowired
+    private AddressService addressService;
+
+    @Autowired
+    private CommonService commonService;
+
+    @Autowired
     private FreeMarkerConfigurer freeMarkerConfigurer;
 
     @RequestPermission(aclValue = "0")
@@ -49,6 +58,15 @@ public class StockController {
         AssertUtil.isTrue(stockService.saveBatch(operations) != operations.size(),OperationStatus.processFailed);
         return new ResultInfo( 200,"操作成功" );
     }
+
+    @RequestPermission(aclValue = "0")
+    @RequestMapping("deleteStockOperation")
+    @ResponseBody
+    public ResultInfo deleteStockOperation(Integer operationId){
+        AssertUtil.isTrue( stockService.delete( operationId )==0,OperationStatus.processFailed );
+        return new ResultInfo( 200,OperationStatus.success.OPS_MSG );
+    }
+
 
     @RequestPermission(aclValue = "0")
     @RequestMapping("queryUnconfirmedStockOperationOf{type}")
@@ -67,12 +85,16 @@ public class StockController {
             operations = stockService.queryUnconfirmedStockOperation(user.getId(), StockOperationType.STOCK_OUT);
         }else{
             operations = stockOperationParser(stockOperations, user.getId());
-            AssertUtil.isTrue(stockService.saveBatch(operations) != operations.size(),OperationStatus.processFailed);
+//            AssertUtil.isTrue(stockService.saveBatch(operations) != operations.size(),OperationStatus.processFailed);
         }
+        List<Area> province = commonService.queryAreaByParentId( 1 );
+        List<Address> senderAddresses = addressService.queryUserAddress(user.getId());
         HashMap<String, Object> params = new HashMap<>();
-        params.put("operations",operations);
-//        String orderPage = TemplateParser.parseTemplate("orderPage", params, freeMarkerConfigurer);
-        String orderPage = operations.toString();
+        params.put( "provinces",province );
+        params.put("stockOperations",operations);
+        params.put("senderAddresses",senderAddresses);
+        params.put( "user",user );
+        String orderPage = TemplateParser.parseTemplate("product/order", params, freeMarkerConfigurer);
         return new ResultInfo( 200,"操作成功",orderPage );
 
     }
@@ -92,10 +114,13 @@ public class StockController {
 
             Product product = productService.queryProductById( stockOperation.getProductId(), userId );
             AssertUtil.isTrue( product==null,String.format( "产品%s不存在",stockOperation.getProductName() ));
+            stockOperation.fillProductInfo(product);
+
             boolean specificationDoesntExists = true;
             for(ProductSpecification specification:product.getProductSpecifications()){
-                if(specification.getId() == stockOperation.getSpecificationId()){
+                if(specification.getId().equals( stockOperation.getSpecificationId() )){
                     specificationDoesntExists = false;
+                    stockOperation.fillSpecificationInfo(specification);
                 }
             }
             AssertUtil.isTrue( specificationDoesntExists,String.format( "产品%s不存在对应的规格:%s",product.getProductName(),stockOperation.getSpecificationName() ) );

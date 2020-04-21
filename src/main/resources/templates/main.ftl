@@ -16,12 +16,19 @@
     div .nice-select{
         height: 36px
     }
+    td div button {
+        height: 36px;
+    }
     @media only screen and (max-width: 767px){
         .hide-responsive{
             display: none;
         }
     }
-    td {
+    .input-group-text{
+        font-size: 13px;
+    }
+    tr td {
+        padding: 6px;
         overflow: hidden;
         text-overflow:ellipsis;
         white-space: nowrap;
@@ -33,6 +40,7 @@
     }
 </style>
 <body>
+<div class="loading" ></div>
 <div class="alert alert-danger hidden" id="warningDiv" style="position:fixed;
         z-index: 99999;left: 50%;top: 5px;-webkit-transform: translate(-50%, -50%);
 				-moz-transform: translate(-50%, 0%);
@@ -48,7 +56,6 @@
     <div class="header-section">
         <div class="container-fluid">
             <div class="row justify-content-between align-items-center">
-
                 <!-- Header Logo (Header Left) Start -->
 <#--                <div class="header-logo col-auto">-->
 <#--                    <a href="javascript:addStaticContent('sample/main')">-->
@@ -163,24 +170,22 @@
                             </li>
 
                             <!--Notification-->
-                            <li class="adomx-dropdown col-auto" data-toggle="tooltip" onclick="getCartStuffs()" data-placement="top" title="出库单">
+                            <li class="adomx-dropdown col-auto" data-toggle="tooltip" data-placement="top" title="出库单">
                                 <a class="toggle" href="#"><i class="zmdi zmdi-calendar-note"></i><span
                                             class="badge"></span></a>
-
-                                <!-- Dropdown -->
-                                <div class="adomx-dropdown-menu dropdown-menu-notifications">
+                                <div class="adomx-dropdown-menu dropdown-menu-mail">
                                     <div class="head">
-                                        <h5 class="title">You have 4 new notification.</h5>
+                                        <h5 class="title">购物车里有<span id="cart-count"></span>项<a style="float: right;display: inline" href="javascript:getCartStuffs();"><i class="zmdi zmdi-refresh"></i>刷新</a></h5>
                                     </div>
                                     <div class="body custom-scroll">
                                         <ul id="stockOutList">
                                             <li class="empty-cart">
-                                                <p >出库单上什么都没写</p>
+                                                <p>Nothing</p>
                                             </li>
                                         </ul>
                                     </div>
                                     <div class="footer">
-                                        <a href="#" class="view-all">view all</a>
+                                        <a href="javascript:showOrderPage()" class="view-all"><h6 style="color: #55a1fb">下单</h6></a>
                                     </div>
                                 </div>
 
@@ -245,7 +250,7 @@
                     <ul class="side-header-sub-menu">
                         <li><a href="javascript:addDynamicContent('/customer/detail')"> <span>新增客户</span></a>
                         </li>
-                        <li><a href="javascript:addDynamicContent('/customer/manage')"> <span>客户管理</span> </a>
+                        <li><a href="javascript:addDynamicContent('/customer/customerManager')"> <span>客户管理</span> </a>
                         </li>
                     </ul>
                 </li>
@@ -444,6 +449,11 @@
 </body>
 <#include "jsCommon.ftl">
 <script>
+
+//    function niceSelector(){
+//        $('select').niceSelect();
+//    }
+
     $('#main').click(function () {
         if($(document).width() < 1214){
             $('.side-header').removeClass('show');
@@ -459,6 +469,7 @@
     }
 
     function addStaticContent(page) {
+        showLoadingDiv()
         // $('.spinner-grow').removeClass('hidden')
         $.ajax({
             url: 'staticWeb',
@@ -487,6 +498,7 @@
             $('.side-header').removeClass('show');
             $('.side-header').addClass('hide');
         }
+        stopLoadingDiv()
 
     }
     function alertSuccess(msg) {
@@ -511,6 +523,7 @@
         },3000)
     }
     function signOut() {
+        showLoadingDiv()
         $.ajax({
             url:'/user/logout',
             type:'get',
@@ -523,8 +536,10 @@
                 }
             }
         })
+        stopLoadingDiv()
     }
     function addDynamicContent(url) {
+        showLoadingDiv()
         $.ajax({
             url: url,
             type: 'get',
@@ -534,7 +549,7 @@
                     $('#main').html(data.result);
                     window.scrollTo(0,0)
                     // $('select').selectpicker();
-                    $('.nice-select').niceSelect();
+                    // $('.nice-select').niceSelect();
                 }else{
                     alertWarning(data.msg)
                 }
@@ -548,6 +563,7 @@
             $('.side-header').removeClass('show');
             $('.side-header').addClass('hide');
         }
+        stopLoadingDiv()
     }
 
 

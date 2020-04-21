@@ -12,6 +12,7 @@
     <result column="role_id" property="roleId" jdbcType="INTEGER"/>
 </resultMap>
 
+
     <select id="queryUser" resultMap="user" parameterType="java.lang.String">
         SELECT id,uname,passwd,salt,header,preferColor,role_id
         FROM crm.user WHERE uname = #{userName}
@@ -20,6 +21,7 @@
         select id,uname,salt,header,preferColor,role_id
         from user where id = #{id}
     </select>
+
 
     <insert id="insert" parameterType="rk.po.User">
         insert into user(uname,passwd) values (#{userName},#{userPwd})

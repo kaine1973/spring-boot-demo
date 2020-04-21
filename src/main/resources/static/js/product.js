@@ -2,38 +2,40 @@ var detailTree, manageTree
 
 function appendSpecification(){
     var specificationHtml = "<div class=\"row notRequired mt-5\">\n" +
-        "                                <div class=\"col-12\">\n" +
-        "                                    <div class=\"input-group\" style=\"height: 36px\">\n" +
-        "                                        <input class=\"form-control form-control-sm\" type=\"text\" placeholder=\"规格*\" name=\"specificationName\"  style=\"height: 36px\">\n" +
-        "                                        <input class=\"form-control form-control-sm\" type=\"number\" step=\"any\" placeholder=\"价格*\" name=\"price\"  style=\"height: 36px\">\n" +
-        "                                        <input class=\"form-control\" type=\"number\" step=\"any\" placeholder=\"数量\" name=\"amount\" style=\"height: 36px;font-size: 13px\">\n" +
-        "                                        <div class=\"input-group-append\" style=\"height: 36px\">\n" +
-        "                                            <span class=\"input-group-text\" id=\"unitSpan\" style=\"font-size: 13px\"></span>\n" +
-        "                                        </div>\n" +
-        "                                        <button class='button button-box button-sm button-danger' style='height:36px;' onclick='removeSpecification(this)'>\n" +
-        "                                            <i class='zmdi zmdi-minus-circle'></i>\n" +
-        "                                        </button>\n" +
-        "                                    </div>\n" +
-        "                                </div>\n" +
-        "                            </div>"
-
+        "                        <div class=\"col-12\">\n" +
+        "                            <div class=\"input-group\" style=\"height: 36px\">\n" +
+        "                                 <input class=\"form-control form-control-sm\" type=\"text\" placeholder=\"规格*\" name=\"specificationName\"  style=\"height: 36px\">\n" +
+        "                                 <input class=\"form-control form-control-sm\" type=\"number\" step=\"any\" placeholder=\"价格*\" name=\"price\"  style=\"height: 36px\">\n" +
+        "                                 <input class=\"form-control\" type=\"number\" step=\"any\" placeholder=\"数量\" name=\"amount\" style=\"height: 36px;font-size: 13px\">\n" +
+        "                                 <div class=\"input-group-append\" style=\"height: 36px\">\n" +
+        "                                     <span class=\"input-group-text\" id=\"unitSpan\" style=\"font-size: 13px\"></span>\n" +
+        "                                 </div>\n" +
+        "                                 <button class='button button-box button-sm button-danger' style='height:36px;' onclick='removeSpecification(this)'>\n" +
+        "                                     <i class='zmdi zmdi-minus-circle'></i>\n" +
+        "                                 </button>\n" +
+        "                             </div>\n" +
+        "                         </div>\n" +
+        "                    </div>"
     $('#specification').append(specificationHtml);
-
     changeUnit()
     // $('#specification').children('div.selfhide').show('300')
 }
+
 function removeSpecification(button) {
     $(button).parent().parent().parent().fadeOut('300',function () {
         $(button).parent().parent().parent().remove()
     })
 }
+
 function changeUnit() {
     var unit = $('#productUnit').val()
     if(unit !== ""|| null !== unit){
         $('span#unitSpan').text(unit)
     }
 }
+
 function showInfoModal(e) {
+    showLoadingDiv()
     var productId = $(e).prev('td').html()
     $.ajax({
         url:"/product/getProductPage",
@@ -53,9 +55,11 @@ function showInfoModal(e) {
             alertWarning("请求服务器失败，请重试，或者联系管理员。")
         }
     })
+    stopLoadingDiv()
 }
 
 function deleteProduct(productId,productName) {
+    showLoadingDiv()
     if(confirm('确认删除：'+productName)){
         $.ajax({
             url:'/product/delete',
@@ -76,6 +80,7 @@ function deleteProduct(productId,productName) {
             }
         })
     }
+    stopLoadingDiv()
 }
 
 function cleanForm() {
@@ -86,6 +91,7 @@ function cleanForm() {
 }
 
 function initCategoryBox(e,defaultNodeId){
+    showLoadingDiv()
     $.ajax({
         url:"/product/queryCategory",
         success:function (data) {
@@ -123,9 +129,11 @@ function initCategoryBox(e,defaultNodeId){
             return false
         }
     });
+    stopLoadingDiv()
 }
-function submitProductData(){
 
+function submitProductData(){
+    showLoadingDiv()
     var productId = $('#productId').val()
     var productName = $('#productName').val()
     var brand = $('#brand').val()
@@ -136,7 +144,6 @@ function submitProductData(){
     var categoryId = category == null?null:JSON.stringify(category.id);
 
     var specifications = generateValArrayFromInputArray()
-    console.log(productId)
     $.ajax({
         url:'/product/insertOrUpdate',
         type:'get',
@@ -166,10 +173,10 @@ function submitProductData(){
             alertWarning("服务器未响应，请重试，或者联系管理员")
         }
     })
+    stopLoadingDiv()
 }
 
 function generateRow(product) {
-    console.log(product.specifications)
     return "<tr height=\"41px\" >\n" +
         "                            <td hidden>"+product.productId+"</td>\n" +
         "                            <td onclick=\"showInfoModal(this)\" data-toggle=\"tooltip\" data-placement=\"top\" title=\"点击查看详情\">"+product.productName+"</td>\n" +
@@ -197,6 +204,7 @@ function generateRow(product) {
 }
 
 function showSpecificationModal(title,productId,productName){
+    showLoadingDiv()
     $.ajax({
         url:'/product/queryProductSpecifications',
         data:{
@@ -227,19 +235,24 @@ function showSpecificationModal(title,productId,productName){
             }
         }
     })
+    stopLoadingDiv()
 }
 
 function showOrderPage(productId,productName) {
-
-    let inputs = $('#stockTable').find('input');
-    var selectedItem = []
-    $.each(inputs,function (index,item) {
-        if(index % 2 + 1 === 1){
-            if($(item).is(":checked")){
-                selectedItem.push({productId:productId,productName:productName,specificationId:$(item).data('id'),specificationName:$(item).data('name'),amount:$(inputs[index+1]).val()})
+    showLoadingDiv()
+    if(productId){
+        let inputs = $('#stockTable').find('input');
+        var selectedItem = []
+        $.each(inputs,function (index,item) {
+            if(index % 2 + 1 === 1){
+                if($(item).is(":checked")){
+                    selectedItem.push({'productId':productId,
+                        'specificationId':$(item).data('id'),
+                        'amount':$(inputs[index+1]).val()})
+                }
             }
-        }
-    })
+        })
+    }
     $.ajax({
         url:"/stock/showOrderPage",
         data:{
@@ -247,16 +260,17 @@ function showOrderPage(productId,productName) {
         },
         success:function(data){
             if(data.code === 200){
-                $('#exampleModalLongTitle').html("订单")
-                $('#modalBody').html(data.result)
-                $('#exampleModalLong').modal('show')
+                $('#main').html(data.result)
+                $('#main').click()
+                $('#exampleModalLong').modal('hide')
             }
         }
     })
+    stopLoadingDiv()
 }
 
 function addToStockOutList(productId,productName) {
-
+    showLoadingDiv()
     let inputs = $('#stockTable').find('input');
     var selectedItem = []
     $.each(inputs,function (index,item) {
@@ -278,17 +292,29 @@ function addToStockOutList(productId,productName) {
             }
         }
     })
+    stopLoadingDiv()
 }
 
 function getCartStuffs() {
+    showLoadingDiv()
     $.ajax({
         url:"/stock/queryUnconfirmedStockOperationOfSTOCK_OUT",
         success:function(data){
             if(data.code === 200){
                 var cartContent = "";
                 $.each(data.result,function (index,item) {
-                    cartContent += "<li><h6 style='display: inline'>"+item.productName+"</h6><span >"+item.specificationName+"<br>"+item.amount+"</span></li>"
+                    cartContent += "<li>\n" +
+            "                            <a href=\"#\">\n" +
+            "                                <div class=\"image\"><img src=\"images/avatar/avatar-1.jpg\" alt=\"\"></div>\n" +
+            "                                <div class=\"content\">\n" +
+            "                                    <h6>"+item.productName+"</h6>\n" +
+            "                                    <p>规格: "+item.specificationName+" , 数量: "+item.amount+"</p>\n" +
+            "                                </div>\n" +
+            "                                <span class=\"reply\" onclick='deleteStockOperation("+item.id+",this)'><i class=\"zmdi zmdi-delete\"></i></span>\n" +
+            "                            </a>\n" +
+            "                       </li>"
                 })
+                $('#cart-count').html(data.result.length)
                 $('#stockOutList').html(cartContent)
             }else{
                 alertWarning(data.msg)
@@ -298,9 +324,35 @@ function getCartStuffs() {
             alertWarning("server error")
         }
     })
+    stopLoadingDiv()
+}
+
+function deleteStockOperation(operationId,e) {
+    if(confirm("确定要删除？")){
+        showLoadingDiv()
+        $.ajax({
+            url:"/stock/deleteStockOperation",
+            data:{
+                "operationId":operationId
+            },
+            success:function (data){
+                if(data.code === 200){
+                    alertSuccess(data.msg)
+                    $(e).parent().parent().remove()
+                }else{
+                    alertWarning(data.msg)
+                }
+            },
+            error:function(){
+                alertWarning("服务器未能成功响应")
+            }
+        })
+        stopLoadingDiv()
+    }
 }
 
 function queryByParams(current_page) {
+    showLoadingDiv()
     var productName = $('#queryName').val()
     var productSerial = $('#querySerial').val()
     var brand = $('#queryBrand').val()
@@ -330,7 +382,6 @@ function queryByParams(current_page) {
                 }else{
                     $('tbody').append("<tr><span style='font-size: large'>没有相关的数据!</span></tr>")
                 }
-                console.log(current_page)
                 var paginatiorHtml = "<div class=\"pagination\">\n" +
                     "                <a href=\"#\" class=\"first\" data-action=\"first\">&laquo;</a>\n" +
                     "                <a href=\"#\" class=\"previous\" data-action=\"previous\">&lsaquo;</a>\n" +
@@ -352,11 +403,13 @@ function queryByParams(current_page) {
             }
         }
     })
+    stopLoadingDiv()
 }
+
 function initCategoryBoxSetDefault(id){
     initCategoryBox("#treeDetail",id)
-
 }
+
 function initProductManage(){
     initCategoryBox("#tree")
 }
@@ -367,11 +420,7 @@ function resetThenQuery() {
     manageTree.expandAll(false)
     queryByParams()
 }
-// function productSpecification(specificationName,price,amount) {
-//     this.specificationName = specificationName
-//     this.price = price
-//     this.amount = amount
-// }
+
 function generateValArrayFromInputArray() {
     var specificationNames = $("input[name='specificationName']")
     var prices = $("input[name='price']")
@@ -389,8 +438,4 @@ function generateValArrayFromInputArray() {
     }
     // data = data.substring(0,data.length-1) + ']'
     return data
-}
-
-function openUl(e) {
-    $(e).next('ul').toggle()
 }

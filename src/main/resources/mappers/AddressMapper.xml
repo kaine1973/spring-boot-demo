@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="rk.dao.AddressDao">
+
+    <resultMap id="address" type="rk.po.common.Address">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="province" property="province" jdbcType="VARCHAR"/>
+        <result column="province_id" property="provinceId" jdbcType="INTEGER"/>
+        <result column="city" property="city" jdbcType="VARCHAR"/>
+        <result column="city_id" property="cityId" jdbcType="INTEGER"/>
+        <result column="district" property="district" jdbcType="VARCHAR"/>
+        <result column="district_id" property="districtId" jdbcType="INTEGER"/>
+        <result column="detail" property="detail" jdbcType="VARCHAR"/>
+        <result column="name" property="name" jdbcType="VARCHAR"/>
+        <result column="phone" property="phone" jdbcType="VARCHAR"/>
+    </resultMap>
+
+
+    <select id="queryUserAddresses" resultMap="address" parameterType="java.lang.Integer">
+        select d.province,d.city,d.district,a.detail,a.id,a.name,a.phone
+        from crm.address as a join
+             (SELECT p.area_name as province,p.id as province_id,c.area_name as city,c.id as city_id,d.area_name as district,d.id as district_id
+              FROM crm.area as d join crm.area as c on d.parentid = c.id
+                                 join crm.area as p on p.id = c.parentid where d.level=3)
+                 as d on a.district_id = d.district_id where a.user_id = #{userId} and a.of_user = 1;
+    </select>
+
+    <select id="queryByCustomerIdAndUserId" resultMap="address" parameterType="java.lang.Integer">
+        select d.province,d.city,d.district,a.detail,a.id,a.name,a.phone
+        from crm.address as a join
+             (SELECT p.area_name as province,p.id as province_id,c.area_name as city,c.id as city_id,d.area_name as district,d.id as district_id
+              FROM crm.area as d join crm.area as c on d.parentid = c.id
+                                 join crm.area as p on p.id = c.parentid where d.level=3)
+                 as d on a.district_id = d.district_id where a.customer_id = #{customerId} and a.of_user = 0;
+    </select>
+
+    <insert id="saveBatch" parameterType="rk.po.common.Address">
+        insert into crm.address(user_id,customer_id,crm.address.company,crm.address.name,phone,crm.address.district_id,crm.address.detail)
+        VALUES
+        <foreach collection="list" item="address" separator=",">
+            (#{address.userId},
+            #{address.customerId},
+            #{address.company},
+            #{address.name},
+            #{address.phone},
+            #{address.districtId},
+            #{address.detail})
+        </foreach>
+    </insert>
+
+</mapper>
