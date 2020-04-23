@@ -131,7 +131,7 @@
                             </div>
                             <div class="row mt-10">
                                 <div class="col-sm-3 mb-5">
-                                    <button class="button button-primary button-xs" style="height: 36px" type="button" onclick="showReceiverInfo()"><i class="zmdi zmdi-plus"></i><span>添加</span></button>
+                                    <button class="button button-primary button-xs" style="height: 36px" type="button" onclick="showAddressDetailModal('#addressTableBody')"><i class="zmdi zmdi-plus"></i><span>添加</span></button>
                                 </div>
                             </div>
                         </div>

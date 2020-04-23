@@ -85,14 +85,11 @@ public class StockController {
             operations = stockService.queryUnconfirmedStockOperation(user.getId(), StockOperationType.STOCK_OUT);
         }else{
             operations = stockOperationParser(stockOperations, user.getId());
-//            AssertUtil.isTrue(stockService.saveBatch(operations) != operations.size(),OperationStatus.processFailed);
         }
         List<Area> province = commonService.queryAreaByParentId( 1 );
-        List<Address> senderAddresses = addressService.queryUserAddress(user.getId());
         HashMap<String, Object> params = new HashMap<>();
         params.put( "provinces",province );
         params.put("stockOperations",operations);
-        params.put("senderAddresses",senderAddresses);
         params.put( "user",user );
         String orderPage = TemplateParser.parseTemplate("product/order", params, freeMarkerConfigurer);
         return new ResultInfo( 200,"操作成功",orderPage );

@@ -38,13 +38,15 @@ public class AddressController {
 
     @RequestPermission(aclValue = "0")
     @ResponseBody
-    @RequestMapping("getAddressPage")
-    public ResultInfo getAddressPage(Integer addressId, @SessionAttribute("user") User user){
+    @RequestMapping("getAddressDetailPage")
+    public ResultInfo getAddressPage(String container,Integer addressId, @SessionAttribute("user") User user){
         Address address = null;
         if(null != addressId){
-            address = addressService.queryById(addressId);
+            address = addressService.queryByIdAndUserId(addressId,user.getId());
         }
         HashMap<String, Object> params = new HashMap<>();
+        //页面需要将修改（添加）后的地址信息输入到页面的一个container中
+        params.put( "container",container );
         if(null != address){
             params.put( "address",address );
             List<Area> provinces = commonService.queryAreaByParentId( address.getProvinceId() );
@@ -65,7 +67,7 @@ public class AddressController {
     @ResponseBody
     @RequestMapping("showAddressQueryPage")
     public ResultInfo showAddressQueryPage(){
-        String s = TemplateParser.parseTemplate( "/selectAddress",null, freeMarkerConfigurer );
+        String s = TemplateParser.parseTemplate( "/address/selectAddress",null, freeMarkerConfigurer );
         return new ResultInfo( 200,"",s );
     }
 
@@ -74,6 +76,14 @@ public class AddressController {
     @RequestMapping("queryAddressByCustomerId")
     public ResultInfo queryAddressByCustomerId(Integer customerId,@SessionAttribute User user){
         List<Address> addresses = addressService.queryByCustomerId( customerId, user.getId() );
+        return new ResultInfo( 200,"",addresses );
+    }
+
+    @RequestPermission(aclValue = "0")
+    @ResponseBody
+    @RequestMapping("queryUserAddresses")
+    public ResultInfo queryUserAddresses(@SessionAttribute User user){
+        List<Address> addresses = addressService.queryUserAddresses(  user.getId() );
         return new ResultInfo( 200,"",addresses );
     }
 }

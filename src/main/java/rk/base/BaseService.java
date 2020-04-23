@@ -47,6 +47,9 @@ public abstract class BaseService<T> {
         return baseDao.queryById(id);
     }
 
+    public  T queryByIdAndUserId(Integer id,Integer userId) throws  DataAccessException{
+        return baseDao.queryByIdAndUserId( id,userId );
+    }
 
     /**
      * 多条件查询
@@ -114,6 +117,5 @@ public abstract class BaseService<T> {
         AssertUtil.isTrue(null==ids||ids.length==0,"请选择待删除记录!");
         return baseDao.deleteBatch(ids);
     }
-
 
 }

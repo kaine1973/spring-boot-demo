@@ -1,7 +1,7 @@
 /*-----------------------------------------------------------------------------------
 
     Version: 1.0
-    ×îÐÂ×îÈ«×îºÃµÄBootstrapÄ£°å£ºhttp://www.bOOtstrapmb.com
+    ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È«ï¿½ï¿½Ãµï¿½BootstrapÄ£ï¿½å£ºhttp://www.bOOtstrapmb.com
 -----------------------------------------------------------------------------------
     
     CSS INDEX
@@ -824,7 +824,7 @@ input:-ms-input-placeholder, textarea:-ms-input-placeholder {
 }
 
 .box .box-head {
-  padding: 20px 25px;
+  padding: 10px 15px;
   border-bottom: 1px solid #f1f1f1;
 }
 
@@ -839,11 +839,11 @@ input:-ms-input-placeholder, textarea:-ms-input-placeholder {
 }
 
 .box .box-body {
-  padding: 25px;
+  padding: 15px;
 }
 
 .box .box-foot {
-  padding: 0 25px 25px;
+  padding: 0 15px 15px;
 }
 
 /*Add & Edit Product Wrap*/
@@ -14500,7 +14500,8 @@ body.skin-dark .cus-radio.light .icon::before {
     padding-right: 0 !important;
   }
   [dir="rtl"] .header-notification-area > li:last-child {
-    padding-left: 0 !important;
+    padding-left: 0
+ !important;
     padding-right: 10px !important;
   }
 }

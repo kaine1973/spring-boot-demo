@@ -1,18 +1,42 @@
 <div>
     <form class="form">
+        <input type="hidden" id="receiverId" value="
+        <#if address??>
+            address.id
+        </#if>
+         ">
         <div class="row">
-            <div class="col-lg-3 col-9 form-group mb-25">
+            <div class="col-lg-3 col-12 form-group mb-25">
                 <label for="receiveName">联系人</label>
-                <input class="form-control form-control-sm" name="receiveName" id="receiveName" value="" placeholder="">
+                <input class="form-control form-control-sm" name="receiveName" id="receiveName" value="
+                <#if address??>
+                    address.name
+                </#if>
+                " placeholder="">
             </div>
-            <div class="col-lg-3 col-9 form-group mb-25">
+            <div class="col-lg-3 col-12 form-group mb-25">
                 <label for="receiveCompany">公司</label>
-                    <input class="form-control form-control-sm" name="receiveCompany" id="receiveCompany" value="" placeholder="">
+                    <input class="form-control form-control-sm" name="receiveCompany" id="receiveCompany" value="
+                <#if address??>
+                    address.company
+                </#if>
+                " placeholder="">
             </div>
-            <div class="col-lg-3 col-9 form-group mb-25">
+            <div class="col-lg-3 col-12 form-group mb-25">
                 <label for="receivePhone">电话</label>
-                    <input class="form-control form-control-sm" name="receivePhone" id="receivePhone" value="" placeholder="">
+                    <input class="form-control form-control-sm" name="receivePhone" id="receivePhone" value="
+                    <#if address??>
+                        address.phone
+                    </#if>
+                    " placeholder="">
             </div>
+            <#if container?? && container == "#receiverTBody">
+                <div class="col-lg-3 col-12 form-group mb-25">
+                    <label for="receiveCustomer">客户</label>
+                    <input class="form-control form-control-sm" name="receiveCustomer" id="receiveCustomer" value="" placeholder="">
+                </div>
+            </#if>
+
         </div>
         <div class="row mt-5">
             <div class="col-lg-3 col-12 mb-25" >
@@ -63,7 +87,13 @@
             <div class="col-lg-12 col-12">
                 <div class="button-group">
                     <button type="button" class="button button-xs button-dark" onclick="closeModal()" >关闭</button>
-                    <button type="button" class="button button-xs button-primary" onclick="saveAddress()" >保存</button>
+                    <button type="button" class="button button-xs button-primary" onclick="saveAddress('${container}')" >
+                    <#if container??>
+                        确认
+                    <#else >
+                        保存
+                    </#if>
+                    </button>
                 </div>
             </div>
         </div>

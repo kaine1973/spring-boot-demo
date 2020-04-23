@@ -13,9 +13,18 @@
         <result column="district_id" property="districtId" jdbcType="INTEGER"/>
         <result column="detail" property="detail" jdbcType="VARCHAR"/>
         <result column="name" property="name" jdbcType="VARCHAR"/>
+        <result column="company" property="company" jdbcType="VARCHAR"/>
         <result column="phone" property="phone" jdbcType="VARCHAR"/>
     </resultMap>
 
+    <select id="queryByIdAndUserId" resultMap="address" parameterType="java.lang.Integer">
+        select d.province,d.city,d.district,a.detail,a.id,a.name,a.phone
+        from crm.address as a join
+             (SELECT p.area_name as province,p.id as province_id,c.area_name as city,c.id as city_id,d.area_name as district,d.id as district_id
+              FROM crm.area as d join crm.area as c on d.parentid = c.id
+                                 join crm.area as p on p.id = c.parentid where d.level=3)
+                 as d on a.district_id = d.district_id where a.user_id = #{userId} and a.customer_id = #{id};
+    </select>
 
     <select id="queryUserAddresses" resultMap="address" parameterType="java.lang.Integer">
         select d.province,d.city,d.district,a.detail,a.id,a.name,a.phone
@@ -27,7 +36,7 @@
     </select>
 
     <select id="queryByCustomerIdAndUserId" resultMap="address" parameterType="java.lang.Integer">
-        select d.province,d.city,d.district,a.detail,a.id,a.name,a.phone
+        select d.province,d.city,d.district,a.detail,a.id,a.name,a.phone,a.company
         from crm.address as a join
              (SELECT p.area_name as province,p.id as province_id,c.area_name as city,c.id as city_id,d.area_name as district,d.id as district_id
               FROM crm.area as d join crm.area as c on d.parentid = c.id

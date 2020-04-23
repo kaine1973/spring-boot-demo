@@ -64,9 +64,13 @@ public class CustomerController {
     @ResponseBody
     @RequestMapping("uploadCustomerDetail")
     public ResultInfo addCustomer(Customer customer,String addressesString,@SessionAttribute("user")User user) throws JsonProcessingException {
-        customer.setUserId( user.getId() );
-        customer.setAddresses( addressMapping( addressesString,user.getId() ) );
+
         customer.checkNecessaryProperty();
+        customer.setUserId( user.getId() );
+
+        ArrayList<Address> addresses = addressMapping( addressesString, user.getId() );
+
+        customer.setAddresses( addresses );
         customerService.saveCustomer( customer,customer.getId() );
         return new ResultInfo( 200,"请求成功");
     }

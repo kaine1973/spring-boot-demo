@@ -14,6 +14,7 @@
 <link rel="stylesheet" href="/css/vendor/themify-icons.css">
 <link rel="stylesheet" href="/css/vendor/cryptocurrency-icons.css">
 
+<link rel="stylesheet" href="/css/plugins/smart_wizard.min.css">
 <#--nice Selector-->
 <link rel="stylesheet" href="/css/niceSelect/nice-select.css">
 <link rel="stylesheet" href="/css/niceSelect/style.css">

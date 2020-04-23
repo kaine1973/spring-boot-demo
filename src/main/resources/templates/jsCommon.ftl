@@ -30,6 +30,7 @@
 <script src="/js/address.js"></script>
 <script src="/js/order.js"></script>
 <script src="/js/jquery.jqpagination.min.js"></script>
+<script src="/js/plugins/smartWizard/jquery.smartWizard.min.js"></script>
 
 <script src="/js/js.cookie-2.2.1.min.js"></script>
 

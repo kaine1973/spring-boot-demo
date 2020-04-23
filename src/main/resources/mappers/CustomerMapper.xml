@@ -25,10 +25,10 @@
         where user_id = #{userId}
         <trim>
             <if test="queryName != '' and queryName != null">
-                and customer_name = #{queryName}
+                and customer_name like concat('%',#{queryName},'%')
             </if>
             <if test="queryCompany != '' and queryCompany != null">
-                and company = #{queryCompany}
+                and company like concat('%',#{queryCompany},'%')
             </if>
             <if test="queryLevel != '' and queryLevel != null">
                 and level_id = #{queryLevel}
@@ -36,7 +36,7 @@
         </trim>
     </select>
 
-    <insert id="save" parameterType="rk.po.Customer" >
+    <insert id="save" parameterType="rk.po.Customer" useGeneratedKeys="true" keyProperty="id">
         INSERT INTO crm.customer
         <trim prefix="(" suffix=")" suffixOverrides=",">
             user_id,

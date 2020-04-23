@@ -826,12 +826,13 @@ input:-ms-input-placeholder, textarea:-ms-input-placeholder {
 
 /*-- Box Style --*/
 .box {
+  padding: 10px 15px;
   word-wrap: break-word;
   background-color: #fafafa;
 }
 
 .box .box-head {
-  padding: 20px 25px;
+  padding: 10px 15px;
   border-bottom: 1px solid #f1f1f1;
 }
 
@@ -846,11 +847,11 @@ input:-ms-input-placeholder, textarea:-ms-input-placeholder {
 }
 
 .box .box-body {
-  padding: 25px;
+  padding: 15px;
 }
 
 .box .box-foot {
-  padding: 0 25px 25px;
+  padding: 0 15px 15px;
 }
 
 /*Add & Edit Product Wrap*/
@@ -4566,6 +4567,7 @@ a.badge-dark.badge-outline {
 
 /*Label*/
 label {
+  font-size: 13px;
   display: block;
   line-height: 1;
   margin-bottom: 10px;
@@ -6714,7 +6716,7 @@ table.data-table.collapsed tbody tr.child td.child ul li .dtr-title {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
-  display: flex;
+  display: none;
   -webkit-flex-wrap: wrap;
       -ms-flex-wrap: wrap;
           flex-wrap: wrap;
@@ -6766,7 +6768,7 @@ table.data-table.collapsed tbody tr.child td.child ul li .dtr-title {
   height: auto;
   opacity: 1;
   visibility: visible;
-  padding: 30px 0;
+  padding: 0px 0;
 }
 
 .smart-wizard .sw-toolbar .sw-btn-group {

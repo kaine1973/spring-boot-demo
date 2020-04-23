@@ -15,7 +15,7 @@ public class AddressService extends BaseService<Address> {
     private AddressDao addressDao;
 
 
-    public List<Address> queryUserAddress(Integer userId) {
+    public List<Address> queryUserAddresses(Integer userId) {
         return addressDao.queryUserAddresses(userId);
     }
 

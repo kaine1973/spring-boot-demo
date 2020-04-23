@@ -34,25 +34,6 @@ function loadCustomerPosition() {
 
 }
 
-function showReceiverInfo(addressId){
-    $.ajax({
-        url:"/address/getAddressPage",
-        data:{
-            "addressId":addressId
-        },
-        success:function(data){
-            if(data.code === 200){
-                $('#modalBody').html(data.result)
-                $('#exampleModalLong').modal('show')
-            }else{
-                alertWarning(data.msg)
-            }
-        },
-        error:function () {
-            alertWarning("服务器未能成功响应")
-        }
-    })
-}
 
 function queryCustomerByParams(current_page) {
     showLoadingDiv()
@@ -134,7 +115,7 @@ function customerManageInit(){
     queryCustomerByParams()
 }
 
-function uploadCustomerDetail() {
+function uploadCustomerDetail(e) {
     var id = $('#id').val()
     var customerName = $('#customerName').val()
     var company = $('#company').val()
