@@ -2,20 +2,20 @@ var detailTree, manageTree
 
 function appendSpecification(){
     var specificationHtml = "<div class=\"row notRequired mt-5\">\n" +
-        "                        <div class=\"col-12\">\n" +
-        "                            <div class=\"input-group\" style=\"height: 36px\">\n" +
-        "                                 <input class=\"form-control form-control-sm\" type=\"text\" placeholder=\"规格*\" name=\"specificationName\"  style=\"height: 36px\">\n" +
-        "                                 <input class=\"form-control form-control-sm\" type=\"number\" step=\"any\" placeholder=\"价格*\" name=\"price\"  style=\"height: 36px\">\n" +
-        "                                 <input class=\"form-control\" type=\"number\" step=\"any\" placeholder=\"数量\" name=\"amount\" style=\"height: 36px;font-size: 13px\">\n" +
-        "                                 <div class=\"input-group-append\" style=\"height: 36px\">\n" +
-        "                                     <span class=\"input-group-text\" id=\"unitSpan\" style=\"font-size: 13px\"></span>\n" +
-        "                                 </div>\n" +
-        "                                 <button class='button button-box button-sm button-danger' style='height:36px;' onclick='removeSpecification(this)'>\n" +
-        "                                     <i class='zmdi zmdi-minus-circle'></i>\n" +
-        "                                 </button>\n" +
-        "                             </div>\n" +
-        "                         </div>\n" +
-        "                    </div>"
+        " <div class=\"col-12\">\n" +
+        "     <div class=\"input-group\" style=\"height: 36px\">\n" +
+        " <input class=\"form-control form-control-sm\" type=\"text\" placeholder=\"规格*\" name=\"specificationName\"  style=\"height: 36px\">\n" +
+        " <input class=\"form-control form-control-sm\" type=\"number\" step=\"any\" placeholder=\"价格*\" name=\"price\"  style=\"height: 36px\">\n" +
+        " <input class=\"form-control\" type=\"number\" step=\"any\" placeholder=\"数量\" name=\"amount\" style=\"height: 36px;font-size: 13px\">\n" +
+        " <div class=\"input-group-append\" style=\"height: 36px\">\n" +
+        "     <span class=\"input-group-text\" id=\"unitSpan\" style=\"font-size: 13px\"></span>\n" +
+        " </div>\n" +
+        " <button class='button button-box button-sm button-danger' style='height:36px;' onclick='removeSpecification(this)'>\n" +
+        "     <i class='zmdi zmdi-minus-circle'></i>\n" +
+        " </button>\n" +
+        "      </div>\n" +
+        "  </div>\n" +
+        "          </div>"
     $('#specification').append(specificationHtml);
     changeUnit()
     // $('#specification').children('div.selfhide').show('300')
@@ -178,28 +178,28 @@ function submitProductData(){
 
 function generateRow(product) {
     return "<tr height=\"41px\" >\n" +
-        "                            <td hidden>"+product.productId+"</td>\n" +
-        "                            <td onclick=\"showInfoModal(this)\" data-toggle=\"tooltip\" data-placement=\"top\" title=\"点击查看详情\">"+product.productName+"</td>\n" +
-        "                            <td class=\"hide-responsive\">"+(product.brand==null?"":product.brand)+"</td>\n" +
-        "                            <td class=\"hide-responsive\">"+(product.productSerial==null?"":product.productSerial)+"</td>\n" +
-        "                            <td class=\"hide-responsive\">"+(product.productUnit==null?"":product.productUnit)+"</td>\n" +
-        "                            <td class=\"hide-responsive\">"+(product.model==null?"":product.model)+"</td>\n" +
-        // "                            <td class=\"hide-responsive\">"+createDate+"</td>\n" +
-        "                            <td class=\"hide-responsive\" style=\"padding-bottom: 3px;padding-top:8px\">\n" +
-        "                                    <button class=\"button button-box button-xs button-primary\" data-toggle=\"tooltip\" data-placement=\"top\" title=\"入库\"><i class=\"zmdi zmdi-download\"></i></button>\n" +
-        "                                    <button class=\"button button-box button-xs button-primary\" data-toggle=\"tooltip\" data-placement=\"top\" title=\"出库\" onclick=\"showSpecificationModal('出库','"+product.productId+"','"+product.productName+"')\" ><i class=\"zmdi zmdi-upload\"></i></button>\n" +
-        "                            </td>" +
-        "                            <td hidden id='specification-"+product.productId+"'>" +
-        "                                   <li>" +
-        "                                       <div>" +
-        "                                           <button class=\"delete\"><i class=\"zmdi zmdi-close-circle-o\"></i></button>" +
-        "                                           <div>" +
-                "                                        <h6 style=\"max-width: 65%;float:left;\">"+product.productName+"</h6>" +
-                "                                        <span style='float: right;max-width: 34%'>"+ "specification" +"<br/>"+ "amount" + "</span>" +
-        "                                           </div>" +
-        "                                       </div>" +
-        "                                   </li>" +
-        "                            </td>" +
+        "     <td hidden>"+product.productId+"</td>\n" +
+        "     <td onclick=\"showInfoModal(this)\" data-toggle=\"tooltip\" data-placement=\"top\" title=\"点击查看详情\">"+product.productName+"</td>\n" +
+        "     <td class=\"hide-responsive\">"+(product.brand==null?"":product.brand)+"</td>\n" +
+        "     <td class=\"hide-responsive\">"+(product.productSerial==null?"":product.productSerial)+"</td>\n" +
+        "     <td class=\"hide-responsive\">"+(product.productUnit==null?"":product.productUnit)+"</td>\n" +
+        "     <td class=\"hide-responsive\">"+(product.model==null?"":product.model)+"</td>\n" +
+        // "    <td class=\"hide-responsive\">"+createDate+"</td>\n" +
+        "     <td class=\"hide-responsive\" style=\"padding-bottom: 3px;padding-top:8px\">\n" +
+        "    <button class=\"button button-box button-xs button-primary\" data-toggle=\"tooltip\" data-placement=\"top\" title=\"入库\"><i class=\"zmdi zmdi-download\"></i></button>\n" +
+        "    <button class=\"button button-box button-xs button-primary\" data-toggle=\"tooltip\" data-placement=\"top\" title=\"出库\" onclick=\"showSpecificationModal('出库','"+product.productId+"','"+product.productName+"')\" ><i class=\"zmdi zmdi-upload\"></i></button>\n" +
+        "    </td>" +
+        "    <td hidden id='specification-"+product.productId+"'>" +
+        " <li>" +
+        "     <div>" +
+        "           <button class=\"delete\"><i class=\"zmdi zmdi-close-circle-o\"></i></button>" +
+        "         <div>" +
+                "        <h6 style=\"max-width: 65%;float:left;\">"+product.productName+"</h6>" +
+                "      <span style='float: right;max-width: 34%'>"+ "specification" +"<br/>"+ "amount" + "</span>" +
+        "         </div>" +
+        "     </div>" +
+        " </li>" +
+        "    </td>" +
         "</tr>"
 }
 
@@ -304,15 +304,15 @@ function getCartStuffs() {
                 var cartContent = "";
                 $.each(data.result,function (index,item) {
                     cartContent += "<li>\n" +
-            "                            <a href=\"#\">\n" +
-            "                                <div class=\"image\"><img src=\"images/avatar/avatar-1.jpg\" alt=\"\"></div>\n" +
-            "                                <div class=\"content\">\n" +
-            "                                    <h6>"+item.productName+"</h6>\n" +
-            "                                    <p>规格: "+item.specificationName+" , 数量: "+item.amount+"</p>\n" +
-            "                                </div>\n" +
-            "                                <span class=\"reply\" onclick='deleteStockOperation("+item.id+",this)'><i class=\"zmdi zmdi-delete\"></i></span>\n" +
-            "                            </a>\n" +
-            "                       </li>"
+            "     <a href=\"#\">\n" +
+            "div class=\"image\"><img src=\"images/avatar/avatar-1.jpg\" alt=\"\"></div>\n" +
+            "div class=\"content\">\n" +
+            "    <h6>"+item.productName+"</h6>\n" +
+            "    <p>规格: "+item.specificationName+" , 数量: "+item.amount+"</p>\n" +
+            "/div>\n" +
+            "span class=\"reply\" onclick='deleteStockOperation("+item.id+",this)'><i class=\"zmdi zmdi-delete\"></i></span>\n" +
+            "     </a>\n" +
+            "/li>"
                 })
                 $('#cart-count').html(data.result.length)
                 $('#stockOutList').html(cartContent)
@@ -383,12 +383,12 @@ function queryByParams(current_page) {
                     $('tbody').append("<tr><span style='font-size: large'>没有相关的数据!</span></tr>")
                 }
                 var paginatiorHtml = "<div class=\"pagination\">\n" +
-                    "                <a href=\"#\" class=\"first\" data-action=\"first\">&laquo;</a>\n" +
-                    "                <a href=\"#\" class=\"previous\" data-action=\"previous\">&lsaquo;</a>\n" +
-                    "                <input id=\"paginationText\" type=\"text\" readonly=\"readonly\" data-max-page=\"40\" />\n" +
-                    "                <a href=\"#\" class=\"next\" data-action=\"next\">&rsaquo;</a>\n" +
-                    "                <a href=\"#\" class=\"last\" data-action=\"last\">&raquo;</a>\n" +
-                    "            </div>"
+                    "       <a href=\"#\" class=\"first\" data-action=\"first\">&laquo;</a>\n" +
+                    "       <a href=\"#\" class=\"previous\" data-action=\"previous\">&lsaquo;</a>\n" +
+                    "       <input id=\"paginationText\" type=\"text\" readonly=\"readonly\" data-max-page=\"40\" />\n" +
+                    "       <a href=\"#\" class=\"next\" data-action=\"next\">&rsaquo;</a>\n" +
+                    "       <a href=\"#\" class=\"last\" data-action=\"last\">&raquo;</a>\n" +
+                    "  </div>"
                 $('#paginationContainer').html(paginatiorHtml)
                 $('.pagination').jqPagination({
                     current_page:current_page,

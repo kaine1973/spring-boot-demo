@@ -16,7 +16,27 @@ function showAddressBook() {
                         toolbarExtraButtons: [
                             $('<button></button>').text('确认')
                                 .addClass('button button-info')
-                                .on('click', fillReceiverForm()),
+                                .on('click', function () {
+                                    var addressId = $('input[name="addressCombo"]:checked').val();
+                                    $.ajax({
+                                        url:'/address/queryAddressById',
+                                        data:{"addressId":addressId},
+                                        success:function (data) {
+                                            if(data.code === 200){
+                                                $('#receiverName').val(data.result.name)
+                                                $('#receiverCompany').val(data.result.company)
+                                                $('#receiverPhone').val(data.result.phone)
+                                                $('#receiverProvince').val(data.result.provinceId)
+                                                $('#receiverProvince').change()
+                                                $('#receiverCity').val(data.result.cityId)
+                                                $('#receiverCity').change()
+                                                $('#receiverDistrict').val(data.result.districtId)
+                                                $('#receiverDistrict').change()
+                                            }
+                                        }
+                                    })
+                                    $('#exampleModalLong').modal('hide')
+                                }),
                         ]
                     },
                 });
@@ -74,10 +94,6 @@ function queryAddressCustomerByParams(current_page) {
     stopLoadingDiv()
 }
 
-function fillReceiverForm() {
-    var receiverName = $('#receiverName').val()
-    var receiver
-}
 
 function queryAddressOfCustomer(customerId){
     var html

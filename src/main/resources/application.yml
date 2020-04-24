@@ -1,8 +1,8 @@
 spring:
   redis:
     database: 5
-    host: 23.83.241.130
-    password: crmTest
+    host: 127.0.0.1
+    password: Perhaps0..
     port: 6379
     timeout: 3s
     jedis:

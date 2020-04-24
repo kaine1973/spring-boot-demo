@@ -86,4 +86,12 @@ public class AddressController {
         List<Address> addresses = addressService.queryUserAddresses(  user.getId() );
         return new ResultInfo( 200,"",addresses );
     }
+
+    @RequestPermission(aclValue = "0")
+    @ResponseBody
+    @RequestMapping("queryAddressById")
+    public ResultInfo queryAddressById(Integer addressId,@SessionAttribute User user){
+        Address address = addressService.queryByIdAndUserId( addressId, user.getId() );
+        return new ResultInfo( 200,"",address );
+    }
 }

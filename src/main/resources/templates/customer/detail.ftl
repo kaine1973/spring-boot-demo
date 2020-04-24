@@ -95,7 +95,7 @@
                                 </#if>
                             </div>
                             <div class="col-lg-2 col-12 mb-25">
-                                <select class="form-control form-control-sm nice-select" id="city" onchange="getChildArea(this,'#district')" style="height:36px">
+                                <select class="form-control form-control-sm nice-select" id="city" onchange="getChildArea(this)" style="height:36px">
                                     <option data-display="城市" >城市</option>
                                     <#if cities??>
                                         <#list cities as city>

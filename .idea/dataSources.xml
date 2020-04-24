@@ -10,11 +10,5 @@
         <property name="serverTimezone" value="UTC" />
       </driver-properties>
     </data-source>
-    <data-source source="LOCAL" name="crm@23.83.241.130" uuid="563d254c-1762-47a2-8daf-73bce13ae42a">
-      <driver-ref>mysql.8</driver-ref>
-      <synchronize>true</synchronize>
-      <jdbc-driver>com.mysql.cj.jdbc.Driver</jdbc-driver>
-      <jdbc-url>jdbc:mysql://23.83.241.130:3306/crm</jdbc-url>
-    </data-source>
   </component>
 </project>
