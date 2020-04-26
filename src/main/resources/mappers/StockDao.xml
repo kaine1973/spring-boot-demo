@@ -14,19 +14,22 @@
         <result column="specification_name" property="specificationName"/>
         <result column="amount" property="amount"/>
         <result column="price" property="price"/>
+        <result column="deal_price" property="dealPrice"/>
         <result column="confirm_date" property="confirmDate"/>
         <result column="add_date" property="addDate"/>
         <result column="confirmed" property="confirmed"/>
+        <result column="temp" property="temp"/>
     </resultMap>
 
-    <insert id="saveBatch" parameterType="java.util.List">
-        insert into stock_operation (user_id, operation,product_id,specification_id,amount)
+    <insert id="saveBatch" parameterType="java.util.List" useGeneratedKeys="true" keyProperty="id" keyColumn="id">
+        insert into stock_operation (user_id, operation,product_id,specification_id,amount,temp)
         VALUES <foreach collection="list" item="operation" separator=",">
             (#{operation.userId},
                     #{operation.operation},
                     #{operation.productId},
                     #{operation.specificationId},
-                    #{operation.amount})
+                    #{operation.amount},
+                    #{operation.temp})
         </foreach>
     </insert>
 
@@ -46,28 +49,60 @@
                st.confirmed as confirmed
         from stock_operation st join product p on st.product_id = p.id
         join product_specification sp on st.specification_id = sp.id
-        where st.confirmed = 0 and st.user_id = #{userId} and st.operation = #{operationType}
+        where st.confirmed = 0 and st.user_id = #{userId} and st.operation = #{operationType} and st.temp = 0
     </select>
 
-    <select id="queryById" resultMap="stockOperationMap">
+    <select id="queryByIdAndUserId" resultMap="stockOperationMap">
         select
             st.id as id,
             st.product_id as product_id,
             p.product_name as product_name,
+            p.brand as product_brand,
+            p.product_unit as product_unit,
             UPPER(st.operation) as operation,
             sp.specification_name as specification_name,
             st.amount as amount,
             sp.price as price,
+            st.deal_price as deal_price,
             st.confirm_date as confirm_date,
             st.add_date as add_date,
-            st.confirmed as confirmed
+            st.confirmed as confirmed,
+            st.temp as temp
         from stock_operation st join product p on st.product_id = p.id
                                 join product_specification sp on st.specification_id = sp.id
-        where st.id = #{id}
+        where st.id = #{id} and st.user_id = #{userId}
     </select>
+
+    <update id="update" parameterType="rk.po.StockOperation">
+        update crm.stock_operation
+        <set>
+            <if test="amount != null">
+                amount = #{amount},
+            </if>
+            <if test="dealPrice != null">
+                deal_price = #{dealPrice},
+            </if>
+            <if test="confirmed != null">
+                confirmed = #{confirmed},
+            </if>
+            <if test="temp != temp">
+                product_serial = #{productSerial},
+            </if>
+            <if test="confirmDate != null">
+                confirm_date = #{confirmDate},
+            </if>
+        </set>
+        where id = #{id} and user_id = #{userId}
+    </update>
 
     <delete id="delete" parameterType="java.lang.Integer">
         delete from stock_operation where id = ${id}
     </delete>
+
+    <delete id="deleteTemp" parameterType="java.lang.Integer">
+        delete from stock_operation where temp = 1 and user_id = #{userId}
+    </delete>
+
+
 
 </mapper>

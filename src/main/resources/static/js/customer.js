@@ -9,6 +9,7 @@ function getChildArea(e) {
     $.ajax({
         url:"/common/queryAreaByParentId",
         type:"get",
+        async:false,
         data:{
             "parentId":parentId
         },
@@ -44,6 +45,7 @@ function queryCustomerByParams(current_page) {
     var pageSize = $('#pageSize').val()
     $.ajax({
         url:'/customer/queryByParams',
+        async:false,
         data:{
             'pageNum':current_page ,
             'queryName':queryName,
@@ -152,6 +154,7 @@ function uploadCustomerDetail(e) {
 
     $.ajax({
         url:"/customer/uploadCustomerDetail",
+        async:false,
         data:{
             "id":id,
             "customerName":customerName,

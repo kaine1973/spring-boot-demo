@@ -227,7 +227,7 @@ function showSpecificationModal(title,productId,productName){
                 table += "</tbody></table></div></div>" +
                     "<div class='row'><div class='col-lg-12 col-12'><div class='button-group'>" +
                     "<button class='button button-primary' onclick=\"addToStockOutList("+productId+",'"+productName+"')\"><span><i class='zmdi zmdi-shopping-cart-add'></i>添加到购物车</span></button>" +
-                    "<button class='button button-success' onclick=\"showOrderPage("+productId+",'"+productName+"')\"><span><i class='zmdi zmdi-check'></i>立即购买</span></button>" +
+                    "<button class='button button-success' onclick=\"showOrderPage("+productId+")\"><span><i class='zmdi zmdi-check'></i>立即购买</span></button>" +
                     "</div></div></div>"
                 $('#exampleModalLongTitle').html(title)
                 $('#modalBody').html(table)
@@ -238,7 +238,7 @@ function showSpecificationModal(title,productId,productName){
     stopLoadingDiv()
 }
 
-function showOrderPage(productId,productName) {
+function showOrderPage(productId) {
     showLoadingDiv()
     if(productId){
         let inputs = $('#stockTable').find('input');
@@ -248,13 +248,14 @@ function showOrderPage(productId,productName) {
                 if($(item).is(":checked")){
                     selectedItem.push({'productId':productId,
                         'specificationId':$(item).data('id'),
-                        'amount':$(inputs[index+1]).val()})
+                        'amount':$(inputs[index+1]).val(),'temp':1})
                 }
             }
         })
     }
     $.ajax({
-        url:"/stock/showOrderPage",
+        url:"/order/showOrderPage",
+        async:"success",
         data:{
             "stockOperations":JSON.stringify(selectedItem)
         },
@@ -263,7 +264,12 @@ function showOrderPage(productId,productName) {
                 $('#main').html(data.result)
                 $('#main').click()
                 $('#exampleModalLong').modal('hide')
+            }else{
+                alertWarning(data.msg)
             }
+        },
+        error:function () {
+            alertWarning("服务器没有响应")
         }
     })
     stopLoadingDiv()
@@ -276,7 +282,7 @@ function addToStockOutList(productId,productName) {
     $.each(inputs,function (index,item) {
         if(index % 2 + 1 === 1){
             if($(item).is(":checked")){
-                selectedItem.push({productId:productId,productName:productName,specificationId:$(item).data('id'),specificationName:$(item).data('name'),amount:$(inputs[index+1]).val()})
+                selectedItem.push({productId:productId,productName:productName,specificationId:$(item).data('id'),specificationName:$(item).data('name'),amount:$(inputs[index+1]).val(),temp:0})
             }
         }
     })
@@ -299,20 +305,21 @@ function getCartStuffs() {
     showLoadingDiv()
     $.ajax({
         url:"/stock/queryUnconfirmedStockOperationOfSTOCK_OUT",
+        async:"success",
         success:function(data){
             if(data.code === 200){
                 var cartContent = "";
                 $.each(data.result,function (index,item) {
                     cartContent += "<li>\n" +
-            "     <a href=\"#\">\n" +
-            "div class=\"image\"><img src=\"images/avatar/avatar-1.jpg\" alt=\"\"></div>\n" +
-            "div class=\"content\">\n" +
-            "    <h6>"+item.productName+"</h6>\n" +
-            "    <p>规格: "+item.specificationName+" , 数量: "+item.amount+"</p>\n" +
-            "/div>\n" +
-            "span class=\"reply\" onclick='deleteStockOperation("+item.id+",this)'><i class=\"zmdi zmdi-delete\"></i></span>\n" +
-            "     </a>\n" +
-            "/li>"
+                                    "<a href=\"#\">\n" +
+                                    "<div class=\"image\"><img src=\"images/avatar/avatar-1.jpg\" alt=\"\"></div>\n" +
+                                    "<div class=\"content\">\n" +
+                                    "    <h6>"+item.productName+"</h6>\n" +
+                                    "    <p>规格: "+item.specificationName+" , 数量: "+item.amount+"</p>\n" +
+                                    "</div>\n" +
+                                    "<span class=\"reply\" onclick='deleteStockOperation("+item.id+",this)'><i class=\"zmdi zmdi-delete\"></i></span>\n" +
+                                    "     </a>\n" +
+                                    "</li>"
                 })
                 $('#cart-count').html(data.result.length)
                 $('#stockOutList').html(cartContent)
@@ -338,7 +345,9 @@ function deleteStockOperation(operationId,e) {
             success:function (data){
                 if(data.code === 200){
                     alertSuccess(data.msg)
-                    $(e).parent().parent().remove()
+                    $('#stockOperation_'+operationId).remove()
+                    $(e).parent().remove()
+                    $('#cart-count').html(parseInt($('#cart-count').html())-1)
                 }else{
                     alertWarning(data.msg)
                 }

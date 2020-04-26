@@ -18,10 +18,8 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(ParamRequestException.class)
     @ResponseBody
-    public ResultInfo ParamExceptionHandler(HttpServletRequest request, Exception e ){
+    public ResultInfo ParamExceptionHandler(Exception e ){
         ParamRequestException error = (ParamRequestException) e;
-        System.out.println(request.getRequestURI());
-        System.out.println(e.getMessage());
         return new ResultInfo( error.code,error.msg);
     }
 

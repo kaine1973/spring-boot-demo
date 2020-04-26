@@ -106,7 +106,16 @@ public abstract class BaseService<T> {
         AssertUtil.isTrue(null==id||id<=0||null==queryById(id),"待删除记录不存在!");
         return baseDao.delete(id);
     }
-
+    /**
+     * 删除单条记录
+     * @param id
+     * @return
+     * @throws DataAccessException
+     */
+    public  Integer delete(Integer id,Integer userId) throws  DataAccessException{
+        AssertUtil.isTrue(null==id||id<=0||null==queryByIdAndUserId(id,userId),"待删除记录不存在!");
+        return baseDao.delete(id);
+    }
     /**
      * 批量删除记录
      * @param ids

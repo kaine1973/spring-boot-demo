@@ -92,6 +92,9 @@ public class AddressController {
     @RequestMapping("queryAddressById")
     public ResultInfo queryAddressById(Integer addressId,@SessionAttribute User user){
         Address address = addressService.queryByIdAndUserId( addressId, user.getId() );
+        if(address.getCustomerId()!=null){
+            address.setCustomer(customerService.queryByIdAndUserId( address.getCustomerId(),user.getId() ));
+        }
         return new ResultInfo( 200,"",address );
     }
 }

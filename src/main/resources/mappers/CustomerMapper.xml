@@ -36,6 +36,10 @@
         </trim>
     </select>
 
+    <select id="queryByIdAndUserId" parameterType="java.lang.Integer" resultMap="customerDetail">
+        select * from customer where id = #{id} and user_id = #{userId}
+    </select>
+
     <insert id="save" parameterType="rk.po.Customer" useGeneratedKeys="true" keyProperty="id">
         INSERT INTO crm.customer
         <trim prefix="(" suffix=")" suffixOverrides=",">
@@ -93,5 +97,6 @@
             </if>
         </trim>
     </insert>
+
 
 </mapper>

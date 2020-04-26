@@ -10,4 +10,6 @@ import java.util.List;
 @Component
 public interface StockDao extends BaseDao<StockOperation> {
     List<StockOperation> queryUnconfirmed(Integer userId, StockOperationType operationType);
+
+    void deleteTemp(Integer userId);
 }

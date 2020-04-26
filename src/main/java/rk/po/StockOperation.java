@@ -5,10 +5,6 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import rk.configuration.enuma.StockOperationType;
-
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 import java.util.Date;
 
@@ -34,11 +30,14 @@ public class StockOperation {
     @JsonFormat(pattern = "yyyy-MM-dd hh:mm:ss", timezone = "GMT+8")
     private Date confirmDate;
     private Boolean confirmed;
+    private Integer temp;
     public Boolean checkProperties(){
         return productId == null || specificationId == null || amount == null;
     }
 
     public void fillProductInfo(Product product) {
+        this.productUnit = product.getProductUnit();
+        this.productBrand = product.getBrand();
         this.productName = product.getProductName();
     }
 

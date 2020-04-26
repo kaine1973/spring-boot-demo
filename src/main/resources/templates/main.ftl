@@ -171,7 +171,7 @@
 
                             <!--Notification-->
                             <li class="adomx-dropdown col-auto" data-toggle="tooltip" data-placement="top" title="出库单">
-                                <a class="toggle" href="#"><i class="zmdi zmdi-calendar-note"></i><span
+                                <a class="toggle" href="#"><i class="zmdi zmdi-calendar-note" onclick="getCartStuffs()"></i><span
                                             class="badge"></span></a>
                                 <div class="adomx-dropdown-menu dropdown-menu-mail">
                                     <div class="head">

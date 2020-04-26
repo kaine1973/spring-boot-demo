@@ -5,6 +5,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import rk.po.Customer;
 
+import java.util.List;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -22,10 +24,13 @@ public class Address {
 
     private String company;
     private Integer customerId;
-    private String ofUser;
+    private byte ofUser;
     private String name;
     private String phone;
 
     private Integer userId;
 
+    public void setCustomer(Customer customer) {
+        this.company = customer.getCompany() +" - " + customer.getCustomerName();
+    }
 }

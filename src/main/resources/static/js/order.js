@@ -1,6 +1,7 @@
 function showAddressBook() {
     $.ajax({
         url:"/address/showAddressQueryPage",
+        async:"success",
         success:function (data) {
             if(data.code===200){
                 $('#modalBody').html(data.result)
@@ -18,25 +19,12 @@ function showAddressBook() {
                                 .addClass('button button-info')
                                 .on('click', function () {
                                     var addressId = $('input[name="addressCombo"]:checked').val();
-                                    $.ajax({
-                                        url:'/address/queryAddressById',
-                                        data:{"addressId":addressId},
-                                        success:function (data) {
-                                            if(data.code === 200){
-                                                $('#receiverName').val(data.result.name)
-                                                $('#receiverCompany').val(data.result.company)
-                                                $('#receiverPhone').val(data.result.phone)
-                                                $('#receiverProvince').val(data.result.provinceId)
-                                                $('#receiverProvince').change()
-                                                $('#receiverCity').val(data.result.cityId)
-                                                $('#receiverCity').change()
-                                                $('#receiverDistrict').val(data.result.districtId)
-                                                $('#receiverDistrict').change()
-                                            }
-                                        }
-                                    })
-                                    $('#exampleModalLong').modal('hide')
-                                }),
+                                    if(undefined === addressId){
+                                        alertWarning("没有选择地址")
+                                        return false
+                                    }
+                                    fillReceiverAddress(addressId)
+                                })
                         ]
                     },
                 });
@@ -65,6 +53,100 @@ function showAddressBook() {
     })
 }
 
+function fillSenderAddress(){
+    var addressId = $('input[name="addressCombo"]:checked').val();
+    $.ajax({
+        url:'/address/queryAddressById',
+        data:{"addressId":addressId},
+        async:"success",
+        success:function (data) {
+            if(data.code === 200){
+                $('#senderName').val(data.result.name)
+                $('#senderCompany').val(data.result.company)
+                $('#senderPhone').val(data.result.phone)
+                $('#senderProvince').val(data.result.provinceId).change()
+                $('#senderCity').val(data.result.cityId).change()
+                $('#senderDistrict').val(data.result.districtId).change()
+                $('#senderAddress').val(data.result.detail)
+                $('#exampleModalLong').modal('hide')
+            }
+        },
+        error:function () {
+            alertWarning("服务器没有响应，请重试")
+        }
+    })
+}
+
+function fillReceiverAddress() {
+    var addressId = $('input[name="addressCombo"]:checked').val();
+    $.ajax({
+        url:'/address/queryAddressById',
+        data:{"addressId":addressId},
+        async:"success",
+        success:function (data) {
+            if(data.code === 200){
+                $('#receiverName').val(data.result.name)
+                $('#receiverCompany').val(data.result.company)
+                $('#receiverPhone').val(data.result.phone)
+                $('#receiverProvince').val(data.result.provinceId).change()
+                $('#receiverCity').val(data.result.cityId).change()
+                $('#receiverDistrict').val(data.result.districtId).change()
+                $('#receiverAddress').val(data.result.detail)
+                $('#exampleModalLong').modal('hide')
+            }
+        },
+        error:function () {
+            alertWarning("服务器没有响应，请重试")
+        }
+    })
+}
+
+function showAlterStockOperation(stockOperationId,e) {
+    $.ajax({
+        url:"/stock/getOutStockDetailPage",
+        async:"success",
+        data:{
+            "operationId":stockOperationId
+        },
+        success:function (data) {
+            if(data.code === 200){
+                $('#modalBody').html(data.result)
+                $('#exampleModalLong').modal('show')
+            }else{
+                alertWarning(data.msg)
+            }
+        }
+    })
+}
+
+function alterStockOperation(){
+    var amount = $('#amount').val()
+    var dealPrice = $('#dealPrice').val()
+    var operationId = $('#operationId').val()
+    $.ajax({
+        url:"/stock/updateStockOperation",
+        async:"success",
+        data:{
+            "id":operationId,
+            "amount":amount,
+            "dealPrice":dealPrice
+        },
+        success:function (data) {
+            if(data.code===200){
+                var row = $('#stockOperation_'+operationId).children('td')
+                $(row[9]).text(amount)
+                $(row[10]).text(dealPrice)
+                $('#exampleModalLong').modal('hide')
+            }
+        }
+    })
+
+
+
+
+
+}
+
 function queryAddressCustomerByParams(current_page) {
     showLoadingDiv()
     var queryName = $('#queryName').val()
@@ -77,16 +159,22 @@ function queryAddressCustomerByParams(current_page) {
             'queryName':queryName,
             'queryCompany':queryCompany,
         },
+        async:"success",
         success:function (data) {
             if(data.code === 200){
-                var html = ""
+                var html = "<div class='adomx-checkbox-radio-group mt-15'>"
                 $.each(data.result['rows'],function (index,item) {
-                    html += "<tr>";
-                    html += "<td>"+item.customerName+"</td>";
-                    html += "<td>"+item.company+"</td>";
-                    html += "<td><input type='radio' name='customerSelector' value='"+item.id+"'></td>";
-                    html += "</tr>";
+                    html += "<div class='row mt-5'>" +
+                                "<div class='col-12'>" +
+                                    "<label class=\"adomx-radio\" ><input type='radio' name='customerSelector' value='"+item.id+"'>" +
+                                    "<i class=\"icon\"></i>" +
+                                    "<strong>"+item.customerName +" —— "+ item.company+"</strong>" +
+                                    "</label>"+
+                                "</div>" +
+                            "</div>";
+
                 })
+                html += "</div>";
                 $('#addressCustomerTBody').html(html)
             }
         }
@@ -102,6 +190,7 @@ function queryAddressOfCustomer(customerId){
         data:{
             "customerId":customerId
         },
+        async:false,
         success:function (data) {
             if(data.code === 200){
                 html = "<div class=\"adomx-checkbox-radio-group\">"
@@ -136,6 +225,7 @@ function showInfoModalWithSenderAddress(){
     var html
     $.ajax({
         url:"/address/queryUserAddresses",
+        async:false,
         success:function (data) {
             if(data.code === 200){
                 html = "<div class=\"adomx-checkbox-radio-group\">"
@@ -155,7 +245,7 @@ function showInfoModalWithSenderAddress(){
                 }else{
                     html += "<div class='row mt-5'>" +
                                 "<div class='col-lg-12 col-12'>" +
-                                    "<button class='button button-primary' style='height: 36px' onclick='selectAddress("+'"#senderBody"'+")'>确认</button>" +
+                                    "<button class='button button-primary' style='height: 36px' onclick='fillSenderAddress()'>确认</button>" +
                                 "</div>" +
                             "</div>"
                 }
