@@ -8,6 +8,7 @@
         <result column="product_id" property="productId"/>
         <result column="product_name" property="productName"/>
         <result column="product_brand" property="productBrand"/>
+        <result column="product_serial" property="productSerial"/>
         <result column="product_unit" property="productUnit"/>
         <result column="operation" property="operation"/>
         <result column="specification_id" property="specificationId"/>

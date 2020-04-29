@@ -63,12 +63,25 @@
 </table>
 <table class="" style="width: 1000px;">
     <thead class="itemHeader" height='36px'>
-    <th width="50px">序号</th><th width="150px">品牌</th><th>名称</th><th>规格</th><th width="100px">单位</th><th width="100px">数量</th><th width="100px">单价</th><th width="100px">金额</th>
+    <th width="40px">序号</th><th width="150px">品牌</th><th>名称</th><th width="100px">货号</th><th width="100px">规格</th><th width="80px">单位</th><th width="80px">数量</th><th width="100px">单价</th><th width="100px">金额</th>
     </thead>
     <tbody id="operationTbody">
+    <#assign total=0>
     <#list order.stockOperations as operation>
-        <tr><td>${operation?index+1}</td><td>${operation.productBrand!""}</td><td>${operation.productName}</td><td>${operation.specificationName}</td><td>${operation.productUnit}</td><td>${operation.amount}</td><td>${operation.dealPrice!operation.price}</td><td>${(operation.dealPrice!operation.price) * operation.amount}</td></tr>
+        <tr><td>${operation?index+1}</td><td>${operation.productBrand!""}</td><td>${operation.productName}</td><td>${operation.productSerial}</td><td>${operation.specificationName}</td><td>${operation.productUnit}</td><td>${operation.amount}</td><td>${operation.dealPrice!operation.price}</td><td>${(operation.dealPrice!operation.price) * operation.amount}<#assign total = total+((operation.dealPrice!operation.price) * operation.amount)></td></tr>
     </#list>
+    </tbody>
+</table>
+<table style="width:1000px">
+    <tbody>
+        <tr>
+            <td align="right">合计:</td>
+            <td width="100px" style="border-bottom: 1px black solid">${total}</td>
+        </tr>
+        <tr>
+            <td align="right">签收人:</td>
+            <td width="100px" style="border-bottom: 1px black solid"></td>
+        </tr>
     </tbody>
 </table>
 

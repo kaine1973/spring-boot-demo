@@ -17,6 +17,7 @@ public class StockOperation {
     private Integer productId;
     private String productName;
     private String productBrand;
+    private String productSerial;
     private String productUnit;
     private Integer specificationId;
     private String specificationName;
@@ -39,6 +40,7 @@ public class StockOperation {
         this.productUnit = product.getProductUnit();
         this.productBrand = product.getBrand();
         this.productName = product.getProductName();
+        this.productSerial = product.getProductSerial();
     }
 
     public void fillSpecificationInfo(ProductSpecification specification) {
