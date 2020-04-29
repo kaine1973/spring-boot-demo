@@ -20,47 +20,45 @@
                 </div>
             </div>
             <div class="box-body">
-                <form>
-                    <div class="row mbn-20">
-                        <div class="col-sm-4 col-12 mb-20">
-                            <label for="senderName">销售</label>
-                            <input id="senderAddressId" type="text" hidden>
-                            <input type="text" readonly id="senderName" class="form-control form-control-sm" placeholder="">
-                        </div>
-                        <div class="col-sm-4 col-12 mb-20">
-                            <label for="senderCompany">公司</label>
-                            <input type="text" readonly id="senderCompany" class="form-control form-control-sm" placeholder="">
-                        </div>
-                        <div class="col-sm-4 col-12 mb-20">
-                            <label for="senderPhone">电话</label>
-                            <input type="text" readonly id="senderPhone" class="form-control form-control-sm" placeholder="">
-                        </div>
+                <div class="row mbn-20">
+                    <div class="col-sm-4 col-12 mb-20">
+                        <label for="senderName">销售</label>
+                        <input id="senderAddressId" type="text" hidden>
+                        <input type="text" disabled id="senderName" class="form-control form-control-sm" placeholder="">
                     </div>
-                    <div class="row mt-5 mbn-20">
-                        <div class="col-lg-2 col-12 mb-15">
-                            <label for="senderProvince">省/市/自治区</label>
-                            <select id="senderProvince" readonly class="form-control form-control-sm" onchange="getChildArea(this)">
-                                <#list provinces as province>
-                                    <option value="${province.id}">${province.areaName}</option>
-                                </#list>
-                            </select>
-                        </div>
-                        <div class="col-lg-2 col-12 mb-15">
-                            <label for="senderCity">城市</label>
-                            <select id="senderCity" readonly class="form-control form-control-sm" onchange="getChildArea(this)">
-                            </select>
-                        </div>
-                        <div class="col-lg-2 col-12 mb-15">
-                            <label for="senderDistrict">区域</label>
-                            <select id="senderDistrict" readonly class="form-control form-control-sm">
-                            </select>
-                        </div>
-                        <div class="col-lg-6 col-12 mb-20">
-                            <label for="senderAddress">详细地址</label>
-                            <input type="text" id="senderAddress" readonly class="form-control form-control-sm" placeholder="">
-                        </div>
+                    <div class="col-sm-4 col-12 mb-20">
+                        <label for="senderCompany">公司</label>
+                        <input type="text" disabled id="senderCompany" class="form-control form-control-sm" placeholder="">
                     </div>
-                </form>
+                    <div class="col-sm-4 col-12 mb-20">
+                        <label for="senderPhone">电话</label>
+                        <input type="text" disabled id="senderPhone" class="form-control form-control-sm" placeholder="">
+                    </div>
+                </div>
+                <div class="row mt-5 mbn-20">
+                    <div class="col-lg-2 col-12 mb-15">
+                        <label for="senderProvince">省/市/自治区</label>
+                        <select id="senderProvince" disabled class="form-control form-control-sm" onchange="getChildArea(this)">
+                            <#list provinces as province>
+                                <option value="${province.id}">${province.areaName}</option>
+                            </#list>
+                        </select>
+                    </div>
+                    <div class="col-lg-2 col-12 mb-15">
+                        <label for="senderCity">城市</label>
+                        <select id="senderCity" disabled class="form-control form-control-sm" onchange="getChildArea(this)">
+                        </select>
+                    </div>
+                    <div class="col-lg-2 col-12 mb-15">
+                        <label for="senderDistrict">区域</label>
+                        <select id="senderDistrict" disabled class="form-control form-control-sm">
+                        </select>
+                    </div>
+                    <div class="col-lg-6 col-12 mb-20">
+                        <label for="senderAddress">详细地址</label>
+                        <input type="text" id="senderAddress" disabled class="form-control form-control-sm" placeholder="">
+                    </div>
+                </div>
             </div>
         </div>
         <div class="box">
@@ -76,22 +74,22 @@
                         <div class="col-sm-4 col-12 mb-20">
                             <label for="receiverName">收货人</label>
                             <input id="receiverAddressId" type="text" hidden>
-                            <input type="text" id="receiverName" class="form-control form-control-sm" placeholder="">
+                            <input type="text" disabled id="receiverName" class="form-control form-control-sm" placeholder="">
                         </div>
                         <div class="col-sm-4 col-12 mb-20">
                             <label for="receiverCompany">客户</label>
-                            <input type="text" id="customerId" readonly hidden="hidden">
-                            <input type="text" id="receiverCompany" readonly class="form-control form-control-sm" placeholder="">
+                            <input type="text" id="customerId" hidden="hidden">
+                            <input type="text" disabled id="receiverCompany" class="form-control form-control-sm" placeholder="">
                         </div>
                         <div class="col-sm-4 col-12 mb-20">
                             <label for="receiverPhone">电话</label>
-                            <input type="text" id="receiverPhone" class="form-control form-control-sm" placeholder="">
+                            <input type="text" disabled id="receiverPhone" class="form-control form-control-sm" placeholder="">
                         </div>
                     </div>
                     <div class="row mt-5 mbn-20">
                         <div class="col-lg-2 col-12 mb-15">
                             <label for="receiverProvince">省/市/自治区</label>
-                            <select id="receiverProvince" class="form-control form-control-sm" onchange="getChildArea(this)">
+                            <select id="receiverProvince" disabled class="form-control form-control-sm" onchange="getChildArea(this)">
                                 <option data-display="请选择" style="min-width: 113px" selected value="0">请选择</option>
                                 <#list provinces as province>
                                     <option value="${province.id}">${province.areaName}</option>
@@ -100,39 +98,42 @@
                         </div>
                         <div class="col-lg-2 col-12 mb-15">
                             <label for="receiverCity">城市</label>
-                            <select id="receiverCity" class="form-control form-control-sm" onchange="getChildArea(this)">
+                            <select id="receiverCity" disabled class="form-control form-control-sm" onchange="getChildArea(this)">
                                 <option data-display="请选择" >请选择</option>
                             </select>
                         </div>
                         <div class="col-lg-2 col-12 mb-15">
                             <label for="receiverDistrict">区域</label>
-                            <select id="receiverDistrict" class="form-control form-control-sm">
+                            <select id="receiverDistrict" disabled class="form-control form-control-sm">
                             </select>
                         </div>
                         <div class="col-lg-6 col-12 mb-20">
                             <label for="receiverAddress">详细地址</label>
-                            <input type="text" id="receiverAddress" class="form-control form-control-sm" placeholder="">
+                            <input type="text" id="receiverAddress" disabled class="form-control form-control-sm" placeholder="">
                         </div>
                     </div>
                 </form>
             </div>
         </div>
 
-<#--    <div class="box">-->
-<#--        <div class="box-head">-->
-<#--            <h5 class="title" style="display: inline;">其他:</h5>-->
-<#--        </div>-->
-<#--        <div class="box-body">-->
-<#--            <form>-->
-<#--                <div class="row mbn-20">-->
-<#--                    <div class="col-lg-2 col-12 mb-15">-->
-<#--                        <label for="invoiceType">开票类型</label>-->
+    <div class="box">
+        <div class="box-head">
+            <h5 class="title" style="display: inline;">其他:</h5>
+        </div>
+        <div class="box-body">
+            <form>
+                <div class="row mbn-20">
+                    <div class="col-lg-3 col-12 mb-15">
+                        <label for="orderNumber" style="display: inline">订单编号&nbsp;<span data-toggle="tooltip" data-placement="right" title="留空则自动生成"><i class="zmdi zmdi-help-outline"></i></span>
+                        </label>
+                        <input type="text" id="orderNumber" class="form-control form-control-sm">
+
 <#--                        <select id="invoiceType" name="invoiceType" class="form-control form-control-sm">-->
 <#--                            <option value="0" selected>无</option>-->
 <#--                            <option value="1">普通发票</option>-->
 <#--                            <option value="2">增值税专用发票</option>-->
 <#--                        </select>-->
-<#--                    </div>-->
+                    </div>
 <#--                    <div class="col-lg-2 col-12 mb-15">-->
 <#--                        <label for="payment">付款方式</label>-->
 <#--                        <select id="payment" name="payment" class="form-control form-control-sm">-->
@@ -153,11 +154,11 @@
 <#--                        <label for="other">其他</label>-->
 <#--                        <input type="text" id="other" class="form-control form-control-sm" placeholder="">-->
 <#--                    </div>-->
-<#--                </div>-->
+                </div>
 
-<#--            </form>-->
-<#--        </div>-->
-<#--    </div>-->
+            </form>
+        </div>
+    </div>
 
     <script>
         function toggleDetails(e,addressContainer){
@@ -181,6 +182,7 @@
                         <thead >
                         <th>序号</th><th>品牌</th><th>名称</th><th>规格</th><th>单位</th><th>数量</th><th>售价</th><th>操作</th>
                         </thead>
+                        <tbody id="operationTbody">
                         <#if stockOperations??>
                             <#list stockOperations as operation>
                                 <tr id="stockOperation_${operation.id}">
@@ -199,12 +201,20 @@
                                 </tr>
                             </#list>
                         </#if>
+                        </tbody>
                     </table>
                 </div>
             </div>
         </div>
     </div>
 
-
+    <div class="row">
+        <div class="col-12">
+            <button class="button button-primary" onclick="confirmOrder(this)"><i class="zmdi zmdi-check"></i>提交订单</button>
+            <input type="hidden" value="" id="orderId">
+            <a class="button button-info" style="color: white;display:none" href="javascript:getOrderTicket()" id="print"><i class="zmdi zmdi-print"></i>打印出库单</a>
+        </div>
+    </div>
 
 </div>
+

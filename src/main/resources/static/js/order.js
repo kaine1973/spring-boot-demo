@@ -53,6 +53,39 @@ function showAddressBook() {
     })
 }
 
+function confirmOrder(e) {
+    var senderAddressId = $('#senderAddressId').val()
+    var receiverAddressId = $('#receiverAddressId').val()
+    var customerId = $('#customerId').val()
+    var orderNumber = $('#orderNumber').val()
+    var operationIds = []
+    $.each($('#operationTbody').children('tr'),function (index,item) {
+        operationIds[index] = parseInt($($(item).children('td')[0]).text())
+    })
+    $.ajax({
+        url:"/order/insertOrUpdate",
+        data:{
+            'senderAddressId':senderAddressId,
+            'receiverAddressId':receiverAddressId,
+            'customerId':customerId,
+            'orderNumber':orderNumber,
+            'operationIds':JSON.stringify(operationIds)
+        },
+        success:function (data) {
+            if(data.code === 200){
+                alertSuccess(data.msg)
+                $('#main button').remove()
+                $('#orderNumber').val(data.result.orderNumber)
+                $('#main input').prop('disabled',true)
+                $('#orderId').val(data.result.id)
+                $('#print').toggle()
+            }else{
+                alertWarning(data.msg)
+            }
+        }
+    })
+}
+
 function fillSenderAddress(){
     var addressId = $('input[name="addressCombo"]:checked').val();
     $.ajax({
@@ -61,6 +94,7 @@ function fillSenderAddress(){
         async:"success",
         success:function (data) {
             if(data.code === 200){
+                $('#senderAddressId').val(data.result.id)
                 $('#senderName').val(data.result.name)
                 $('#senderCompany').val(data.result.company)
                 $('#senderPhone').val(data.result.phone)
@@ -85,8 +119,10 @@ function fillReceiverAddress() {
         async:"success",
         success:function (data) {
             if(data.code === 200){
+                $('#receiverAddressId').val(data.result.id)
                 $('#receiverName').val(data.result.name)
                 $('#receiverCompany').val(data.result.company)
+                $('#customerId').val(data.result.customerId)
                 $('#receiverPhone').val(data.result.phone)
                 $('#receiverProvince').val(data.result.provinceId).change()
                 $('#receiverCity').val(data.result.cityId).change()
@@ -263,11 +299,7 @@ function showInfoModalWithSenderAddress(){
     })
 }
 
-function selectAddress(fillContainer) {
-    var selectAddress = $('input[name="addressCombo"]:checked');
-    var addressId = selectAddress.val()
-    var addressSpan = selectAddress.parent().children('strong')
-    $(fillContainer).children('p').html(addressSpan.html())
-    $(fillContainer).children('input').val(addressId)
-    $('#exampleModalLong').modal('hide')
+function getOrderTicket(){
+    var orderId = $('#orderId').val()
+    window.open('/order/printOrderTicket?orderId='+orderId)
 }

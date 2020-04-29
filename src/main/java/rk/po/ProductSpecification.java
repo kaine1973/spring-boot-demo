@@ -22,4 +22,6 @@ public class ProductSpecification {
     //数量
     private Integer amount;
 
+    private Integer isValid;
+
 }

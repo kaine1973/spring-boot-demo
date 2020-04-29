@@ -1,30 +1,59 @@
 var detailTree, manageTree
 
-function appendSpecification(){
-    var specificationHtml = "<div class=\"row notRequired mt-5\">\n" +
-        " <div class=\"col-12\">\n" +
-        "     <div class=\"input-group\" style=\"height: 36px\">\n" +
-        " <input class=\"form-control form-control-sm\" type=\"text\" placeholder=\"规格*\" name=\"specificationName\"  style=\"height: 36px\">\n" +
-        " <input class=\"form-control form-control-sm\" type=\"number\" step=\"any\" placeholder=\"价格*\" name=\"price\"  style=\"height: 36px\">\n" +
-        " <input class=\"form-control\" type=\"number\" step=\"any\" placeholder=\"数量\" name=\"amount\" style=\"height: 36px;font-size: 13px\">\n" +
-        " <div class=\"input-group-append\" style=\"height: 36px\">\n" +
-        "     <span class=\"input-group-text\" id=\"unitSpan\" style=\"font-size: 13px\"></span>\n" +
-        " </div>\n" +
-        " <button class='button button-box button-sm button-danger' style='height:36px;' onclick='removeSpecification(this)'>\n" +
-        "     <i class='zmdi zmdi-minus-circle'></i>\n" +
-        " </button>\n" +
-        "      </div>\n" +
-        "  </div>\n" +
-        "          </div>"
-    $('#specification').append(specificationHtml);
-    changeUnit()
-    // $('#specification').children('div.selfhide').show('300')
+function showAddSpecificationModal(){
+    $('#specificationId').val('')
+    $('#specificationName').val('')
+    $('#specificationPrice').val('')
+    $('#specificationAmount').val('')
+    $('#specificationModal').modal('show');
 }
 
-function removeSpecification(button) {
-    $(button).parent().parent().parent().fadeOut('300',function () {
-        $(button).parent().parent().parent().remove()
-    })
+function addSpecificationRow(){
+    var id = $('#specificationId').val()
+    var name = $('#specificationName').val()
+    var price = $('#specificationPrice').val()
+    var amount = $('#specificationAmount').val()
+    if(id !== ''){
+        $.each($('#specificationTbody').children('tr'),function (index,item) {
+            if($($(item).children('td')[0]).text() === id){
+                $($(item).children('td')[1]).text(name);
+                $($(item).children('td')[2]).text(price);
+                $($(item).children('td')[3]).text(amount);
+                $($(item).children('td')[4]).text(1);
+            }
+        })
+    }else{
+        $('#specificationTbody').append('<tr>' +
+            '<td hidden>'+id+'</td>' +
+            '<td>'+ name +'</td>' +
+            '<td>'+ price +'</td>' +
+            '<td>'+ amount +'</td>' +
+            '<td hidden>'+ 1 +'</td>' +
+            '<td width="100px"><button class="button button-xs button-warning" style="height: 25px" onclick="deleteSpecification(this)">删除</button>' +
+            '<button class="button button-xs button-primary" style="height: 25px" onclick="editSpecification(this)">编辑</button></td>' +
+            '</tr>')
+    }
+
+    $('#specificationModal').modal('hide');
+}
+
+function deleteSpecification(e) {
+    var tds = $(e).parent().siblings('td')
+    $(tds[4]).text(0)
+    $(e).parent().parent().hide()
+}
+
+function editSpecification(e){
+    showAddSpecificationModal()
+    var tds = $(e).parent().siblings('td')
+    var id = $(tds[0]).text()
+    var name = $(tds[1]).text()
+    var price = $(tds[2]).text()
+    var amount = $(tds[3]).text()
+    $('#specificationId').val(id)
+    $('#specificationName').val(name)
+    $('#specificationPrice').val(price)
+    $('#specificationAmount').val(amount)
 }
 
 function changeUnit() {
@@ -45,7 +74,7 @@ function showInfoModal(e) {
         success:function (data) {
             if(data.code === 200){
                 $('#modalBody').html(data.result)
-                $('select').niceSelect();
+                $('#exampleModalLongTitle').html("商品信息")
                 $('#exampleModalLong').modal('show')
             }else{
                 alertWarning(data.msg)
@@ -91,7 +120,6 @@ function cleanForm() {
 }
 
 function initCategoryBox(e,defaultNodeId){
-    showLoadingDiv()
     $.ajax({
         url:"/product/queryCategory",
         success:function (data) {
@@ -129,7 +157,6 @@ function initCategoryBox(e,defaultNodeId){
             return false
         }
     });
-    stopLoadingDiv()
 }
 
 function submitProductData(){
@@ -431,20 +458,18 @@ function resetThenQuery() {
 }
 
 function generateValArrayFromInputArray() {
-    var specificationNames = $("input[name='specificationName']")
-    var prices = $("input[name='price']")
-    var amounts = $("input[name='amount']")
 
     var data = []
-
-    for(var i = 0;i<specificationNames.length;i++){
+    $.each($('#specificationTbody').children('tr'),function (index,item) {
         var productSpecification = {}
-        productSpecification.specificationName = specificationNames[i].value
-        productSpecification.price = prices[i].value
-        productSpecification.amount = amounts[i].value
-        data[i] = productSpecification
-        // data[i] = '{specificationName:'+specificationNames[i].value+',price:'+prices[i].value+',amount:'+amounts[i].value+'}'
-    }
+        var tds = $(item).children('td')
+        productSpecification.id = $(tds[0]).text()
+        productSpecification.specificationName = $(tds[1]).text()
+        productSpecification.price = $(tds[2]).text()
+        productSpecification.amount = $(tds[3]).text()
+        productSpecification.isValid = $(tds[4]).text()
+        data[index] = productSpecification
+    })
     // data = data.substring(0,data.length-1) + ']'
     return data
 }

@@ -89,32 +89,33 @@ function queryCustomerByParams(current_page) {
 }
 function generateCustomerRow(customer) {
     return "<tr height=\"41px\" >\n" +
-        "                            <td hidden>"+customer.id+"</td>\n" +
-        "                            <td onclick=\"\" data-toggle=\"tooltip\" data-placement=\"top\" title=\"点击查看详情\">"+customer.customerName+"</td>\n" +
+        "                            <td onclick=\"showCustomerInfo("+customer.id+")\" data-toggle=\"tooltip\" data-placement=\"top\" title=\"点击查看详情\">"+customer.customerName+"</td>\n" +
         "                            <td class=\"hide-responsive\">"+(customer.company==null?"":customer.company)+"</td>\n" +
         "                            <td class=\"hide-responsive\">"+(customer.customerId==null?"":customer.customerId)+"</td>\n" +
         "                            <td class=\"hide-responsive\">"+(customer.levelSign==null?"":customer.levelSign)+"</td>\n" +
         "                            <td class=\"hide-responsive\">"+(customer.phone==null?"":customer.phone)+"</td>\n" +
         // "                            <td class=\"hide-responsive\">"+createDate+"</td>\n" +
         "                            <td class=\"hide-responsive\" style=\"padding-bottom: 3px;padding-top:8px\">\n" +
-        "                                    <button class=\"button button-box button-xs button-primary\" data-toggle=\"tooltip\" data-placement=\"top\" title=\"入库\"><i class=\"zmdi zmdi-download\"></i></button>\n" +
-        "                                    <button class=\"button button-box button-xs button-primary\" data-toggle=\"tooltip\" data-placement=\"top\" title=\"出库\" onclick=\"showSpecificationModal('出库','"+customer.id+"','"+customer.customerName+"')\" ><i class=\"zmdi zmdi-upload\"></i></button>\n" +
-        "                            </td>" +
-        // "                            <td hidden id='specification-"+customer.id+"'>" +
-        // "                                   <li>" +
-        // "                                       <div>" +
-        // "                                           <button class=\"delete\"><i class=\"zmdi zmdi-close-circle-o\"></i></button>" +
-        // "                                           <div>" +
-        // "                                        <h6 style=\"max-width: 65%;float:left;\">"+customer.productName+"</h6>" +
-        // "                                        <span style='float: right;max-width: 34%'>"+ "specification" +"<br/>"+ "amount" + "</span>" +
-        // "                                           </div>" +
-        // "                                       </div>" +
-        // "                                   </li>" +
-        // "                            </td>" +
+        (customer.gender === 0?'男':customer.gender === 1?'女':"")+
+        "                            </td>"+
         "</tr>"
 }
 function customerManageInit(){
     queryCustomerByParams()
+}
+
+function showCustomerInfo(customerId) {
+    $.ajax({
+        url:"/customer/detail",
+        data:{"customerId":customerId},
+        success:function (data) {
+            if(data.code === 200){
+                $('#modalBody').html(data.result)
+                $('#exampleModalLongTitle').html("顾客详情")
+                $('#exampleModalLong').modal('show')
+            }
+        }
+    })
 }
 
 function uploadCustomerDetail(e) {
@@ -140,17 +141,14 @@ function uploadCustomerDetail(e) {
 
     $.each($('#addressTableBody').children('tr'),function (index,item) {
         var tds = $(item).children('td')
+        var address = $(tds[4]).text()
+        var index = address.indexOf(' ') + 1
         addresses.push({"name":$(tds[0]).text(),
             "company":$(tds[1]).text(),
             "phone":$(tds[2]).text(),
-            "districtId":$(tds[7]).text(),
-            "detail":$(tds[9]).text()})
+            "districtId":$(tds[3]).text(),
+            "detail":address.substring(index)})
     })
-
-    if(isEmpty(customerName)||isNaN(positionId) || isNaN(gender) || isNaN(parseInt(districtId))){
-        alertWarning("带*的是必填项")
-        return
-    }
 
     $.ajax({
         url:"/customer/uploadCustomerDetail",

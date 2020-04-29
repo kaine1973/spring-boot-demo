@@ -46,11 +46,24 @@ public class CustomerController {
     @Autowired
     private ObjectMapper objectMapper;
 
+    @Autowired
+    private AddressService addressService;
+
     @RequestPermission(aclValue = "0")
     @ResponseBody
     @RequestMapping("detail")
-    public ResultInfo customerDetail(){
+    public ResultInfo customerDetail(Integer customerId,@SessionAttribute User user){
         HashMap<String, Object> params = new HashMap<>();
+        if(null != customerId){
+            Customer customer = customerService.queryByIdAndUserId( customerId,user.getId() );
+            List<Address> addresses = addressService.queryByCustomerId( customer.getId(), user.getId() );
+            if(addresses == null){
+                addresses = new ArrayList<>();
+                addresses.add( new Address() );
+            }
+            customer.setAddresses( addresses );
+            params.put( "customer",customer );
+        }
         List<Area> province = commonService.queryAreaByParentId( 1 );
         List<CustomerLevel> customerLevels = commonService.queryCustomerLevelById( null );
         List<CustomerPosition> customerPositions = commonService.queryCustomerPositionById( null );
@@ -67,9 +80,7 @@ public class CustomerController {
 
         customer.checkNecessaryProperty();
         customer.setUserId( user.getId() );
-
         ArrayList<Address> addresses = addressMapping( addressesString, user.getId() );
-
         customer.setAddresses( addresses );
         customerService.saveCustomer( customer,customer.getId() );
         return new ResultInfo( 200,"请求成功");

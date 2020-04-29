@@ -88,4 +88,5 @@ public interface BaseDao<T> {
     public  Integer deleteBatch(Integer[] ids) throws  DataAccessException;
 
 
+    public Integer deleteByIdAndUserId(Integer specificationId, Integer userId);
 }

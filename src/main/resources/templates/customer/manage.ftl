@@ -62,7 +62,7 @@
                     <th class="hide-responsive">编号</th>
                     <th class="hide-responsive">星级</th>
                     <th class="hide-responsive">电话</th>
-                    <th class="hide-responsive">地址</th>
+                    <th class="hide-responsive">性别</th>
                 </tr>
                 </thead>
                 <tbody>

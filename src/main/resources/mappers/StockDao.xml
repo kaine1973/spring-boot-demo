@@ -73,6 +73,16 @@
         where st.id = #{id} and st.user_id = #{userId}
     </select>
 
+
+    <update id="confirmStockOperations" parameterType="java.util.List">
+        update crm.stock_operation set confirmed = '1', confirm_date = now(), temp = '0'
+        where id in
+        <foreach collection="list"
+                 open="(" separator="," close=")" item="id">
+            #{id}
+        </foreach>
+    </update>
+
     <update id="update" parameterType="rk.po.StockOperation">
         update crm.stock_operation
         <set>
@@ -96,13 +106,11 @@
     </update>
 
     <delete id="delete" parameterType="java.lang.Integer">
-        delete from stock_operation where id = ${id}
+        delete from stock_operation where id = ${id} and confirmed = 0
     </delete>
 
     <delete id="deleteTemp" parameterType="java.lang.Integer">
-        delete from stock_operation where temp = 1 and user_id = #{userId}
+        delete from stock_operation where temp = 1 and user_id = #{userId} and confirmed = 0
     </delete>
-
-
 
 </mapper>

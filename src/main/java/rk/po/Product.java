@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.NotBlank;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 //产品
@@ -37,6 +38,16 @@ public class Product {
     private Date updateDate;
     //规格，对应包含 价格、数量
     private List<ProductSpecification> productSpecifications;
+
+    public void setProductSpecifications(List<ProductSpecification> specifications){
+        productSpecifications = new ArrayList<>();
+        for(ProductSpecification specification:specifications){
+            if(null == specification.getId() && 0 == specification.getIsValid()){
+                continue;
+            }
+            productSpecifications.add( specification );
+        }
+    }
 
 
 }

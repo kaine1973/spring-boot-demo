@@ -1,6 +1,7 @@
 package rk.service;
 
 import org.json.JSONObject;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import rk.base.BaseService;
@@ -22,6 +23,9 @@ public class ProductService extends BaseService<Product> {
 
     @Resource
     private ProductDao productDao;
+
+    @Autowired
+    private SpecificationService specificationService;
 
     public List<ProductCategory> queryCategoryOfLevel(Integer parentId) {
         List<ProductCategory> productCategories = productDao.selectCategoryOfLevel( parentId );
@@ -47,21 +51,11 @@ public class ProductService extends BaseService<Product> {
     @Transactional
     public void insertOrUpdateProduct(Product product) {
 
-        if(product.getProductId() != null) {
-            AssertUtil.isTrue( productDao.deleteProductSpecifications( product.getProductId() ) < 1, "产品规格删除失败" );
-        }
-
         AssertUtil.isTrue( this.saveUpdate( product,product.getProductId() )<1,"产品添加失败" );
-        for(int i=0;i < product.getProductSpecifications().size();i++){
-            ProductSpecification productSpecification = product.getProductSpecifications().get( i );
-            if("".equals( productSpecification.getSpecificationName() )||null == productSpecification.getSpecificationName()){
-                throw new ParamRequestException( OperationStatus.paramNotAvailable );
-            }else if("".equals( productSpecification.getPrice() )||null == productSpecification.getPrice()){
-                throw new ParamRequestException( OperationStatus.paramNotAvailable );
-            }
-            productSpecification.setProductId( product.getProductId() );
+        for(ProductSpecification specification:product.getProductSpecifications()){
+            specification.setProductId( product.getProductId() );
+            AssertUtil.isTrue( specificationService.saveUpdate( specification,specification.getId() )<1,"保存产品分类失败" );
         }
-        AssertUtil.isTrue( productDao.insertproductSpecifications(product.getProductSpecifications())<1,"产品规格添加失败" );
     }
 
     @Transactional
@@ -73,4 +67,5 @@ public class ProductService extends BaseService<Product> {
     public List<ProductSpecification> queryProductSpecifications(Integer productId) {
         return productDao.queryProductSpecificationByProductId( productId );
     }
+
 }

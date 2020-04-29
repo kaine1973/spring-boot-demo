@@ -12,4 +12,6 @@ public interface StockDao extends BaseDao<StockOperation> {
     List<StockOperation> queryUnconfirmed(Integer userId, StockOperationType operationType);
 
     void deleteTemp(Integer userId);
+
+    Integer confirmStockOperations(List<Integer> ids);
 }

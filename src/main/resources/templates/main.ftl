@@ -19,9 +19,12 @@
     td div button {
         height: 36px;
     }
-    @media only screen and (max-width: 767px){
+    @media only screen and (max-width: 980px){
         .hide-responsive{
             display: none;
+        }
+        .show-responsive{
+            display: block;
         }
     }
     .input-group-text{

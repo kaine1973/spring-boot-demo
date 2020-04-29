@@ -18,6 +18,7 @@ import rk.model.ResultInfo;
 import rk.po.*;
 import rk.query.ProductQuery;
 import rk.service.ProductService;
+import rk.service.SpecificationService;
 import rk.util.AssertUtil;
 import rk.util.TemplateParser;
 
@@ -39,6 +40,9 @@ public class ProductController {
     @Autowired
     private ProductService productService;
 
+    @Autowired
+    private SpecificationService specificationService;
+
 
     @RequestPermission(aclValue = "0")
     @RequestMapping("getProductPage")
@@ -54,7 +58,7 @@ public class ProductController {
         return new ResultInfo( 200,"请求成功",page );
     }
 
-    @RequestPermission(aclValue = "1")
+    @RequestPermission(aclValue = "0")
     @RequestMapping("insertOrUpdate")
     @ResponseBody
     public ResultInfo insertOrUpdateProduct(Product product,String specifications,@SessionAttribute User user) throws JsonProcessingException {
@@ -65,11 +69,8 @@ public class ProductController {
         cantBeNullOrEmpty( cantBeNullValues );
 
         List<ProductSpecification> productSpecifications = objectMapper.readValue( specifications, new TypeReference<List<ProductSpecification>>() {} );
-        if(productSpecifications.size()>0) {
-            product.setProductSpecifications( productSpecifications );
-        }else{
-            return new ResultInfo( 300,"需要至少一个产品规格" );
-        }
+        product.setProductSpecifications( productSpecifications );
+        AssertUtil.isTrue(product.getProductSpecifications().size()<1,"需要至少一个产品规格");
         productService.insertOrUpdateProduct(product);
         return new ResultInfo( 200,"保存成功" );
     }

@@ -13,9 +13,5 @@ public interface ProductDao extends BaseDao<Product> {
 
     List<ProductSpecification> queryProductSpecificationByProductId(Integer productId);
 
-    Integer insertProduct(Product product);
-
-    Integer insertproductSpecifications(List<ProductSpecification> productSpecifications);
-
     Integer deleteProductSpecifications(Integer productId);
 }

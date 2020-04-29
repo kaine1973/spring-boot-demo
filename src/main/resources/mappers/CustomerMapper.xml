@@ -10,8 +10,6 @@
         <result column="create_time" jdbcType="TIMESTAMP" property="createTime" javaType="java.util.Date"/>
         <result column="phone" jdbcType="VARCHAR" property="phone" javaType="java.lang.String"/>
         <result column="gender" jdbcType="TINYINT" property="gender" javaType="java.lang.Byte"/>
-        <result column="address_id" jdbcType="INTEGER" property="addressId" javaType="java.lang.Integer"/>
-        <result column="address_detail" jdbcType="VARCHAR" property="addressDetail" javaType="java.lang.String"/>
         <result column="level_id" jdbcType="INTEGER" property="levelId" javaType="java.lang.Integer"/>
         <result column="level_sign" jdbcType="VARCHAR" property="levelSign" javaType="java.lang.String"/>
         <result column="position_id" jdbcType="INTEGER" property="positionId" javaType="java.lang.Integer"/>
@@ -19,6 +17,7 @@
         <result column="company" jdbcType="VARCHAR" property="company" javaType="java.lang.String"/>
         <result column="note" jdbcType="VARCHAR" property="note" javaType="java.lang.String"/>
     </resultMap>
+
 
     <select id="queryByParams" parameterType="rk.query.CustomerQuery" resultMap="customerDetail">
         SELECT c.*,cl.level_sign from crm.customer as c join crm.customer_level as cl on cl.id = c.level_id

@@ -6,6 +6,7 @@ import rk.util.AssertUtil;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 @Data
 public class Customer {
@@ -22,7 +23,7 @@ public class Customer {
     private String customerId;
     private String company;
     private String note;
-    private ArrayList<Address> addresses;
+    private List<Address> addresses;
 
     public void checkNecessaryProperty() {
         AssertUtil.isTrue( customerName == null || "".equals( customerName ),"参数有误，客户名必填" );

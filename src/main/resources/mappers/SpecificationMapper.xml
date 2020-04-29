@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="rk.dao.SpecificationDao">
+
+    <resultMap id="specification" type="rk.po.ProductSpecification">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <id column="product_id" jdbcType="INTEGER" property="productId"/>
+        <result column="specification_name" jdbcType="VARCHAR" property="specificationName"/>
+        <result column="amount" jdbcType="INTEGER" property="amount"/>
+        <result column="price"  jdbcType="DECIMAL" property="price"/>
+    </resultMap>
+
+    <insert id="save"
+            useGeneratedKeys="true"
+            parameterType="rk.po.ProductSpecification"
+            keyProperty="id"
+            keyColumn="id">
+        insert into product_specification (product_id, specification_name, price, amount, is_valid)
+        values(#{productId},#{specificationName},#{price},#{amount},1)
+    </insert>
+
+    <update id="update" parameterType="rk.po.ProductSpecification" keyColumn="id" keyProperty="productId" useGeneratedKeys="true">
+        update product_specification
+        <set >
+            <if test="price != null">
+                price = #{price},
+            </if>
+            <if test="isValid != null">
+                is_valid = #{isValid},
+            </if>
+        </set>
+        where id=#{id}
+    </update>
+
+    <insert id="insertBatch" parameterType="java.util.List">
+        insert into product_specification (product_id, specification_name, price, amount)
+        VALUES
+        <foreach collection="list" item="productSpecification" separator=",">
+            (#{productSpecification.productId,jdbcType=INTEGER},
+            #{productSpecification.specificationName,jdbcType=VARCHAR},
+            #{productSpecification.price,jdbcType=VARCHAR},
+            #{productSpecification.amount,jdbcType=INTEGER})
+        </foreach>
+    </insert>
+
+
+    <delete id="delete" parameterType="java.lang.Integer">
+        update product set is_aviliable = 0 where id = #{productId}
+    </delete>
+
+
+</mapper>

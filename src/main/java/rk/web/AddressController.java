@@ -39,26 +39,20 @@ public class AddressController {
     @RequestPermission(aclValue = "0")
     @ResponseBody
     @RequestMapping("getAddressDetailPage")
-    public ResultInfo getAddressPage(String container,Integer addressId, @SessionAttribute("user") User user){
-        Address address = null;
-        if(null != addressId){
-            address = addressService.queryByIdAndUserId(addressId,user.getId());
-        }
+    public ResultInfo getAddressPage(Integer addressId, @SessionAttribute("user") User user){
         HashMap<String, Object> params = new HashMap<>();
-        //页面需要将修改（添加）后的地址信息输入到页面的一个container中
-        params.put( "container",container );
-        if(null != address){
+        Integer provinceId = 1;
+        if(null != addressId){
+            Address address = addressService.queryByIdAndUserId(addressId,user.getId());
             params.put( "address",address );
-            List<Area> provinces = commonService.queryAreaByParentId( address.getProvinceId() );
+            provinceId = address.getProvinceId();
             List<Area> cities = commonService.queryAreaByParentId( address.getCityId() );
             List<Area> districts = commonService.queryAreaByParentId( address.getDistrictId() );
-            params.put( "provinces",provinces );
             params.put( "cities",cities );
             params.put( "districts",districts );
-        }else{
-            List<Area> provinces = commonService.queryAreaByParentId( 1 );
-            params.put( "provinces",provinces );
         }
+        List<Area> provinces = commonService.queryAreaByParentId( provinceId);
+        params.put( "provinces",provinces );
         String s = TemplateParser.parseTemplate( "/customer/addressDetail", params, freeMarkerConfigurer );
         return new ResultInfo( 200,"请求成功",s );
     }
