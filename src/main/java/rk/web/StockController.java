@@ -1,5 +1,6 @@
 package rk.web;
 
+import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -13,6 +14,7 @@ import rk.configuration.enuma.StockOperationType;
 import rk.model.ResultInfo;
 import rk.po.StockOperation;
 import rk.po.User;
+import rk.query.StockQuery;
 import rk.service.*;
 import rk.util.AssertUtil;
 import rk.util.TemplateParser;
@@ -26,6 +28,9 @@ public class StockController {
 
     @Autowired
     private StockService stockService;
+
+    @Autowired
+    private UserService userService;
 
     @Autowired
     private FreeMarkerConfigurer freeMarkerConfigurer;
@@ -59,7 +64,6 @@ public class StockController {
         return new ResultInfo( 200,"",TemplateParser.parseTemplate( "/product/outStockDetail",params,freeMarkerConfigurer ) );
     }
 
-
     @RequestPermission(aclValue = "0")
     @RequestMapping("updateStockOperation")
     @ResponseBody
@@ -72,9 +76,34 @@ public class StockController {
     @RequestPermission(aclValue = "0")
     @RequestMapping("queryUnconfirmedStockOperationOf{type}")
     @ResponseBody
-    public ResultInfo queryAllStockOutUnconfirmed(@PathVariable("type")String type,@SessionAttribute User user){
+    public ResultInfo queryAllStockOperationUnconfirmed(@PathVariable("type")String type,@SessionAttribute User user){
         List<StockOperation> stockOperations = stockService.queryUnconfirmedStockOperation( user.getId(), StockOperationType.valueOf( type ) );
         return new ResultInfo( 200,"success",stockOperations );
     }
 
+    @RequestPermission(aclValue = "0")
+    @RequestMapping("getStockHistoryPageOf{type}")
+    @ResponseBody
+    public ResultInfo getStockHistoryPage(@PathVariable String type){
+
+        PageInfo<StockOperation> stockOperationPageInfo = stockService.queryByParams( new StockQuery(type) );
+        List<StockOperation> stockOperations = stockOperationPageInfo.getList();
+        List<User> users = userService.queryAllUsers();
+        HashMap<String,Object> params = new HashMap<>();
+        params.put( "stockOperations",stockOperations );
+        params.put( "type",type );
+        params.put( "users",users );
+        String stockHistory = TemplateParser.parseTemplate( "/stockHistory", params, freeMarkerConfigurer );
+        return new ResultInfo( 200,"success",stockHistory );
+    }
+
+
+    @RequestPermission(aclValue = "0")
+    @RequestMapping("queryStockOf{type}")
+    @ResponseBody
+    public ResultInfo queryByParams(StockQuery stockQuery,@PathVariable String type){
+        stockQuery.setType( type );
+        PageInfo<StockOperation> pageInfo = stockService.queryByParams( stockQuery );
+        return new ResultInfo( 200,"success",pageInfo );
+    }
 }

@@ -13,6 +13,7 @@
         <result column="operation" property="operation"/>
         <result column="specification_id" property="specificationId"/>
         <result column="specification_name" property="specificationName"/>
+        <result column="user_name" property="userName"/>
         <result column="amount" property="amount"/>
         <result column="price" property="price"/>
         <result column="deal_price" property="dealPrice"/>
@@ -23,14 +24,14 @@
     </resultMap>
 
     <insert id="saveBatch" parameterType="java.util.List" useGeneratedKeys="true" keyProperty="id" keyColumn="id">
-        insert into stock_operation (user_id, operation,product_id,specification_id,amount,temp)
+        insert into stock_operation (user_id, operation,product_id,specification_id,amount,temp,confirmed,add_date,confirm_date)
         VALUES <foreach collection="list" item="operation" separator=",">
             (#{operation.userId},
                     #{operation.operation},
                     #{operation.productId},
                     #{operation.specificationId},
                     #{operation.amount},
-                    #{operation.temp})
+                    #{operation.temp},#{operation.confirmed},NOW(),NOW())
         </foreach>
     </insert>
 
@@ -72,6 +73,45 @@
         from stock_operation st join product p on st.product_id = p.id
                                 join product_specification sp on st.specification_id = sp.id
         where st.id = #{id} and st.user_id = #{userId}
+    </select>
+
+    <select id="queryByParams" parameterType="rk.query.StockQuery" resultMap="stockOperationMap">
+        select
+               st.id as id,
+               u.id as user_id,
+                st.product_id as product_id,
+                p.product_name as product_name,
+                p.product_unit as product_unit,
+
+                p.product_serial as product_serial,
+                p.brand as product_brand,
+                UPPER(st.operation) as operation,
+                sp.specification_name as specification_name,
+                st.amount as amount,
+                sp.price as price,
+                u.uname as user_name,
+                st.operation,
+                st.deal_price as deal_price,
+                st.confirm_date as confirm_date,
+                st.add_date as add_date,
+                st.confirmed as confirmed
+        from stock_operation st
+        join user u on st.user_id = u.id
+        join product p on st.product_id = p.id
+        join product_specification sp on st.specification_id = sp.id
+        where confirmed = '1' and operation = #{type}
+        <trim>
+            <if test="startDate != null">
+                and st.confirm_date between #{startDate} and #{endDate}
+            </if>
+            <if test="productLike != null">
+                and st.product_id in (SELECT id FROM crm.product where product_name like concat('%',#{productLike},'%'))
+            </if>
+            <if test="userId != null">
+                and st.user_id = #{userId}
+            </if>
+        </trim>
+        order by confirm_date desc
     </select>
 
 

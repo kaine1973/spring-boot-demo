@@ -33,7 +33,9 @@
 
 <table width="" style="margin: 10px;width:1000px">
     <thead>
-    <th width="100px"></th><th colspan="10" style="text-align:center;height:50px">上海英莱盾生物技术有限公司销售出库单</th><th width="100px">2020-04-28</th>
+        <th width="100px"></th>
+        <th colspan="10" style="text-align:center;height:50px">上海英莱盾生物技术有限公司销售出库单</th>
+        <th width="100px">${order.createDate?string('yyyy.MM.dd HH:mm:ss')}</th>
     </thead>
     <tbody>
     <tr>
@@ -75,8 +77,7 @@
 <table style="width:1000px">
     <tbody>
         <tr>
-            <td align="right">合计:</td>
-            <td width="100px" style="border-bottom: 1px black solid">${total}</td>
+            <td align="right"></td>
         </tr>
         <tr>
             <td align="right">签收人:</td>

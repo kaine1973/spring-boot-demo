@@ -53,3 +53,7 @@ server:
   servlet:
     session:
       timeout: 12h
+logging:
+  level:
+    rk:
+      dao: debug

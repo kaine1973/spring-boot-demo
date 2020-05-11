@@ -49,7 +49,7 @@ public class StockService extends BaseService<StockOperation> {
         for(StockOperation stockOperation:operations){
             AssertUtil.isTrue(stockOperation.checkProperties(),OperationStatus.paramNotAvailable);
 
-            Product product = productService.queryProductById( stockOperation.getProductId(), userId );
+            Product product = productService.queryProductById( stockOperation.getProductId() );
             AssertUtil.isTrue( product==null,String.format( "产品%s不存在",stockOperation.getProductName() ));
             stockOperation.fillProductInfo(product);
 
@@ -62,7 +62,9 @@ public class StockService extends BaseService<StockOperation> {
             }
             AssertUtil.isTrue( specificationDoesntExists,String.format( "产品%s不存在对应的规格:%s",product.getProductName(),stockOperation.getSpecificationName() ) );
             stockOperation.setUserId(userId);
-            stockOperation.setOperation(StockOperationType.STOCK_OUT);
+            if(StockOperationType.STOCK_IN.equals( stockOperation.getOperation() )){
+                stockOperation.setConfirmed( true );
+            }
         }
         AssertUtil.isTrue( stockDao.saveBatch( operations )<operations.size(), OperationStatus.processFailed );
         return operations;

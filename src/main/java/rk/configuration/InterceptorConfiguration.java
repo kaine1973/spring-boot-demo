@@ -35,13 +35,14 @@ public class InterceptorConfiguration implements WebMvcConfigurer {
                 .addPathPatterns( "/order/**" )
                 .addPathPatterns( "/staticWeb/**" )
                 .addPathPatterns( "/user/**" )
+                .addPathPatterns( "/main" )
+                .addPathPatterns( "/statistics/**" )
                 .excludePathPatterns("/user/login").order( 0 );
 
         registry.addInterceptor( staticResourceInterceptor )
                 .addPathPatterns( "/images/**" )
                 .addPathPatterns( "/" )
                 .addPathPatterns( "/index" )
-                .addPathPatterns( "/main" )
                 .excludePathPatterns( "/images/bg/**" ).order( 1 );
 //                .excludePathPatterns( "/main" )
 //                .excludePathPatterns("/login")

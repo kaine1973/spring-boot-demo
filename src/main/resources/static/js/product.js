@@ -64,8 +64,7 @@ function changeUnit() {
 }
 
 function showInfoModal(e) {
-    showLoadingDiv()
-    var productId = $(e).prev('td').html()
+    var productId = $(e).parent('tr').children('td')[0].innerHTML
     $.ajax({
         url:"/product/getProductPage",
         data:{
@@ -84,7 +83,6 @@ function showInfoModal(e) {
             alertWarning("请求服务器失败，请重试，或者联系管理员。")
         }
     })
-    stopLoadingDiv()
 }
 
 function deleteProduct(productId,productName) {
@@ -203,35 +201,27 @@ function submitProductData(){
     stopLoadingDiv()
 }
 
-function generateRow(product) {
-    return "<tr height=\"41px\" >\n" +
-        "     <td hidden>"+product.productId+"</td>\n" +
-        "     <td onclick=\"showInfoModal(this)\" data-toggle=\"tooltip\" data-placement=\"top\" title=\"点击查看详情\">"+product.productName+"</td>\n" +
-        "     <td class=\"hide-responsive\">"+(product.brand==null?"":product.brand)+"</td>\n" +
-        "     <td class=\"hide-responsive\">"+(product.productSerial==null?"":product.productSerial)+"</td>\n" +
-        "     <td class=\"hide-responsive\">"+(product.productUnit==null?"":product.productUnit)+"</td>\n" +
-        "     <td class=\"hide-responsive\">"+(product.model==null?"":product.model)+"</td>\n" +
-        // "    <td class=\"hide-responsive\">"+createDate+"</td>\n" +
-        "     <td class=\"hide-responsive\" style=\"padding-bottom: 3px;padding-top:8px\">\n" +
-        "    <button class=\"button button-box button-xs button-primary\" data-toggle=\"tooltip\" data-placement=\"top\" title=\"入库\"><i class=\"zmdi zmdi-download\"></i></button>\n" +
-        "    <button class=\"button button-box button-xs button-primary\" data-toggle=\"tooltip\" data-placement=\"top\" title=\"出库\" onclick=\"showSpecificationModal('出库','"+product.productId+"','"+product.productName+"')\" ><i class=\"zmdi zmdi-upload\"></i></button>\n" +
-        "    </td>" +
-        "    <td hidden id='specification-"+product.productId+"'>" +
-        " <li>" +
-        "     <div>" +
-        "           <button class=\"delete\"><i class=\"zmdi zmdi-close-circle-o\"></i></button>" +
-        "         <div>" +
-                "        <h6 style=\"max-width: 65%;float:left;\">"+product.productName+"</h6>" +
-                "      <span style='float: right;max-width: 34%'>"+ "specification" +"<br/>"+ "amount" + "</span>" +
-        "         </div>" +
-        "     </div>" +
-        " </li>" +
-        "    </td>" +
-        "</tr>"
+function generateRow(products) {
+    var html =""
+    $.each(products,function (index,product) {
+        html += "<tr height=\"41px\" >\n" +
+            "     <td hidden>"+product.productId+"</td>\n" +
+            "     <td class=\"hide-responsive\">"+(product.brand==null?"":product.brand)+"</td>\n" +
+            "     <td onclick=\"showInfoModal(this)\" data-toggle=\"tooltip\" data-placement=\"top\" title=\"点击查看详情\">"+product.productName+"</td>\n" +
+            "     <td class=\"hide-responsive\">"+(product.productSerial==null?"":product.productSerial)+"</td>\n" +
+            "     <td class=\"hide-responsive\">"+(product.productUnit==null?"":product.productUnit)+"</td>\n" +
+            "     <td class=\"hide-responsive\">"+(product.model==null?"":product.model)+"</td>\n" +
+            "    <td class=\"hide-responsive\">"+product.createDate+"</td>\n" +
+            "     <td class=\"hide-responsive\" style=\"padding-bottom: 3px;padding-top:8px\">\n" +
+            "    <button style='height: 26px' class=\"button button-xs button-primary\" data-toggle=\"tooltip\" data-placement=\"top\" title=\"入库\" onclick=\"showSpecificationModal('入库','"+product.productId+"','"+product.productName+"')\">入库</button>\n" +
+            "    <button style='height: 26px' class=\"button button-xs button-primary\" data-toggle=\"tooltip\" data-placement=\"top\" title=\"出库\" onclick=\"showSpecificationModal('出库','"+product.productId+"','"+product.productName+"')\" >出库</button>\n" +
+            "    </td>" +
+            "</tr>"
+    })
+    return html
 }
 
 function showSpecificationModal(title,productId,productName){
-    showLoadingDiv()
     $.ajax({
         url:'/product/queryProductSpecifications',
         data:{
@@ -240,7 +230,12 @@ function showSpecificationModal(title,productId,productName){
         success:function (data) {
             if(data.code === 200){
 
-                var table = "<h5>"+productName+"</h5><div class='row'><div class='col-lg-12 col-12'><table class='table table-bordered' id='stockTable'>"
+                var button = "<button class='button button-primary' onclick=\"addToStockOutList("+productId+",'"+productName+"','STOCK_OUT')\"><span><i class='zmdi zmdi-shopping-cart-add'></i>添加到购物车</span></button>" +
+                    "<button class='button button-success' onclick=\"showOrderPage("+productId+")\"><span><i class='zmdi zmdi-check'></i>立即购买</span></button>"
+                if('入库'===title){
+                    button = "<button class='button button-primary' onclick=\"addToStockOutList("+productId+",'"+productName+"','STOCK_IN')\"><span><i class='zmdi zmdi-check'></i>确认</span></button>"
+                }
+                var table = "<div class='box'><div class='box-head'><h5>"+productName+"</h5></div><div class='box-body'><table class='table table-bordered' id='stockTable'>"
                     table += "<thead><tr><th>选择</th><th>规格</th><th>单价</th><th>库存</th><th>数量</th></tr></thead><tbody>"
                 $.each(data.result,function (i,item) {
                     table += "<tr>"
@@ -251,10 +246,9 @@ function showSpecificationModal(title,productId,productName){
                     table += "<td><input class='form-control' style='height:31px' type='number'></td>"
                     table += "</tr>"
                 })
-                table += "</tbody></table></div></div>" +
-                    "<div class='row'><div class='col-lg-12 col-12'><div class='button-group'>" +
-                    "<button class='button button-primary' onclick=\"addToStockOutList("+productId+",'"+productName+"')\"><span><i class='zmdi zmdi-shopping-cart-add'></i>添加到购物车</span></button>" +
-                    "<button class='button button-success' onclick=\"showOrderPage("+productId+")\"><span><i class='zmdi zmdi-check'></i>立即购买</span></button>" +
+                table += "</tbody></table></div><div class='box-foot'>" +
+                    "<div class='button-group'>" +
+                    button+
                     "</div></div></div>"
                 $('#exampleModalLongTitle').html(title)
                 $('#modalBody').html(table)
@@ -262,11 +256,9 @@ function showSpecificationModal(title,productId,productName){
             }
         }
     })
-    stopLoadingDiv()
 }
 
 function showOrderPage(productId) {
-    showLoadingDiv()
     if(productId){
         let inputs = $('#stockTable').find('input');
         var selectedItem = []
@@ -299,17 +291,15 @@ function showOrderPage(productId) {
             alertWarning("服务器没有响应")
         }
     })
-    stopLoadingDiv()
 }
 
-function addToStockOutList(productId,productName) {
-    showLoadingDiv()
+function addToStockOutList(productId,productName,type) {
     let inputs = $('#stockTable').find('input');
     var selectedItem = []
     $.each(inputs,function (index,item) {
         if(index % 2 + 1 === 1){
             if($(item).is(":checked")){
-                selectedItem.push({productId:productId,productName:productName,specificationId:$(item).data('id'),specificationName:$(item).data('name'),amount:$(inputs[index+1]).val(),temp:0})
+                selectedItem.push({productId:productId,productName:productName,specificationId:$(item).data('id'),specificationName:$(item).data('name'),amount:$(inputs[index+1]).val(),temp:0,operation:type})
             }
         }
     })
@@ -325,11 +315,9 @@ function addToStockOutList(productId,productName) {
             }
         }
     })
-    stopLoadingDiv()
 }
 
 function getCartStuffs() {
-    showLoadingDiv()
     $.ajax({
         url:"/stock/queryUnconfirmedStockOperationOfSTOCK_OUT",
         async:"success",
@@ -358,7 +346,6 @@ function getCartStuffs() {
             alertWarning("server error")
         }
     })
-    stopLoadingDiv()
 }
 
 function deleteStockOperation(operationId,e) {
@@ -387,59 +374,41 @@ function deleteStockOperation(operationId,e) {
     }
 }
 
-function queryByParams(current_page) {
-    showLoadingDiv()
+function queryByParams() {
     var productName = $('#queryName').val()
     var productSerial = $('#querySerial').val()
     var brand = $('#queryBrand').val()
     var category = manageTree.getSelectedNodes()[0]
     var categoryId = category == null?null:JSON.stringify(category.childIds);
 
-    var pageSize = $('#pageSize').val()
-    $.ajax({
-        url:'/product/queryByParams',
-        data:{
-            'pageNum':current_page ,
-            'productName':productName,
-            'productSerial':productSerial,
-            'brand':brand,
-            'categoryIdString':categoryId,
-            'pageSize':pageSize
+    $('#paginationContainer').pagination({
+        dataSource: '/product/queryByParams',
+        locator: 'result.list',
+        totalNumberLocator: function(response) {
+            return response.result.pageSize * response.result.pages
         },
-        success:function (data) {
-            if(data.code === 200){
-                $('tbody').children('tr').remove()
-                if(data.result['rows']){
-                    if(data.result['rows'].length > 0){
-                        $.each(data.result['rows'],function (index,product) {
-                            $('tbody').append(generateRow(product))
-                        })
-                    }
-                }else{
-                    $('tbody').append("<tr><span style='font-size: large'>没有相关的数据!</span></tr>")
-                }
-                var paginatiorHtml = "<div class=\"pagination\">\n" +
-                    "       <a href=\"#\" class=\"first\" data-action=\"first\">&laquo;</a>\n" +
-                    "       <a href=\"#\" class=\"previous\" data-action=\"previous\">&lsaquo;</a>\n" +
-                    "       <input id=\"paginationText\" type=\"text\" readonly=\"readonly\" data-max-page=\"40\" />\n" +
-                    "       <a href=\"#\" class=\"next\" data-action=\"next\">&rsaquo;</a>\n" +
-                    "       <a href=\"#\" class=\"last\" data-action=\"last\">&raquo;</a>\n" +
-                    "  </div>"
-                $('#paginationContainer').html(paginatiorHtml)
-                $('.pagination').jqPagination({
-                    current_page:current_page,
-                    max_page:data.result['pageNum'],
-                    page_string: '第{current_page} / {max_page}页',
-                    paged: function(page) {
-                        queryByParams(page)
-                    },
-                });
-                var pageNum = data.result['pageNum']
-                return pageNum
+        pageSize: 10,
+        pageRange: 6,
+        alias: {
+            pageNumber: 'pageNum'
+        },
+        ajax: {
+            data:{
+                "productName":productName,
+                "productSerial":productSerial,
+                "brand":brand,
+                "categoryIdString":categoryId
+            },
+            beforeSend: function() {
+                $('#productBody').html('加载数据中 ...');
             }
+        },
+        callback: function(data, pagination) {
+            // template method of yourself
+            var html = generateRow(data);
+            $('#productBody').html(html);
         }
     })
-    stopLoadingDiv()
 }
 
 function initCategoryBoxSetDefault(id){

@@ -1,12 +1,12 @@
 package rk.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import rk.base.BaseService;
 import rk.dao.CommonDao;
 import rk.model.ResultInfo;
 import rk.dao.UserDao;
 import rk.po.User;
 import org.springframework.stereotype.Service;
-import rk.po.common.Address;
 import rk.util.AssertUtil;
 import rk.util.RedisUtil;
 import rk.util.StringUtil;
@@ -15,7 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class UserService{
+public class UserService extends BaseService<User> {
 
     @Autowired
     private UserDao userDao;
@@ -54,4 +54,7 @@ public class UserService{
         return userDao.queryUserById(id);
     }
 
+    public List<User> queryAllUsers() {
+        return userDao.queryAllUsers();
+    }
 }

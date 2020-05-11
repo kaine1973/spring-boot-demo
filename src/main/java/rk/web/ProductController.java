@@ -40,10 +40,6 @@ public class ProductController {
     @Autowired
     private ProductService productService;
 
-    @Autowired
-    private SpecificationService specificationService;
-
-
     @RequestPermission(aclValue = "0")
     @RequestMapping("getProductPage")
     @ResponseBody
@@ -52,7 +48,7 @@ public class ProductController {
         HashMap<String, Object> params = new HashMap<>();
         params.put( "categories",productService.queryCategoryOfLevel( 0 ));
         if (productId != null){
-            params.put( "product", productService.queryProductById(productId,user.getId()));
+            params.put( "product", productService.queryProductById(productId));
         }
         String page = TemplateParser.parseTemplate( "product/detail", params,configurer );
         return new ResultInfo( 200,"请求成功",page );
@@ -61,8 +57,7 @@ public class ProductController {
     @RequestPermission(aclValue = "0")
     @RequestMapping("insertOrUpdate")
     @ResponseBody
-    public ResultInfo insertOrUpdateProduct(Product product,String specifications,@SessionAttribute User user) throws JsonProcessingException {
-        product.setUserId( user.getId() );
+    public ResultInfo insertOrUpdateProduct(Product product,String specifications) throws JsonProcessingException {
         HashMap<String, Object> cantBeNullValues = new HashMap<>();
         cantBeNullValues.put( "产品名称",product.getProductName() );
         cantBeNullValues.put( "产品分类",product.getCategoryId() );
@@ -119,10 +114,7 @@ public class ProductController {
             } ) );
         }
         PageInfo<Product> productPageInfo = productService.queryByParams( productQuery );
-        HashMap<String, Object> results = new HashMap<>();
-        results.put( "pageNum",productPageInfo.getPages() );
-        results.put( "rows", productPageInfo.getList());
-        return new ResultInfo(200,"请求成功",results);
+        return new ResultInfo(200,"请求成功",productPageInfo);
     }
 
     @RequestPermission(aclValue = "1")

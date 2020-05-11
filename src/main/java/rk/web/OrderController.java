@@ -3,6 +3,7 @@ package rk.web;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -16,14 +17,14 @@ import rk.annotations.RequestPermission;
 import rk.configuration.enuma.StockOperationType;
 import rk.model.ResultInfo;
 import rk.po.Order;
+import rk.po.Product;
 import rk.po.StockOperation;
 import rk.po.User;
 import rk.po.common.Address;
 import rk.po.common.Area;
-import rk.service.AddressService;
-import rk.service.CommonService;
-import rk.service.OrderService;
-import rk.service.StockService;
+import rk.query.OrderQuery;
+import rk.query.ProductQuery;
+import rk.service.*;
 import rk.util.AssertUtil;
 import rk.util.TemplateParser;
 
@@ -51,6 +52,9 @@ public class OrderController {
 
     @Autowired
     private ObjectMapper objectMapper;
+
+    @Autowired
+    private UserService userService;
 
     @RequestPermission(aclValue = "0")
     @ResponseBody
@@ -87,15 +91,36 @@ public class OrderController {
     @RequestPermission(aclValue = "0")
     @RequestMapping("printOrderTicket")
     @ResponseBody
-    public ModelAndView printOrderTicket(Integer orderId, @SessionAttribute User user, @ModelAttribute ModelMap model){
+    public ModelAndView printOrderTicket(Integer orderId, @ModelAttribute ModelMap model){
         AssertUtil.isTrue( orderId == null,"u should provid an Id" );
-        Order order = orderService.queryByIdAndUserId( orderId, user.getId() );
+        Order order = orderService.queryById(orderId);
         AssertUtil.isTrue( order == null,"we don't have this order" );
-        Address senderAddress = addressService.queryByIdAndUserId( order.getSenderAddressId(), user.getId() );
-        Address receiverAddress = addressService.queryByIdAndUserId( order.getReceiverAddressId(), user.getId() );
+        Address senderAddress = addressService.queryById( order.getSenderAddressId());
+        Address receiverAddress = addressService.queryById( order.getReceiverAddressId());
         model.addAttribute( "senderAddress",senderAddress );
         model.addAttribute( "receiverAddress",receiverAddress );
         model.addAttribute( "order",order );
         return new ModelAndView("order/ticket").addAllObjects( model );
     }
+
+    @RequestPermission(aclValue = "0")
+    @RequestMapping("getHistoryPage")
+    @ResponseBody
+    public ResultInfo getHistoryPage(){
+        PageInfo<Order> orderPageInfo = orderService.queryByParams( new OrderQuery() );
+        HashMap<String, Object> params = new HashMap<>();
+        params.put( "orders",orderPageInfo.getList() );
+        params.put( "users",userService.queryAllUsers());
+        String s = TemplateParser.parseTemplate( "/order/history", params, configurer );
+        return new ResultInfo(200,"",s);
+    }
+
+    @RequestPermission(aclValue = "0")
+    @RequestMapping("queryByParams")
+    @ResponseBody
+    public ResultInfo queryByParams(OrderQuery orderQuery){
+        PageInfo<Order> orderPageInfo = orderService.queryByParams( orderQuery );
+        return new ResultInfo(200,"",orderPageInfo);
+    }
+
 }

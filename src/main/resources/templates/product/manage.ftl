@@ -51,39 +51,27 @@
             <table class="table table-bordered table-hover table-striped"
                    data-toggle="table"
                    data-height="200">
-                <thead>
+                <thead class="thead-light">
                 <tr>
                     <th hidden>产品ID</th>
-                    <th style="min-width: 200px;">产品列表</th>
                     <th class="hide-responsive">品牌</th>
+                    <th style="min-width: 200px;">产品</th>
                     <th class="hide-responsive">编号</th>
                     <th class="hide-responsive">单位</th>
                     <th class="hide-responsive">型号</th>
-<#--                    <th class="hide-responsive">添加日期</th>-->
+                    <th class="hide-responsive">库存</th>
                     <th class="hide-responsive">管理</th>
                 </tr>
                 </thead>
-                <tbody>
+                <tbody id="productBody">
                 </tbody>
             </table>
         </div>
     </div>
     <div class="row mt-5">
-        <div id="paginationContainer" class="col-lg-12">
-            <div class="pagination">
-                <a href="#" class="first" data-action="first">&laquo;</a>
-                <a href="#" class="previous" data-action="previous">&lsaquo;</a>
-                <input id="paginationText" type="text" readonly="readonly" data-max-page="40" />
-                <a href="#" class="next" data-action="next">&rsaquo;</a>
-                <a href="#" class="last" data-action="last">&raquo;</a>
-            </div>
+        <div id="paginationContainer" class="col-12">
+
         </div>
-        <#--    <div class="col-sm-10 col-10 button-group">-->
-        <#--        <div class="input-group-prepend">-->
-        <#--            <span class="input-group-text">每页行数</span>-->
-        <#--        </div>-->
-        <#--        <input class="form-control form-control-lg" type="number" value="15" id="pageSize">-->
-        <#--    </div>-->
     </div>
 </div>
 </div>

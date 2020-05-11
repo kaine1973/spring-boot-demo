@@ -45,8 +45,8 @@ public class ProductService extends BaseService<Product> {
         return ids;
     }
 
-    public Product queryProductById(Integer productId,Integer userId) {
-        return productDao.queryByIdAndUserId(productId,userId);
+    public Product queryProductById(Integer productId) {
+        return productDao.queryById(productId);
     }
     @Transactional
     public void insertOrUpdateProduct(Product product) {

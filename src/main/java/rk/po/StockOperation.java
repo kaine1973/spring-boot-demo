@@ -21,6 +21,7 @@ public class StockOperation {
     private String productUnit;
     private Integer specificationId;
     private String specificationName;
+    private String userName;
     private Integer userId;
     private StockOperationType operation;
     private Integer amount;
@@ -30,7 +31,7 @@ public class StockOperation {
     private Date addDate;
     @JsonFormat(pattern = "yyyy-MM-dd hh:mm:ss", timezone = "GMT+8")
     private Date confirmDate;
-    private Boolean confirmed;
+    private Boolean confirmed = false;
     private Integer temp;
     public Boolean checkProperties(){
         return productId == null || specificationId == null || amount == null;
@@ -46,5 +47,6 @@ public class StockOperation {
     public void fillSpecificationInfo(ProductSpecification specification) {
         this.specificationName = specification.getSpecificationName();
         this.price = specification.getPrice();
+        this.dealPrice = specification.getPrice();
     }
 }

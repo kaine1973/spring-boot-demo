@@ -22,6 +22,11 @@
         from user where id = #{id}
     </select>
 
+    <select id="queryAllUsers" resultMap="user">
+        select id,uname
+        from user
+    </select>
+
 
     <insert id="insert" parameterType="rk.po.User">
         insert into user(uname,passwd) values (#{userName},#{userPwd})

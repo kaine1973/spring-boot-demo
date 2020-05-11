@@ -43,7 +43,7 @@
     }
 </style>
 <body>
-<div class="loading" ></div>
+<#--<div class="loading" ></div>-->
 <div class="alert alert-danger hidden" id="warningDiv" style="position:fixed;
         z-index: 99999;left: 50%;top: 5px;-webkit-transform: translate(-50%, -50%);
 				-moz-transform: translate(-50%, 0%);
@@ -82,21 +82,21 @@
                                 <!--Header Search-->
                                 <div class="col-auto">
 
-                                    <div class="header-search">
+<#--                                    <div class="header-search">-->
 
-                                        <button class="header-search-open d-block d-xl-none"><i class="zmdi zmdi-search"></i></button>
+<#--                                        <button class="header-search-open d-block d-xl-none"><i class="zmdi zmdi-search"></i></button>-->
 
-                                        <div class="header-search-form">
-                                            <form action="#">
-                                                <label>
-                                                    <input type="text" placeholder="搜索_">
-                                                </label>
-                                                <button><i class="zmdi zmdi-search"></i></button>
-                                            </form>
-                                            <button class="header-search-close d-block d-xl-none"><i class="zmdi zmdi-close"></i></button>
-                                        </div>
+<#--                                        <div class="header-search-form">-->
+<#--                                            <form action="#">-->
+<#--                                                <label>-->
+<#--                                                    <input type="text" placeholder="搜索_">-->
+<#--                                                </label>-->
+<#--                                                <button><i class="zmdi zmdi-search"></i></button>-->
+<#--                                            </form>-->
+<#--                                            <button class="header-search-close d-block d-xl-none"><i class="zmdi zmdi-close"></i></button>-->
+<#--                                        </div>-->
 
-                                    </div>
+<#--                                    </div>-->
                                 </div>
 
                             </div>
@@ -235,12 +235,12 @@
 
                     </div><!-- Header Notifications Area End -->
 
-                </div>
-            </div><!-- Header Right End -->
+                    </div>
+                </div><!-- Header Right End -->
 
+            </div>
         </div>
-    </div>
-</div><!-- Header Section End -->
+    </div><!-- Header Section End -->
 <!-- Side Header Start -->
 <div class="side-header show">
     <button class="side-header-close"><i class="zmdi zmdi-close"></i></button>
@@ -251,28 +251,25 @@
             <ul>
                 <li class="has-sub-menu"><a href="#"><i class="ti-notepad"></i> <span>客户管理</span></a>
                     <ul class="side-header-sub-menu">
-                        <li><a href="javascript:addDynamicContent('/customer/detail')"> <span>新增客户</span></a>
+                        <li><a onclick="addDynamicContent('/customer/detail',this)" href="#"> <span>新增客户</span></a>
                         </li>
-                        <li><a href="javascript:addDynamicContent('/customer/customerManager')"> <span>客户管理</span> </a>
-                        </li>
-                    </ul>
-                </li>
-                <li class="has-sub-menu"><a href="#"><i class="ti-palette"></i> <span>产品管理</span></a>
-                    <ul class="side-header-sub-menu">
-                        <li><a href="javascript:addDynamicContent('/product/getProductPage')"> <span>添加产品</span></a>
-                        </li>
-                        <li><a href="javascript:addDynamicContent('/product/manage')"> <span>库存管理</span> </a>
+                        <li><a onclick="addDynamicContent('/customer/customerManager',this)" href="#"> <span>客户管理</span> </a>
                         </li>
                     </ul>
                 </li>
-                <li class="has-sub-menu"><a href="#"><i class="ti-user"></i> <span>订单管理</span></a>
-                    <ul class="side-header-sub-menu">
-                        <li><a href="javascript:addStaticContent('sample/dashboard')"> <span>添加订单</span></a>
-                        </li>
-                        <li><a href="javascript:addStaticContent('sample/chart/chartjs')"> <span>订单管理</span> </a>
-                        </li>
-                    </ul>
+                <li><a onclick="addDynamicContent('/product/getProductPage',this)" href="#"> <span>添加产品</span></a>
                 </li>
+                <li><a onclick="addDynamicContent('/product/manage',this)" href="#"> <span>产品目录</span> </a>
+                </li>
+                <li><a onclick="addDynamicContent('/order/getHistoryPage',this)" href="#"> <span>订单记录</span> </a>
+                </li>
+                <li><a onclick="addDynamicContent('/stock/getStockHistoryPageOfSTOCK_OUT',this)" href="#"><span>出库记录</span></a>
+                </li>
+                <li><a onclick="addDynamicContent('/stock/getStockHistoryPageOfSTOCK_IN',this)" href="#"><span>入库记录</span></a>
+                </li>
+                <li><a onclick="addDynamicContent('/statistics/customerContribution',this)" href="#"><span>客户贡献度</span></a>
+                </li>
+
 <#--                <li><a href="javascript:addStaticContent('sample/widgets')"><i class="ti-palette"></i><span>Widgets</span></a>-->
 <#--                </li>-->
 <#--                <li class="has-sub-menu"><a href="#"><i class="ti-package"></i> <span>Basic Elements</span></a>-->
@@ -541,8 +538,10 @@
         })
         stopLoadingDiv()
     }
-    function addDynamicContent(url) {
-        showLoadingDiv()
+    function addDynamicContent(url,e) {
+        $('.side-header-menu >li').removeClass('active')
+        console.log(e)
+        $(e).parents('li').addClass('active')
         $.ajax({
             url: url,
             type: 'get',

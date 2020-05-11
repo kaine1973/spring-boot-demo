@@ -21,7 +21,7 @@
     </resultMap>
 
     <select id="queryPermissionByRoleId" resultType="java.lang.String" parameterType="java.lang.Integer">
-        SELECT GROUP_CONCAT(acl_value)
+        SELECT acl_value
         FROM crm.permission WHERE role_id = ${roleId}
     </select>
 

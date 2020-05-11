@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import rk.po.common.Address;
 import rk.util.AssertUtil;
 
+import javax.validation.constraints.NotNull;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -27,6 +28,7 @@ public class Order {
     private Date createDate;
     private Boolean isValid;
     private Integer userId;
+    private String userName;
     private List<StockOperation> stockOperations;
     private List<OrderOperation> orderOperations;
 
@@ -39,8 +41,10 @@ public class Order {
 
     public List<OrderOperation> getOrderOperations() {
         AssertUtil.isTrue( id == null,"订单ID为空" );
-        for(OrderOperation orderOperation:orderOperations){
-            orderOperation.setOrderId( id );
+        if(orderOperations!=null) {
+            for (OrderOperation orderOperation : orderOperations) {
+                orderOperation.setOrderId( id );
+            }
         }
         return orderOperations;
     }
@@ -48,7 +52,6 @@ public class Order {
     public void checkRequired() {
         AssertUtil.isTrue( receiverAddressId == null || customerId == null,"未选择客户/收货人" );
         AssertUtil.isTrue( senderAddressId == null ,"未选择发货人" );
-
         SimpleDateFormat df = new SimpleDateFormat("yyyyMMddHHmmss");
         if(this.orderNumber == null){
             this.orderNumber = "SJ"+df.format(new Date());

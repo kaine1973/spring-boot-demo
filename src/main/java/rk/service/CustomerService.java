@@ -18,7 +18,6 @@ public class CustomerService extends BaseService<Customer> {
 
     @Transactional
     public void saveCustomer(Customer customer, Integer userId) {
-        ;
         AssertUtil.isTrue( this.saveUpdate( customer,userId ) <1, OperationStatus.processFailed );
         for(Address address:customer.getAddresses()){
             address.setCustomerId( customer.getId() );

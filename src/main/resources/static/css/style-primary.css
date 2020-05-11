@@ -460,7 +460,7 @@ input:-ms-input-placeholder, textarea:-ms-input-placeholder {
 /*Content Body*/
 .content-body {
   padding: 30px;
-  margin-top: 61px;
+  margin-top: 41px;
   -webkit-transition: all 0.3s ease 0s;
   -o-transition: all 0.3s ease 0s;
   transition: all 0.3s ease 0s;
@@ -3897,13 +3897,13 @@ a.badge-dark.badge-outline {
 /*--
     - Card
 --------------------------------------*/
-.card .card-header {
-  background-color: transparent;
-}
+/*.card .card-header {*/
+/*  background-color: transparent;*/
+/*}*/
 
-.card .card-footer {
-  background-color: transparent;
-}
+/*.card .card-footer {*/
+/*  background-color: transparent;*/
+/*}*/
 
 .card-link {
   color: #428bfa;
@@ -9051,10 +9051,10 @@ body.header-top-green .header-notification-area > li > a .user .name {
 .side-header {
   width: 170px !important;
   background-color: #161824;
-  height: calc(100vh - 61px);
+  height: calc(100vh - 41px);
   position: fixed;
   left: 0;
-  top: 61px;
+  top: 41px;
   -webkit-transition: all 0.3s ease 0s;
   -o-transition: all 0.3s ease 0s;
   transition: all 0.3s ease 0s;

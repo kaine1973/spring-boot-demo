@@ -57,10 +57,12 @@ public abstract class BaseService<T> {
      * @return
      * @throws DataAccessException
      */
+    @Transactional(readOnly = true)
     public PageInfo<T> queryByParams(BaseQuery baseQuery) throws  DataAccessException{
         PageHelper.startPage(baseQuery.getPageNum(),baseQuery.getPageSize());
         List<T> entities=baseDao.queryByParams(baseQuery);
-        return new PageInfo<T>(entities);
+        PageInfo<T> tPageInfo = new PageInfo<>( entities );
+        return tPageInfo;
     }
 
     @Transactional(readOnly = true)

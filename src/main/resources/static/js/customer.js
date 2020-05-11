@@ -31,74 +31,56 @@ function getChildArea(e) {
     })
 }
 
-function loadCustomerPosition() {
-
-}
-
-
-function queryCustomerByParams(current_page) {
-    showLoadingDiv()
+function queryCustomerByParams() {
     var queryName = $('#queryName').val()
     var queryCompany = $('#queryCompany').val()
     var queryLevel = $('#queryLevel').val()
 
-    var pageSize = $('#pageSize').val()
-    $.ajax({
-        url:'/customer/queryByParams',
-        async:false,
-        data:{
-            'pageNum':current_page ,
-            'queryName':queryName,
-            'queryCompany':queryCompany,
-            'queryLevel':queryLevel,
-            'pageSize':pageSize
+
+    $('#paginationContainer').pagination({
+        dataSource: '/customer/queryByParams',
+        locator: 'result.list',
+        totalNumberLocator: function(response) {
+            return response.result.pageSize * response.result.pages
         },
-        success:function (data) {
-            if(data.code === 200){
-                $('tbody').children('tr').remove()
-                if(data.result['rows']){
-                    if(data.result['rows'].length > 0){
-                        $.each(data.result['rows'],function (index,customer) {
-                            $('tbody').append(generateCustomerRow(customer))
-                        })
-                    }
-                }else{
-                    $('tbody').append("<tr><span style='font-size: large'>没有相关的数据!</span></tr>")
-                }
-                var paginatiorHtml = "<div class=\"pagination\">\n" +
-                    "                <a href=\"#\" class=\"first\" data-action=\"first\">&laquo;</a>\n" +
-                    "                <a href=\"#\" class=\"previous\" data-action=\"previous\">&lsaquo;</a>\n" +
-                    "                <input id=\"paginationText\" type=\"text\" readonly=\"readonly\" data-max-page=\"40\" />\n" +
-                    "                <a href=\"#\" class=\"next\" data-action=\"next\">&rsaquo;</a>\n" +
-                    "                <a href=\"#\" class=\"last\" data-action=\"last\">&raquo;</a>\n" +
-                    "            </div>"
-                $('#paginationContainer').html(paginatiorHtml)
-                $('.pagination').jqPagination({
-                    current_page:current_page,
-                    max_page:data.result['pageNum'],
-                    page_string: '第{current_page} / {max_page}页',
-                    paged: function(page) {
-                        queryCustomerByParams(page)
-                    },
-                });
-                return data.result['pageNum']
+        pageSize: 10,
+        pageRange: 6,
+        alias: {
+            pageNumber: 'pageNum'
+        },
+        ajax: {
+            data:{
+                "queryName":queryName,
+                "queryCompany":queryCompany,
+                "queryLevel":queryLevel,
+            },
+            beforeSend: function() {
+                $('#customerBody').html('加载数据中 ...');
             }
+        },
+        callback: function(data, pagination) {
+            // template method of yourself
+            var html = generateCustomerRows(data);
+            $('#customerBody').html(html);
         }
     })
-    stopLoadingDiv()
 }
-function generateCustomerRow(customer) {
-    return "<tr height=\"41px\" >\n" +
-        "                            <td onclick=\"showCustomerInfo("+customer.id+")\" data-toggle=\"tooltip\" data-placement=\"top\" title=\"点击查看详情\">"+customer.customerName+"</td>\n" +
-        "                            <td class=\"hide-responsive\">"+(customer.company==null?"":customer.company)+"</td>\n" +
-        "                            <td class=\"hide-responsive\">"+(customer.customerId==null?"":customer.customerId)+"</td>\n" +
-        "                            <td class=\"hide-responsive\">"+(customer.levelSign==null?"":customer.levelSign)+"</td>\n" +
-        "                            <td class=\"hide-responsive\">"+(customer.phone==null?"":customer.phone)+"</td>\n" +
-        // "                            <td class=\"hide-responsive\">"+createDate+"</td>\n" +
-        "                            <td class=\"hide-responsive\" style=\"padding-bottom: 3px;padding-top:8px\">\n" +
-        (customer.gender === 0?'男':customer.gender === 1?'女':"")+
-        "                            </td>"+
-        "</tr>"
+function generateCustomerRows(customer) {
+    var html = ""
+    $.each(customer,function (index,customer) {
+        html += "<tr height=\"41px\" >\n" +
+            "                            <td onclick=\"showCustomerInfo("+customer.id+")\" data-toggle=\"tooltip\" data-placement=\"top\" title=\"点击查看详情\">"+customer.customerName+"</td>\n" +
+            "                            <td class=\"hide-responsive\">"+(customer.company==null?"":customer.company)+"</td>\n" +
+            "                            <td class=\"hide-responsive\">"+(customer.customerId==null?"":customer.customerId)+"</td>\n" +
+            "                            <td class=\"hide-responsive\">"+(customer.levelSign==null?"":customer.levelSign)+"</td>\n" +
+            "                            <td class=\"hide-responsive\">"+(customer.phone==null?"":customer.phone)+"</td>\n" +
+            // "                            <td class=\"hide-responsive\">"+createDate+"</td>\n" +
+            "                            <td class=\"hide-responsive\" style=\"padding-bottom: 3px;padding-top:8px\">\n" +
+            (customer.gender === 0?'男':customer.gender === 1?'女':"")+
+            "                            </td>"+
+            "</tr>"
+    })
+    return html
 }
 function customerManageInit(){
     queryCustomerByParams()

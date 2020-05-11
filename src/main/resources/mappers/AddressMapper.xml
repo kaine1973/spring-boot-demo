@@ -29,6 +29,15 @@
         where a.user_id = #{userId} and a.id = #{id};
     </select>
 
+    <select id="queryById" resultMap="address" parameterType="java.lang.Integer">
+        select d.province,d.province_id,d.city,d.city_id,d.district,d.district_id,a.detail,a.id,a.name,a.phone,a.company,a.customer_id
+        from crm.address as a join
+             (SELECT p.area_name as province,p.id as province_id,c.area_name as city,c.id as city_id,d.area_name as district,d.id as district_id
+              FROM crm.area as d join crm.area as c on d.parentid = c.id
+                                 join crm.area as p on p.id = c.parentid where d.level=3)
+                 as d on a.district_id = d.district_id
+        where a.id = #{id};
+    </select>
     <select id="queryUserAddresses" resultMap="address" parameterType="java.lang.Integer">
         select d.province,d.city,d.district,a.detail,a.id,a.name,a.phone,a.company
         from crm.address as a join

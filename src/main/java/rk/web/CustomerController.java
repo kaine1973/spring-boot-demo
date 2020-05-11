@@ -92,11 +92,7 @@ public class CustomerController {
     public ResultInfo queryAllCustomer(CustomerQuery customerQuery, @SessionAttribute("user")User user){
         customerQuery.setUserId( user.getId() );
         PageInfo<Customer> customerPageInfo = customerService.queryByParams( customerQuery );
-        List<Customer> customers = customerPageInfo.getList();
-        HashMap<String, Object> params = new HashMap<>();
-        params.put( "pageNum",customerPageInfo.getPageNum() );
-        params.put( "rows",customers );
-        return new ResultInfo( 200,"请求成功",params);
+        return new ResultInfo( 200,"请求成功",customerPageInfo);
     }
 
     @RequestPermission(aclValue = "0")

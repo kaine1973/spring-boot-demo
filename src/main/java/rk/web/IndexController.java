@@ -24,7 +24,6 @@ public class IndexController {
     @RequestMapping("/main")
     @ResponseBody
     public ModelAndView main(String page){
-
         return new ModelAndView( "main" ).addObject( "content",page );
     }
 

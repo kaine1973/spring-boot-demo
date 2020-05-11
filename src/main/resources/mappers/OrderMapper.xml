@@ -11,10 +11,21 @@
         <result column="create_date" property="createDate"/>
         <result column="is_valid" property="isValid"/>
         <result column="user_id" property="userId"/>
+        <result column="uname" property="userName"/>
         <association property="customer" javaType="rk.po.Customer">
             <id column="customer_id" property="id"/>
             <result column="customer_name" property="customerName"/>
             <result column="customer_company" property="company"/>
+        </association>
+        <association property="senderAddress" javaType="rk.po.common.Address">
+            <id column="sender_address_id" property="id"/>
+            <result column="sender_address_company" property="company"/>
+            <result column="sender_address_name" property="name"/>
+        </association>
+        <association property="receiverAddress" javaType="rk.po.common.Address">
+            <id column="receiver_address_id" property="id"/>
+            <result column="receiver_address_company" property="company"/>
+            <result column="receiver_address_name" property="name"/>
         </association>
         <collection column="id"
                     property="stockOperations"
@@ -54,10 +65,52 @@
         and user_id = #{userId}
     </select>
 
-    <select id="queryByIdAndUserId" resultMap="orderDetail">
-        select ticket.*,customer.id as customer_id,customer.customer_name as customer_name,customer.company as customer_company
-        from (select * from out_stock_ticket where id=#{id} and user_id = #{userId}) as ticket
+    <select id="queryById" resultMap="orderDetail">
+        select ticket.*,
+               customer.id as customer_id,
+               customer.customer_name as customer_name,
+               customer.company as customer_company
+        from (select * from out_stock_ticket where id=#{id}) as ticket
             join customer on ticket.customer_id = customer.id
+            join address receiver_address on receiver_address.id = ticket.receiver_address_id
+            join address sender_address on sender_address.id = ticket.sender_address_id
+    </select>
+
+    <select id="queryByParams" resultMap="orderDetail" parameterType="rk.query.OrderQuery">
+        select ticket.*,u.uname,
+               customer.id as customer_id,
+               customer.customer_name as customer_name,
+               customer.company as customer_company,
+               sender_address.company as sender_address_company,
+               sender_address.name as sender_address_name,
+               receiver_address.company as receiver_address_company,
+               receiver_address.name as receiver_address_name
+        from (select distinct ost.*
+                from out_stock_ticket ost
+                left join ticket_operations t_o on t_o.order_id = ost.id
+                left join stock_operation so on t_o.operation_id = so.id
+                left join product on product.id = so.product_id
+                where 1=1
+                  <trim>
+                      <if test="userId != null and userId != ''">
+                          and ost.user_id = #{userId}
+                      </if>
+                      <if test="orderNumber != null and orderNumber != ''">
+                          and ost.order_number = #{orderNumber}
+                      </if>
+                      <if test="dateFrom != null and dateTo != null">
+                          and ost.create_date between #{dateFrom} and #{dateTo}
+                      </if>
+                      <if test="productName != null and productName != ''">
+                          and product.product_name like concat('%',#{productName},'%')
+                      </if>
+                  </trim>
+            ) as ticket
+        left join customer on ticket.customer_id = customer.id
+        left join address receiver_address on receiver_address.id = ticket.receiver_address_id
+        left join address sender_address on sender_address.id = ticket.sender_address_id
+        left join user u on ticket.user_id = u.id
+        order by ticket.create_date desc
     </select>
 
     <insert id="save" parameterType="rk.po.Order" useGeneratedKeys="true" keyColumn="id" keyProperty="id">
@@ -69,6 +122,8 @@
                    #{customerId},
                    #{orderNumber})
     </insert>
+
+
 
     <insert id="saveOrderOperations" parameterType="java.util.List">
         insert into crm.ticket_operations(order_id, operation_id)
