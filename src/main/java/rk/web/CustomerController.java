@@ -9,6 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttribute;
+import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer;
 import rk.annotations.RequestPermission;
 import rk.configuration.enuma.OperationStatus;
@@ -52,25 +53,37 @@ public class CustomerController {
     @RequestPermission(aclValue = "0")
     @ResponseBody
     @RequestMapping("detail")
-    public ResultInfo customerDetail(Integer customerId,@SessionAttribute User user){
+    public ModelAndView customerDetail(Integer customerId,@SessionAttribute User user){
         HashMap<String, Object> params = new HashMap<>();
         if(null != customerId){
             Customer customer = customerService.queryByIdAndUserId( customerId,user.getId() );
             List<Address> addresses = addressService.queryByCustomerId( customer.getId(), user.getId() );
-            if(addresses == null){
-                addresses = new ArrayList<>();
-                addresses.add( new Address() );
-            }
+            AssertUtil.isTrue( addresses.size()<1,"数据库错误，客户地址个数为0" );
             customer.setAddresses( addresses );
             params.put( "customer",customer );
+            Address primaryAddress = null;
+            for(Address address:addresses){
+                if(address.getPrimary() == 1){
+                    primaryAddress = address;
+                }
+            }
+            if(primaryAddress == null){
+                primaryAddress = addresses.get( 0 );
+            }
+            params.put( "cities",commonService.queryAreaByParentId( primaryAddress.getProvinceId() ) );
+            params.put( "districts",commonService.queryAreaByParentId( primaryAddress.getCityId() ) );
+            params.put( "primaryAddress",primaryAddress );
         }
         List<Area> province = commonService.queryAreaByParentId( 1 );
+        params.put( "provinces",province );
+
+
         List<CustomerLevel> customerLevels = commonService.queryCustomerLevelById( null );
         List<CustomerPosition> customerPositions = commonService.queryCustomerPositionById( null );
-        params.put( "provinces",province );
         params.put( "levels",customerLevels );
         params.put( "positions",customerPositions );
-        return new ResultInfo( 200,"请求成功", TemplateParser.parseTemplate( "/customer/detail",params,configurer ) );
+        String content = TemplateParser.parseTemplate( "/customer/detail", params, configurer );
+        return new ModelAndView("main").addObject( "content",content ).addObject( "page_active","customer_detail" );
     }
 
     @RequestPermission(aclValue = "0")
@@ -98,12 +111,12 @@ public class CustomerController {
     @RequestPermission(aclValue = "0")
     @ResponseBody
     @RequestMapping("customerManager")
-    public ResultInfo customerManager(){
+    public ModelAndView customerManager(){
         List<CustomerLevel> customerLevels = commonService.queryCustomerLevelById( null );
         HashMap<String, Object> params = new HashMap<>();
         params.put( "levels",customerLevels );
-        String page = TemplateParser.parseTemplate( "customer/manage", params, configurer );
-        return new ResultInfo( 200,"请求成功",page);
+        String content = TemplateParser.parseTemplate( "customer/manage", params, configurer );
+        return new ModelAndView("main").addObject( "content",content ).addObject( "page_active","customer_manage" );
     }
 
 
@@ -112,6 +125,9 @@ public class CustomerController {
         } );
         AssertUtil.isTrue( addresses==null||addresses.size()==0, OperationStatus.paramNotAvailable );
         for(Address address:addresses){
+            if(address.getIsValid()!=null && address.getIsValid() != 0){
+                address.checkRequired();
+            }
             address.setUserId( userId );
         }
         return addresses;

@@ -207,7 +207,7 @@ function generateRow(products) {
         html += "<tr height=\"41px\" >\n" +
             "     <td hidden>"+product.productId+"</td>\n" +
             "     <td class=\"hide-responsive\">"+(product.brand==null?"":product.brand)+"</td>\n" +
-            "     <td onclick=\"showInfoModal(this)\" data-toggle=\"tooltip\" data-placement=\"top\" title=\"点击查看详情\">"+product.productName+"</td>\n" +
+            "     <td><a href='/product/getProductPage?productId="+product.productId+"' target='_blank'>"+product.productName+"</a></td>\n" +
             "     <td class=\"hide-responsive\">"+(product.productSerial==null?"":product.productSerial)+"</td>\n" +
             "     <td class=\"hide-responsive\">"+(product.productUnit==null?"":product.productUnit)+"</td>\n" +
             "     <td class=\"hide-responsive\">"+(product.model==null?"":product.model)+"</td>\n" +
@@ -409,14 +409,6 @@ function queryByParams() {
             $('#productBody').html(html);
         }
     })
-}
-
-function initCategoryBoxSetDefault(id){
-    initCategoryBox("#treeDetail",id)
-}
-
-function initProductManage(){
-    initCategoryBox("#tree")
 }
 
 function resetThenQuery() {

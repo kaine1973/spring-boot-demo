@@ -39,20 +39,19 @@ public class AddressController {
     @RequestPermission(aclValue = "0")
     @ResponseBody
     @RequestMapping("getAddressDetailPage")
-    public ResultInfo getAddressPage(Integer addressId, @SessionAttribute("user") User user){
+    public ResultInfo getAddressPage(Address address, @SessionAttribute("user") User user){
         HashMap<String, Object> params = new HashMap<>();
-        Integer provinceId = 1;
-        if(null != addressId){
-            Address address = addressService.queryByIdAndUserId(addressId,user.getId());
-            params.put( "address",address );
-            provinceId = address.getProvinceId();
-            List<Area> cities = commonService.queryAreaByParentId( address.getCityId() );
-            List<Area> districts = commonService.queryAreaByParentId( address.getDistrictId() );
+        if(null != address.getProvinceId()){
+            List<Area> cities = commonService.queryAreaByParentId( address.getProvinceId() );
             params.put( "cities",cities );
+        }
+        if(null != address.getCityId()){
+            List<Area> districts = commonService.queryAreaByParentId( address.getCityId() );
             params.put( "districts",districts );
         }
-        List<Area> provinces = commonService.queryAreaByParentId( provinceId);
+        List<Area> provinces = commonService.queryAreaByParentId(1);
         params.put( "provinces",provinces );
+        params.put( "address",address );
         String s = TemplateParser.parseTemplate( "/customer/addressDetail", params, freeMarkerConfigurer );
         return new ResultInfo( 200,"请求成功",s );
     }

@@ -10,15 +10,13 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttribute;
+import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer;
 import rk.annotations.RequestPermission;
-import rk.configuration.enuma.OperationStatus;
-import rk.exceptions.ParamRequestException;
 import rk.model.ResultInfo;
 import rk.po.*;
 import rk.query.ProductQuery;
 import rk.service.ProductService;
-import rk.service.SpecificationService;
 import rk.util.AssertUtil;
 import rk.util.TemplateParser;
 
@@ -43,18 +41,17 @@ public class ProductController {
     @RequestPermission(aclValue = "0")
     @RequestMapping("getProductPage")
     @ResponseBody
-    public ResultInfo productDetail(Integer productId,HttpSession session) {
-        User user = (User)session.getAttribute( "user" );
+    public ModelAndView productDetail(Integer productId, @SessionAttribute User user) {
         HashMap<String, Object> params = new HashMap<>();
         params.put( "categories",productService.queryCategoryOfLevel( 0 ));
         if (productId != null){
             params.put( "product", productService.queryProductById(productId));
         }
-        String page = TemplateParser.parseTemplate( "product/detail", params,configurer );
-        return new ResultInfo( 200,"请求成功",page );
+        String content = TemplateParser.parseTemplate( "product/detail", params,configurer );
+        return new ModelAndView( "main" ).addObject( "content",content ).addObject( "page_active","product_detail" );
     }
 
-    @RequestPermission(aclValue = "0")
+    @RequestPermission(aclValue = "1")
     @RequestMapping("insertOrUpdate")
     @ResponseBody
     public ResultInfo insertOrUpdateProduct(Product product,String specifications) throws JsonProcessingException {
@@ -93,7 +90,7 @@ public class ProductController {
     @RequestPermission(aclValue = "0")
     @RequestMapping("manage")
     @ResponseBody
-    public ResultInfo productManage(ProductQuery productQuery, @SessionAttribute("user") User user){
+    public ModelAndView productManage(ProductQuery productQuery, @SessionAttribute("user") User user){
 //        productQuery.setUserId( user.getId() );
 //        productQuery.setPageNum( 0 );
 //        productQuery.setPageSize( 10 );
@@ -101,7 +98,8 @@ public class ProductController {
         HashMap<String, Object> results = new HashMap<>();
 //        results.put( "rows", productPageInfo.getList());
 //        results.put( "categories",productService.queryCategoryOfLevel( 0 ) );
-        return new ResultInfo(200,"请求成功",TemplateParser.parseTemplate( "/product/manage", results, configurer ));
+        String content = TemplateParser.parseTemplate( "/product/manage", results, configurer );
+        return new ModelAndView("main").addObject( "content",content ).addObject( "page_active","product_manage" );
     }
 
     @RequestPermission(aclValue = "0")

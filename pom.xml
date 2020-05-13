@@ -134,6 +134,10 @@
           <goals>
             <goal>repackage</goal>
           </goals>
+          <configuration>
+            <classifier>spring-boot</classifier>
+            <mainClass>rk.App</mainClass>
+          </configuration>
         </execution>
       </executions>
     </plugin>

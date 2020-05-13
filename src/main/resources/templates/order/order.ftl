@@ -38,7 +38,7 @@
                 <div class="row mt-5 mbn-20">
                     <div class="col-lg-2 col-12 mb-15">
                         <label for="senderProvince">省/市/自治区</label>
-                        <select id="senderProvince" disabled class="form-control form-control-sm" onchange="getChildArea(this)">
+                        <select id="senderProvince" disabled class="form-control form-control-sm" onchange="getChildArea('#senderProvince','#senderCity','#senderDistrict')">
                             <#list provinces as province>
                                 <option value="${province.id}">${province.areaName}</option>
                             </#list>
@@ -46,7 +46,7 @@
                     </div>
                     <div class="col-lg-2 col-12 mb-15">
                         <label for="senderCity">城市</label>
-                        <select id="senderCity" disabled class="form-control form-control-sm" onchange="getChildArea(this)">
+                        <select id="senderCity" disabled class="form-control form-control-sm" onchange="getChildArea('#senderCity','#senderDistrict')">
                         </select>
                     </div>
                     <div class="col-lg-2 col-12 mb-15">
@@ -89,7 +89,7 @@
                     <div class="row mt-5 mbn-20">
                         <div class="col-lg-2 col-12 mb-15">
                             <label for="receiverProvince">省/市/自治区</label>
-                            <select id="receiverProvince" disabled class="form-control form-control-sm" onchange="getChildArea(this)">
+                            <select id="receiverProvince" disabled class="form-control form-control-sm" onchange="getChildArea('#receiverProvince','#receiverCity','#receiverDistrict')">
                                 <option data-display="请选择" style="min-width: 113px" selected value="0">请选择</option>
                                 <#list provinces as province>
                                     <option value="${province.id}">${province.areaName}</option>
@@ -98,7 +98,7 @@
                         </div>
                         <div class="col-lg-2 col-12 mb-15">
                             <label for="receiverCity">城市</label>
-                            <select id="receiverCity" disabled class="form-control form-control-sm" onchange="getChildArea(this)">
+                            <select id="receiverCity" disabled class="form-control form-control-sm" onchange="getChildArea('#receiverCity','#receiverDistrict')">
                                 <option data-display="请选择" >请选择</option>
                             </select>
                         </div>

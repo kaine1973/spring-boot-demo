@@ -105,7 +105,8 @@ $sideHeaderNav.on('click', 'li a, li .menu-expand', function(e) {
 });
 
 // Adding active class to nav menu depending on page
-var pageUrl = window.location.href.substr(window.location.href.lastIndexOf("/") + 1);
+var pageUrl = window.location.pathname;
+console.log(pageUrl)
 $('.side-header-menu a').each(function() {
     if ($(this).attr("href") === pageUrl || $(this).attr("href") === '') {
         $(this).closest('li').addClass("active").parents('li').addClass('active').children('ul').slideDown().siblings('a').find('.menu-expand i').removeClass('zmdi-chevron-down').addClass('zmdi-chevron-up');

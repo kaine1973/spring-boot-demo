@@ -15,7 +15,7 @@
         <h5>分类</h5>
         <div id="categoryBox">
             <ul id="tree" class="ztree" style="min-width:100%; overflow:auto;"></ul>
-            <style onload="initProductManage()" ></style>
+            <style onload="initCategoryBox('#tree')" ></style>
         </div>
     </div>
 

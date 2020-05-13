@@ -133,17 +133,8 @@
             <if test="dealPrice != null">
                 deal_price = #{dealPrice},
             </if>
-            <if test="confirmed != null">
-                confirmed = #{confirmed},
-            </if>
-            <if test="temp != temp">
-                product_serial = #{productSerial},
-            </if>
-            <if test="confirmDate != null">
-                confirm_date = #{confirmDate},
-            </if>
         </set>
-        where id = #{id} and user_id = #{userId}
+        where id = #{id} and user_id = #{userId} and confirmed = 0
     </update>
 
     <delete id="delete" parameterType="java.lang.Integer">

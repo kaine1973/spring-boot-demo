@@ -10,11 +10,10 @@
 <script src="/js/plugins/pagination.min.js"></script>
 <script src="/js/plugins/jquery.smartWizard.min.js"></script>
 
-<script type="text/javascript" src="js/plugins/moment.min.js"></script>
-<script type="text/javascript" src="js/plugins/daterangepicker.js"></script>
+<script type="text/javascript" src="/js/plugins/moment.min.js"></script>
+<script type="text/javascript" src="/js/plugins/daterangepicker.js"></script>
 
 <!--Main JS-->
-<script src="/js/main.js"></script>
 <script src="/js/stock.js"></script>
 <script src="/js/common.js"></script>
 <script src="/js/product.js"></script>

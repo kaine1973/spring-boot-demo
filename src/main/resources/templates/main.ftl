@@ -1,5 +1,5 @@
 <!doctype html>
-<html class="no-js" lang="en">
+<html lang="zh-cn">
 
 <head>
     <meta charset="utf-8">
@@ -9,8 +9,8 @@
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <!-- Favicon -->
-
-    <#include "common.ftl" >
+    <#include "jsCommon.ftl">
+    <#include "common.ftl">
 </head>
 <style>
     div .nice-select{
@@ -43,6 +43,7 @@
     }
 </style>
 <body>
+
 <#--<div class="loading" ></div>-->
 <div class="alert alert-danger hidden" id="warningDiv" style="position:fixed;
         z-index: 99999;left: 50%;top: 5px;-webkit-transform: translate(-50%, -50%);
@@ -249,151 +250,26 @@
 
         <nav class="side-header-menu" id="side-header-menu">
             <ul>
-                <li class="has-sub-menu"><a href="#"><i class="ti-notepad"></i> <span>客户管理</span></a>
-                    <ul class="side-header-sub-menu">
-                        <li><a onclick="addDynamicContent('/customer/detail',this)" href="#"> <span>新增客户</span></a>
+                <li class="has-sub-menu <#if page_active?starts_with("customer")>active</#if>"><a href="#"><i class="ti-notepad"></i> <span>客户管理</span></a>
+                    <ul class="side-header-sub-menu" <#if page_active?starts_with("customer")>style="display: block;" </#if>>
+                        <li <#if page_active=="customer_detail">class="active"</#if>><a href="/customer/detail"> <span>新增客户</span></a>
                         </li>
-                        <li><a onclick="addDynamicContent('/customer/customerManager',this)" href="#"> <span>客户管理</span> </a>
+                        <li <#if page_active=="customer_manage">class="active"</#if>><a href="/customer/customerManager"> <span>客户管理</span> </a>
                         </li>
                     </ul>
                 </li>
-                <li><a onclick="addDynamicContent('/product/getProductPage',this)" href="#"> <span>添加产品</span></a>
+                <li <#if page_active=="product_detail">class="active"</#if>><a href="/product/getProductPage" ><span>添加产品</span></a>
                 </li>
-                <li><a onclick="addDynamicContent('/product/manage',this)" href="#"> <span>产品目录</span> </a>
+                <li <#if page_active=="product_manage">class="active"</#if>><a  href="/product/manage" ><span>产品目录</span></a>
                 </li>
-                <li><a onclick="addDynamicContent('/order/getHistoryPage',this)" href="#"> <span>订单记录</span> </a>
+                <li <#if page_active=="order_history">class="active"</#if>><a href='/order/getHistoryPage'> <span>订单记录</span> </a>
                 </li>
-                <li><a onclick="addDynamicContent('/stock/getStockHistoryPageOfSTOCK_OUT',this)" href="#"><span>出库记录</span></a>
+                <li <#if page_active=="stock_out_history">class="active"</#if>><a href="/stock/getStockHistoryPageOfSTOCK_OUT" ><span>出库记录</span></a>
                 </li>
-                <li><a onclick="addDynamicContent('/stock/getStockHistoryPageOfSTOCK_IN',this)" href="#"><span>入库记录</span></a>
+                <li <#if page_active=="stock_in_history">class="active"</#if>><a href="/stock/getStockHistoryPageOfSTOCK_IN"><span>入库记录</span></a>
                 </li>
-                <li><a onclick="addDynamicContent('/statistics/customerContribution',this)" href="#"><span>客户贡献度</span></a>
+                <li <#if page_active=="statistics_contribution">class="active"</#if>><a href="/statistics/customerContribution"><span>客户贡献度</span></a>
                 </li>
-
-<#--                <li><a href="javascript:addStaticContent('sample/widgets')"><i class="ti-palette"></i><span>Widgets</span></a>-->
-<#--                </li>-->
-<#--                <li class="has-sub-menu"><a href="#"><i class="ti-package"></i> <span>Basic Elements</span></a>-->
-<#--                    <ul class="side-header-sub-menu">-->
-<#--                        <li><a href="javascript:addStaticContent('sample/elements/alerts')"><span>Alerts</span></a></li>-->
-<#--                        <li><a href="javascript:addStaticContent('sample/elements/accordions')"><span>Accordions</span></a>-->
-<#--                        </li>-->
-<#--                        <li><a href="javascript:addStaticContent('sample/elements/avatar')"><span>Avatar</span></a></li>-->
-<#--                        <li><a href="javascript:addStaticContent('sample/elements/badge')"><span>Badge</span></a></li>-->
-<#--                        <li><a href="javascript:addStaticContent('sample/elements/buttons')"><span>Buttons</span></a></li>-->
-<#--                        <li><a href="javascript:addStaticContent('sample/elements/carousel')"><span>Carousel</span></a></li>-->
-<#--                        <li><a href="javascript:addStaticContent('sample/elements/dropdown')"><span>Dropdown</span></a></li>-->
-<#--                        <li><a href="javascript:addStaticContent('sample/elements/list-group')"><span>List Group</span></a>-->
-<#--                        </li>-->
-<#--                        <li><a href="javascript:addStaticContent('sample/elements/media')"><span>Media</span></a></li>-->
-<#--                        <li><a href="javascript:addStaticContent('sample/elements/modal')"><span>Modal</span></a></li>-->
-<#--                        <li><a href="javascript:addStaticContent('sample/elements/pagination')"><span>Pagination</span></a>-->
-<#--                        </li>-->
-<#--                        <li><a href="javascript:addStaticContent('sample/elements/progress')"><span>Progress Bar</span></a>-->
-<#--                        </li>-->
-<#--                        <li><a href="javascript:addStaticContent('sample/elements/spinners')"><span>Spinners</span></a></li>-->
-<#--                        <li><a href="javascript:addStaticContent('sample/elements/tabs')"><span>Tabs</span></a></li>-->
-<#--                        <li><a href="javascript:addStaticContent('sample/elements/tooltip')"><span>Tooltip</span></a></li>-->
-<#--                        <li><a href="javascript:addStaticContent('sample/elements/typography')"><span>Typography</span></a>-->
-<#--                        </li>-->
-<#--                    </ul>-->
-<#--                </li>-->
-<#--                <li class="has-sub-menu"><a href="#"><i class="ti-crown"></i> <span>Advance Elements</span></a>-->
-<#--                    <ul class="side-header-sub-menu">-->
-<#--                        <li><a href="javascript:addStaticContent('sample/elements/clipboard')"><span>Clipboard</span></a></li>-->
-<#--                        <li>-->
-<#--                            <a href="javascript:addStaticContent('sample/elements/fullcalendar')"><span>Full Calendar</span></a>-->
-<#--                        </li>-->
-<#--                        <li><a href="javascript:addStaticContent('sample/elements/media-p')"><span>Media Player</span></a></li>-->
-<#--                        <li><a href="javascript:addStaticContent('sample/elements/sortable')"><span>Sortable (Drag&Drop)</span></a>-->
-<#--                        </li>-->
-<#--                        <li><a href="javascript:addStaticContent('sample/elements/toastr')"><span>Toastr</span></a></li>-->
-<#--                        <li><a href="javascript:addStaticContent('sample/elements/rating')"><span>Rating</span></a></li>-->
-<#--                        <li><a href="javascript:addStaticContent('sample/elements/sweetalert')"><span>Sweet Alert</span></a>-->
-<#--                        </li>-->
-<#--                    </ul>-->
-<#--                </li>-->
-<#--                <li class="has-sub-menu"><a href="#"><i class="ti-stamp"></i> <span>Icons</span></a>-->
-<#--                    <ul class="side-header-sub-menu">-->
-<#--                        <li><a href="javascript:addStaticContent('sample/icons/cryptocurrency')"><span>Cryptocurrency</span></a></li>-->
-<#--                        <li><a href="javascript:addStaticContent('sample/icons/fontawesome')"><span>Font Awesome</span></a></li>-->
-<#--                        <li><a href="javascript:addStaticContent('sample/icons/material')"><span>Material Icon</span></a></li>-->
-<#--                        <li><a href="javascript:addStaticContent('sample/icons/themify')"><span>Themify Icon</span></a></li>-->
-<#--                    </ul>-->
-<#--                </li>-->
-<#--                <li class="has-sub-menu"><a href="#"><i class="ti-notepad"></i> <span>Forms</span></a>-->
-<#--                    <ul class="side-header-sub-menu">-->
-<#--                        <li><a href="javascript:addStaticContent('sample/form/basic-elements')"><span>Basic Elements</span></a></li>-->
-<#--                        <li><a href="javascript:addStaticContent('sample/form/checkbox')"><span>Checkbox</span></a></li>-->
-<#--                        <li><a href="javascript:addStaticContent('sample/form/date-mask')"><span>Date & Mask</span></a></li>-->
-<#--                        <li><a href="javascript:addStaticContent('sample/form/editor')"><span>Editor</span></a></li>-->
-<#--                        <li><a href="javascript:addStaticContent('sample/form/file-upload')"><span>File Upload</span></a></li>-->
-<#--                        <li><a href="javascript:addStaticContent('sample/form/layout')"><span>Layout</span></a></li>-->
-<#--                        <li><a href="javascript:addStaticContent('sample/form/radio')"><span>Radio</span></a></li>-->
-<#--                        <li><a href="javascript:addStaticContent('sample/form/range-slider')"><span>Range Slider</span></a></li>-->
-<#--                        <li><a href="javascript:addStaticContent('sample/form/selects')"><span>Selects</span></a></li>-->
-<#--                        <li><a href="javascript:addStaticContent('sample/form/switchers')"><span>Switchers</span></a></li>-->
-<#--                        <li><a href="javascript:addStaticContent('sample/form/wizard')"><span>Wizard</span></a></li>-->
-<#--                    </ul>-->
-<#--                </li>-->
-<#--                <li class="has-sub-menu"><a href="#"><i class="ti-layout"></i> <span>Table</span></a>-->
-<#--                    <ul class="side-header-sub-menu">-->
-<#--                        <li><a href="javascript:addStaticContent('sample/table/basic')"><span>Basic</span></a></li>-->
-<#--                        <li><a href="javascript:addStaticContent('sample/table/data-table')"><span>Data Table</span></a></li>-->
-<#--                        <li><a href="javascript:addStaticContent('sample/table/footable')"><span>Footable</span></a></li>-->
-<#--                        <li><a href="javascript:addStaticContent('sample/table/jsgrid')"><span>Jsgrid</span></a></li>-->
-<#--                    </ul>-->
-<#--                </li>-->
-<#--                <li class="has-sub-menu"><a href="#"><i class="ti-pie-chart"></i> <span>Charts</span></a>-->
-<#--                    <ul class="side-header-sub-menu">-->
-<#--                        <li><a href="javascript:addStaticContent('sample/chart/chartjs')"><span>ChartJs</span></a></li>-->
-<#--                        <li><a href="javascript:addStaticContent('sample/chart/echarts')"><span>Echarts</span></a></li>-->
-<#--                        <li><a href="javascript:addStaticContent('sample/chart/google')"><span>Google Chart</span></a></li>-->
-<#--                        <li><a href="javascript:addStaticContent('sample/chart/morris')"><span>Morris  Chart</span></a></li>-->
-<#--                        <li><a href="javascript:addStaticContent('sample/chart/sparkline')"><span>Sparkline  Chart</span></a></li>-->
-<#--                    </ul>-->
-<#--                </li>-->
-<#--                <li class="has-sub-menu"><a href="#"><i class="ti-map"></i> <span>Maps</span></a>-->
-<#--                    <ul class="side-header-sub-menu">-->
-<#--                        <li><a href="javascript:addStaticContent('sample/map/vector')"><span>Vector Map</span></a></li>-->
-<#--                        <li><a href="javascript:addStaticContent('sample/map/google')"><span>Google Map</span></a></li>-->
-<#--                    </ul>-->
-<#--                </li>-->
-<#--                <li class="has-sub-menu"><a href="#"><i class="ti-shopping-cart"></i> <span>E-commerce</span></a>-->
-<#--                    <ul class="side-header-sub-menu">-->
-<#--                        <li><a href="javascript:addStaticContent('sample/add-product')"><span>Add Product</span></a></li>-->
-<#--                        <li><a href="javascript:addStaticContent('sample/edit-product')"><span>Edit Product</span></a></li>-->
-<#--                        <li><a href="javascript:addStaticContent('sample/invoice-list')"><span>Invoice List</span></a></li>-->
-<#--                        <li><a href="javascript:addStaticContent('sample/invoice-details')"><span>Invoice Details</span></a></li>-->
-<#--                        <li><a href="javascript:addStaticContent('sample/order-list')"><span>Order List</span></a></li>-->
-<#--                        <li><a href="javascript:addStaticContent('sample/order-details')"><span>Order Details</span></a></li>-->
-<#--                        <li><a href="javascript:addStaticContent('sample/manage-products')"><span>Manage Products</span></a></li>-->
-<#--                    </ul>-->
-<#--                </li>-->
-<#--                <li class="has-sub-menu"><a href="#"><i class="ti-gift"></i> <span>Apps</span></a>-->
-<#--                    <ul class="side-header-sub-menu">-->
-<#--                        <li><a href="javascript:addStaticContent('sample/chat')"><span>Chat</span></a></li>-->
-<#--                        <li><a href="javascript:addStaticContent('sample/mail')"><span>Mail</span></a></li>-->
-<#--                        <li><a href="javascript:addStaticContent('sample/single-mail')"><span>Single Mail</span></a></li>-->
-<#--                        <li><a href="javascript:addStaticContent('sample/todo-list')"><span>Todo List</span></a></li>-->
-<#--                    </ul>-->
-<#--                </li>-->
-<#--                <li class="has-sub-menu"><a href="#"><i class="ti-lock"></i> <span>Authentication</span></a>-->
-<#--                    <ul class="side-header-sub-menu">-->
-<#--                        <li><a href="javascript:addStaticContent('sample/login')"><span>login</span></a></li>-->
-<#--                        <li><a href="javascript:addStaticContent('sample/register')"><span>register</span></a></li>-->
-<#--                        <li><a href="javascript:addStaticContent('sample/author-profile')"><span>Profile</span></a></li>-->
-<#--                    </ul>-->
-<#--                </li>-->
-<#--                <li class="has-sub-menu"><a href="#"><i class="ti-layers"></i> <span>Pages</span></a>-->
-<#--                    <ul class="side-header-sub-menu">-->
-<#--                        <li><a href="javascript:addStaticContent('sample/blank')"><span>Blank</span></a></li>-->
-<#--                        <li><a href="javascript:addStaticContent('sample/timeline')"><span>Timeline</span></a></li>-->
-<#--                        <li><a href="javascript:addStaticContent('sample/pricing')"><span>Pricing</span></a></li>-->
-<#--                        <li><a href="javascript:addStaticContent('sample/error-1')"><span>error-1</span></a></li>-->
-<#--                        <li><a href="javascript:addStaticContent('sample/error-2')"><span>error-2</span></a></li>-->
-<#--                    </ul>-->
-<#--                </li>-->
-
             </ul>
         </nav>
 
@@ -402,7 +278,7 @@
 
 <!-- Content Body Start -->
 <div class="content-body" id="main" >
-    <#include "dashboard.ftl">
+    ${content}
 </div>
     <!--    Alert-->
 <#--    <div class="alert alert-primary" role="alert" id="confirmAlert">-->
@@ -447,7 +323,8 @@
 
 </div>
 </body>
-<#include "jsCommon.ftl">
+<script src="/js/main.js"></script>
+
 <script>
 
 //    function niceSelector(){
@@ -464,7 +341,7 @@
 
     function closeModal() {
         if(confirm('未保存的更改将被舍弃')){
-            $('#exampleModalLong').modal('hide')
+            $('.modal').modal('hide')
         }
     }
 

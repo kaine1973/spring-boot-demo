@@ -71,7 +71,7 @@ public class OrderController {
     @RequestPermission(aclValue = "0")
     @RequestMapping("showOrderPage")
     @ResponseBody
-    public ResultInfo showOrderPage(String stockOperations, @SessionAttribute User user) {
+    public ModelAndView showOrderPage(String stockOperations, @SessionAttribute User user) {
         List<StockOperation> operations = null;
         if(null == stockOperations){
             operations = stockService.queryUnconfirmedStockOperation(user.getId(), StockOperationType.STOCK_OUT);
@@ -84,8 +84,8 @@ public class OrderController {
         params.put( "provinces",province );
         params.put("stockOperations",operations);
         params.put( "user",user );
-        String orderPage = TemplateParser.parseTemplate("order/order", params, configurer);
-        return new ResultInfo( 200,"操作成功",orderPage );
+        String content = TemplateParser.parseTemplate("order/order", params, configurer);
+        return new ModelAndView("main").addObject( "content",content ).addObject( "page_active","order_new" );
     }
 
     @RequestPermission(aclValue = "0")
@@ -106,13 +106,14 @@ public class OrderController {
     @RequestPermission(aclValue = "0")
     @RequestMapping("getHistoryPage")
     @ResponseBody
-    public ResultInfo getHistoryPage(){
+    public ModelAndView getHistoryPage(){
         PageInfo<Order> orderPageInfo = orderService.queryByParams( new OrderQuery() );
         HashMap<String, Object> params = new HashMap<>();
         params.put( "orders",orderPageInfo.getList() );
         params.put( "users",userService.queryAllUsers());
-        String s = TemplateParser.parseTemplate( "/order/history", params, configurer );
-        return new ResultInfo(200,"",s);
+        String content = TemplateParser.parseTemplate( "/order/history", params, configurer );
+        return new ModelAndView("main").addObject( "content",content ).addObject( "page_active","order_history" );
+
     }
 
     @RequestPermission(aclValue = "0")

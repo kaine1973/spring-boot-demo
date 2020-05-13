@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer;
 import rk.annotations.RequestPermission;
 import rk.model.ResultInfo;
@@ -29,11 +30,13 @@ public class StatisticsController {
     @ResponseBody
     @RequestPermission(aclValue = "0")
     @RequestMapping("customerContribution")
-    public ResultInfo getCustomerContributionPage(){
+    public ModelAndView getCustomerContributionPage(){
         List<CustomerContributionMonthly> contributions = statisticService.queryCustomerContributionByYear(new SimpleDateFormat("yyyy").format( new Date() ));
         HashMap<String,Object> params = new HashMap<>();
         params.put( "contributions",contributions );
-        return new ResultInfo(200,"", TemplateParser.parseTemplate( "customerContribution",params,freeMarkerConfigurer ) );
+        String content = TemplateParser.parseTemplate( "customerContribution", params, freeMarkerConfigurer );
+        return new ModelAndView("main").addObject( "content",content ).addObject( "page_active","statistics_contribution" );
+
     }
 
 

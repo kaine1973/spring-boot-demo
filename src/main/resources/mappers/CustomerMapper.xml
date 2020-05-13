@@ -97,5 +97,36 @@
         </trim>
     </insert>
 
+    <update id="update">
+        update crm.customer
+        <set>
+            <if test="customerName != null and customerName != ''">
+                customer_name = #{customerName},
+            </if>
+            <if test="phone!= null and phone != ''">
+                phone = #{phone},
+            </if>
+            <if test="company != null and company != ''">
+                company = #{company},
+            </if>
+            <if test="positionId != null">
+                position_id = #{positionId},
+            </if>
+            <if test="levelId != null">
+                level_id = #{levelId},
+            </if>
+            <if test="gender != null and gender != ''">
+                gender = #{gender},
+            </if>
+            <if test="note !=null">
+                note = #{note},
+            </if>
+        </set>
+            where id = #{id}
+    </update>
+
+    <delete id="delete">
+        update customer set is_valid = 0 where id = #{id}
+    </delete>
 
 </mapper>

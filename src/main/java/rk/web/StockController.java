@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttribute;
+import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer;
 import rk.annotations.RequestPermission;
 import rk.configuration.enuma.OperationStatus;
@@ -84,7 +85,7 @@ public class StockController {
     @RequestPermission(aclValue = "0")
     @RequestMapping("getStockHistoryPageOf{type}")
     @ResponseBody
-    public ResultInfo getStockHistoryPage(@PathVariable String type){
+    public ModelAndView getStockHistoryPage(@PathVariable String type){
 
         PageInfo<StockOperation> stockOperationPageInfo = stockService.queryByParams( new StockQuery(type) );
         List<StockOperation> stockOperations = stockOperationPageInfo.getList();
@@ -93,8 +94,9 @@ public class StockController {
         params.put( "stockOperations",stockOperations );
         params.put( "type",type );
         params.put( "users",users );
-        String stockHistory = TemplateParser.parseTemplate( "/stockHistory", params, freeMarkerConfigurer );
-        return new ResultInfo( 200,"success",stockHistory );
+        String content = TemplateParser.parseTemplate( "/stockHistory", params, freeMarkerConfigurer );
+        return new ModelAndView("main").addObject( "content",content ).addObject( "page_active",type.toLowerCase()+"_history" );
+
     }
 
 

@@ -22,7 +22,7 @@
                         </div>
                             <div id="categoryBox">
                                 <ul id="treeDetail" class="ztree" style="min-width:100%; overflow:auto;"></ul>
-                                <style onload="initCategoryBoxSetDefault(<#if product??>'${product.categoryId}'</#if>)"></style>
+                                <style onload="initCategoryBox('#treeDetail',<#if product??>'${product.categoryId}'</#if>)"></style>
                             </div>
 
                     </div>

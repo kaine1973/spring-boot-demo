@@ -17,49 +17,51 @@
         <result column="phone" property="phone" jdbcType="VARCHAR"/>
         <result column="of_user" property="ofUser" jdbcType="TINYINT"/>
         <result column="customer_id" property="customerId" jdbcType="INTEGER"/>
+        <result column="primary" property="primary"/>
+        <result column="is_valid" property="isValid"/>
     </resultMap>
 
     <select id="queryByIdAndUserId" resultMap="address" parameterType="java.lang.Integer">
-        select d.province,d.province_id,d.city,d.city_id,d.district,d.district_id,a.detail,a.id,a.name,a.phone,a.company,a.customer_id
+        select d.province,d.province_id,d.city,d.city_id,d.district,d.district_id,a.`primary`,a.detail,a.id,a.name,a.phone,a.company,a.customer_id
         from crm.address as a join
              (SELECT p.area_name as province,p.id as province_id,c.area_name as city,c.id as city_id,d.area_name as district,d.id as district_id
               FROM crm.area as d join crm.area as c on d.parentid = c.id
                                  join crm.area as p on p.id = c.parentid where d.level=3)
                  as d on a.district_id = d.district_id
-        where a.user_id = #{userId} and a.id = #{id};
+        where a.user_id = #{userId} and a.id = #{id} and a.is_valid = 1;
     </select>
 
     <select id="queryById" resultMap="address" parameterType="java.lang.Integer">
-        select d.province,d.province_id,d.city,d.city_id,d.district,d.district_id,a.detail,a.id,a.name,a.phone,a.company,a.customer_id
+        select d.province,d.province_id,d.city,d.city_id,d.district,d.district_id,a.`primary`,a.detail,a.id,a.name,a.phone,a.company,a.customer_id
         from crm.address as a join
              (SELECT p.area_name as province,p.id as province_id,c.area_name as city,c.id as city_id,d.area_name as district,d.id as district_id
               FROM crm.area as d join crm.area as c on d.parentid = c.id
                                  join crm.area as p on p.id = c.parentid where d.level=3)
                  as d on a.district_id = d.district_id
-        where a.id = #{id};
+        where a.id = #{id} and a.is_valid = 1;
     </select>
     <select id="queryUserAddresses" resultMap="address" parameterType="java.lang.Integer">
-        select d.province,d.city,d.district,a.detail,a.id,a.name,a.phone,a.company
+        select d.province,d.city,d.district,d.district_id,d.province_id,d.city_id,a.detail,a.id,a.name,a.phone,a.company,a.`primary`
         from crm.address as a join
              (SELECT p.area_name as province,p.id as province_id,c.area_name as city,c.id as city_id,d.area_name as district,d.id as district_id
               FROM crm.area as d join crm.area as c on d.parentid = c.id
                                  join crm.area as p on p.id = c.parentid where d.level=3)
                  as d on a.district_id = d.district_id
-        where a.user_id = #{userId} and a.of_user = 1;
+        where a.user_id = #{userId} and a.of_user = 1 and is_valid = 1;
     </select>
 
     <select id="queryByCustomerIdAndUserId" resultMap="address" parameterType="java.lang.Integer">
-        select d.province,d.city,d.district,a.detail,a.id,a.name,a.phone,a.company
+        select d.province,d.city,d.district,d.district_id,d.province_id,d.city_id,a.detail,a.id,a.name,a.phone,a.company,a.`primary`
         from crm.address as a join
              (SELECT p.area_name as province,p.id as province_id,c.area_name as city,c.id as city_id,d.area_name as district,d.id as district_id
               FROM crm.area as d join crm.area as c on d.parentid = c.id
                                  join crm.area as p on p.id = c.parentid where d.level=3)
                  as d on a.district_id = d.district_id
-        where a.customer_id = #{customerId} and a.of_user = 0;
+        where a.customer_id = #{customerId} and a.of_user = 0 and is_valid = 1;
     </select>
 
     <insert id="saveBatch" parameterType="rk.po.common.Address">
-        insert into crm.address(user_id,customer_id,crm.address.company,crm.address.name,phone,crm.address.district_id,crm.address.detail)
+        insert into crm.address(user_id,customer_id,crm.address.company,crm.address.name,phone,crm.address.district_id,crm.address.detail,`primary`)
         VALUES
         <foreach collection="list" item="address" separator=",">
             (#{address.userId},
@@ -68,8 +70,38 @@
             #{address.name},
             #{address.phone},
             #{address.districtId},
-            #{address.detail})
+            #{address.detail},
+             #{address.primary})
         </foreach>
     </insert>
+
+    <update id="update" parameterType="rk.po.common.Address">
+        update crm.address
+        <set>
+            <if test="name != null and name != '' ">
+                name = #{name},
+            </if>
+            <if test="districtId != null and districtId != '' ">
+                district_id = #{districtId},
+            </if>
+            <if test="detail != null and detail != '' ">
+                detail = #{detail},
+            </if>
+            <if test="phone != null and phone != '' ">
+                phone = #{phone},
+            </if>
+            <if test="company != null and company != '' ">
+                company = #{company},
+            </if>
+            <if test="primary != null and primary != '' ">
+                `primary` = #{primary},
+            </if>
+
+            <if test="isValid != null ">
+                is_valid = #{isValid},
+            </if>
+        </set>
+            where id = #{id}
+    </update>
 
 </mapper>
