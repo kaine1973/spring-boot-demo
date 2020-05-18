@@ -189,7 +189,7 @@
                                         </ul>
                                     </div>
                                     <div class="footer">
-                                        <a href="javascript:showOrderPage()" class="view-all"><h6 style="color: #55a1fb">下单</h6></a>
+                                        <a href="/order/showOrderPage?temp=0" target="_blank" class="view-all"><h6 style="color: #55a1fb">下单</h6></a>
                                     </div>
                                 </div>
 
@@ -248,27 +248,39 @@
     <!-- Side Header Inner Start -->
     <div class="side-header-inner custom-scroll">
 
-        <nav class="side-header-menu" id="side-header-menu">
+        <nav class="side-header-menu" id="side-header-menu" style="height: 100%;position:relative">
             <ul>
-                <li class="has-sub-menu <#if page_active?starts_with("customer")>active</#if>"><a href="#"><i class="ti-notepad"></i> <span>客户管理</span></a>
-                    <ul class="side-header-sub-menu" <#if page_active?starts_with("customer")>style="display: block;" </#if>>
-                        <li <#if page_active=="customer_detail">class="active"</#if>><a href="/customer/detail"> <span>新增客户</span></a>
+                <li class="has-sub-menu"><a href="#"><i class="ti-notepad"></i> <span>客户管理</span></a>
+                    <ul class="side-header-sub-menu">
+                        <li><a href="/customer/detail"> <span>新增客户</span></a>
                         </li>
-                        <li <#if page_active=="customer_manage">class="active"</#if>><a href="/customer/customerManager"> <span>客户管理</span> </a>
+                        <li><a href="/customer/customerManager"> <span>客户管理</span> </a>
                         </li>
                     </ul>
                 </li>
-                <li <#if page_active=="product_detail">class="active"</#if>><a href="/product/getProductPage" ><span>添加产品</span></a>
+                <li ><a href="/product/getProductPage" ><span>添加产品</span></a>
                 </li>
-                <li <#if page_active=="product_manage">class="active"</#if>><a  href="/product/manage" ><span>产品目录</span></a>
+                <li ><a  href="/product/manage" ><span>产品目录</span></a>
                 </li>
-                <li <#if page_active=="order_history">class="active"</#if>><a href='/order/getHistoryPage'> <span>订单记录</span> </a>
+                <li ><a href='/order/getHistoryPage'> <span>订单记录</span> </a>
                 </li>
-                <li <#if page_active=="stock_out_history">class="active"</#if>><a href="/stock/getStockHistoryPageOfSTOCK_OUT" ><span>出库记录</span></a>
+                <li ><a href="/stock/getStockHistoryPageOfSTOCK_OUT" ><span>出库记录</span></a>
                 </li>
-                <li <#if page_active=="stock_in_history">class="active"</#if>><a href="/stock/getStockHistoryPageOfSTOCK_IN"><span>入库记录</span></a>
+                <li ><a href="/stock/getStockHistoryPageOfSTOCK_IN"><span>入库记录</span></a>
                 </li>
-                <li <#if page_active=="statistics_contribution">class="active"</#if>><a href="/statistics/customerContribution"><span>客户贡献度</span></a>
+                <li><a href="/statistics/customerContribution"><span>客户贡献度</span></a>
+                </li>
+                <li class="has-sub-menu"><a href="#"><i class="ti-notepad"></i> <span>设置</span></a>
+                    <ul class="side-header-sub-menu" >
+                        <li ><a href="/manage/userAddress"> <span>管理我的地址</span></a>
+                        </li>
+                        <li ><a href="/manage/productCategory"><span>管理产品分类</span></a>
+                        </li>
+<#--                        <li ><a href="/manage/customerLevel"><span>管理客户等级</span></a>-->
+<#--                        </li>-->
+                        <li ><a href="/manage/customerPosition"><span>管理客户职责</span></a>
+                        </li>
+                    </ul>
                 </li>
             </ul>
         </nav>
@@ -280,14 +292,7 @@
 <div class="content-body" id="main" >
     ${content}
 </div>
-    <!--    Alert-->
-<#--    <div class="alert alert-primary" role="alert" id="confirmAlert">-->
-<#--        <h3>Custom Content Title</h3>-->
-<#--        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Libero placeat, minima dolore similique culpa cumque nisi quam, quaerat expedita delectus incidunt sed sunt! Excepturi aspernatur enim reprehenderit exercitationem distinctio sit!</p>-->
-<#--        <button class="button button-success">submit</button>-->
-<#--        <button class="button button-danger" data-dismiss="alert">close</button>-->
-<#--    </div>-->
-    <!-- Modal -->
+
     <div class="modal fade" id="exampleModalLong" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
             <div class="modal-content">
@@ -300,27 +305,27 @@
                 <div class="modal-body" id="modalBody">
                     ...
                 </div>
-<#--                <div class="modal-footer">-->
-<#--                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>-->
-<#--                    <button type="button" class="btn btn-primary">Save changes</button>-->
-<#--                </div>-->
             </div>
         </div>
     </div>
 
 <!-- Content Body End -->
 
-<!-- Footer Section Start -->
-<#--<div class="footer-section">-->
-<#--    <div class="container-fluid">-->
+</div>
+<div class="modal fade" id="addressModal" tabindex="-1" role="dialog" aria-labelledby="customerModalTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="addressModalTitle">Details</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body" id="addressModalBody">
 
-<#--        <div class="footer-copyright text-center">-->
-<#--            <p class="text-body-light">2020 &copy; <a href="http://www.eltbio.com">Enlighten</a></p>-->
-<#--        </div>-->
-
-<#--    </div>-->
-<#--</div><!-- Footer Section End &ndash;&gt;-->
-
+            </div>
+        </div>
+    </div>
 </div>
 </body>
 <script src="/js/main.js"></script>
@@ -399,21 +404,26 @@
             $('#warningDiv').addClass('hidden')
         },3000)
     }
+function clearAllCookie() {
+    var keys = document.cookie.match(/[^ =;]+(?=\=)/g);
+    if(keys) {
+        for(var i = keys.length; i--;)
+            document.cookie = keys[i] + '=0;expires=' + new Date(0).toUTCString()
+    }
+}
     function signOut() {
-        showLoadingDiv()
+        clearAllCookie()
         $.ajax({
             url:'/user/logout',
             type:'get',
             success:function (data) {
                 if(data.code === 200){
-
                     window.location.replace('/login')
                 }else{
                     alertWarning(data.msg)
                 }
             }
         })
-        stopLoadingDiv()
     }
     function addDynamicContent(url,e) {
         $('.side-header-menu >li').removeClass('active')

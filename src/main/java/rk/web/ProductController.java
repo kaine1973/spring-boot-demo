@@ -16,6 +16,7 @@ import rk.annotations.RequestPermission;
 import rk.model.ResultInfo;
 import rk.po.*;
 import rk.query.ProductQuery;
+import rk.service.CategoryService;
 import rk.service.ProductService;
 import rk.util.AssertUtil;
 import rk.util.TemplateParser;
@@ -38,12 +39,15 @@ public class ProductController {
     @Autowired
     private ProductService productService;
 
+    @Autowired
+    private CategoryService categoryService;
+
     @RequestPermission(aclValue = "0")
     @RequestMapping("getProductPage")
     @ResponseBody
     public ModelAndView productDetail(Integer productId, @SessionAttribute User user) {
         HashMap<String, Object> params = new HashMap<>();
-        params.put( "categories",productService.queryCategoryOfLevel( 0 ));
+        params.put( "categories",categoryService.queryCategoryOfLevel( 0 ));
         if (productId != null){
             params.put( "product", productService.queryProductById(productId));
         }
@@ -76,16 +80,6 @@ public class ProductController {
         }
     }
 
-    @RequestPermission(aclValue = "0")
-    @RequestMapping("queryCategory")
-    @ResponseBody
-    public ResultInfo queryCategories() throws JsonProcessingException {
-        //zTree会将空的children
-        objectMapper.setSerializationInclusion( JsonInclude.Include.NON_EMPTY );
-        List<ProductCategory> productCategories = productService.queryCategoryOfLevel( 0 );
-        String s = objectMapper.writeValueAsString(productCategories );
-        return new ResultInfo( 200,"", s);
-    }
 
     @RequestPermission(aclValue = "0")
     @RequestMapping("manage")

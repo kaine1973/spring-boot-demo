@@ -27,24 +27,6 @@ public class ProductService extends BaseService<Product> {
     @Autowired
     private SpecificationService specificationService;
 
-    public List<ProductCategory> queryCategoryOfLevel(Integer parentId) {
-        List<ProductCategory> productCategories = productDao.selectCategoryOfLevel( parentId );
-        for(ProductCategory productCategory:productCategories){
-            setChildIds(productCategory);
-        }
-        return productCategories;
-    }
-    //获取所有子节点的ID
-    private ArrayList<Integer> setChildIds(ProductCategory productCategory) {
-        ArrayList<Integer> ids = new ArrayList<>();
-        ids.add(productCategory.getId());
-        for(ProductCategory childProductCategory:productCategory.getChildren()){
-            ids.addAll( setChildIds( childProductCategory ) );
-        }
-        productCategory.setChildIds( ids );
-        return ids;
-    }
-
     public Product queryProductById(Integer productId) {
         return productDao.queryById(productId);
     }

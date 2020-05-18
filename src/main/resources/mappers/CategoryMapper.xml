@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="rk.dao.CategoryDao">
+    <resultMap id="categoryWithChildren" type="rk.po.ProductCategory">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="category_name"  jdbcType="VARCHAR" property="categoryName"/>
+        <result column="parent_id" jdbcType="INTEGER" property="parentId"/>
+        <result column="level" jdbcType="INTEGER" property="level"/>
+        <collection column="id" property="children"
+                    javaType="java.util.ArrayList"
+                    ofType="rk.po.ProductCategory"
+                    select="selectCategoryOfLevel"/>
+    </resultMap>
+
+    <resultMap id="category" type="rk.po.ProductCategory">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="category_name"  jdbcType="VARCHAR" property="categoryName"/>
+        <result column="parent_id" jdbcType="INTEGER" property="parentId"/>
+        <result column="level" jdbcType="INTEGER" property="level"/>
+    </resultMap>
+
+
+    <select id="selectCategoryOfLevel" resultMap="categoryWithChildren" resultType="rk.po.ProductCategory" parameterType="java.lang.Integer">
+        select *
+        from crm.product_category
+        where parent_id = #{parentId} and is_valid = 1
+    </select>
+
+    <select id="queryById" resultMap="category">
+        select *
+        from crm.product_category
+        where id = #{id} and is_valid = 1
+    </select>
+
+    <insert id="save" parameterType="rk.po.ProductCategory">
+        insert into product_category(category_name, parent_id,level,is_valid)
+        values (#{categoryName},#{parentId},#{level},1)
+    </insert>
+
+    <update id="update" parameterType="rk.po.ProductCategory">
+        update product_category
+        <set>
+            <if test="categoryName != null and categoryName != ''">
+                category_name = #{categoryName},
+            </if>
+        </set>
+            where id=#{id}
+    </update>
+
+    <update id="delete" parameterType="rk.po.ProductCategory">
+        update product_category set is_valid = 0
+        where id=#{id}
+    </update>
+
+
+</mapper>
+
+
+

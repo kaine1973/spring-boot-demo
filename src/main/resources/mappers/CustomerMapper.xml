@@ -20,7 +20,7 @@
 
 
     <select id="queryByParams" parameterType="rk.query.CustomerQuery" resultMap="customerDetail">
-        SELECT c.*,cl.level_sign from crm.customer as c join crm.customer_level as cl on cl.id = c.level_id
+        SELECT c.*,cl.level_sign from crm.customer as c left join crm.customer_level as cl on cl.id = c.level_id
         where user_id = #{userId}
         <trim>
             <if test="queryName != '' and queryName != null">

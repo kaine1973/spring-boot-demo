@@ -10,7 +10,7 @@
 
 </div ><!-- Page Headings End -->
 <div class="row">
-<div class="col-lg-3 col-12 accordion accordion-icon" style="background-color: #e2e2e2;min-height: 100%;border-radius: 5px 5px 5px 5px">
+<div class="col-lg-2 col-12 accordion accordion-icon" style="background-color: #e2e2e2;min-height: 100%;border-radius: 5px 5px 5px 5px;width: 300px">
     <div class="hide-responsive" style="margin-top: 25px;">
         <h5>分类</h5>
         <div id="categoryBox">
@@ -45,9 +45,9 @@
         </form>
     </div>
 </div>
-<div class="col-lg-9 col-12" style="height: 500px">
+<div class="col-lg-10 col-12" style="height: 500px">
     <div class="row" >
-        <div class="col-lg-10 col-12">
+        <div class="col-lg-12 col-12">
             <table class="table table-bordered table-hover table-striped"
                    data-toggle="table"
                    data-height="200">

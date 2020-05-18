@@ -29,14 +29,14 @@ public class CustomerService extends BaseService<Customer> {
             if(address.getId() != null){
                 Address temp = addressDao.queryByIdAndUserId( address.getId(), userId );
                 AssertUtil.isTrue( temp==null,"用户没有该地址" );
-                AssertUtil.isTrue( temp.getCustomerId()!=customer.getId(),"客户没有该地址" );
+                AssertUtil.isTrue( ! temp.getCustomerId().equals( customer.getId() ),"客户没有该地址" );
                 addressDao.update( address );
             }else{
                 newAddresses.add( address );
             }
         }
         if(newAddresses.size()>0){
-            AssertUtil.isTrue( addressDao.saveBatch( newAddresses ) == newAddresses.size(), OperationStatus.processFailed );
+            AssertUtil.isTrue( addressDao.saveBatch( newAddresses ) != newAddresses.size(), OperationStatus.processFailed );
         }
     }
 }

@@ -24,14 +24,16 @@
     </resultMap>
 
     <insert id="saveBatch" parameterType="java.util.List" useGeneratedKeys="true" keyProperty="id" keyColumn="id">
-        insert into stock_operation (user_id, operation,product_id,specification_id,amount,temp,confirmed,add_date,confirm_date)
+        insert into stock_operation (user_id, operation,product_id,specification_id,amount,deal_price,temp,confirmed,add_date,confirm_date)
         VALUES <foreach collection="list" item="operation" separator=",">
             (#{operation.userId},
                     #{operation.operation},
                     #{operation.productId},
                     #{operation.specificationId},
                     #{operation.amount},
-                    #{operation.temp},#{operation.confirmed},NOW(),NOW())
+                    #{operation.dealPrice},
+                    #{operation.temp},
+                    #{operation.confirmed},NOW(),NOW())
         </foreach>
     </insert>
 
@@ -51,7 +53,10 @@
                st.confirmed as confirmed
         from stock_operation st join product p on st.product_id = p.id
         join product_specification sp on st.specification_id = sp.id
-        where st.confirmed = 0 and st.user_id = #{userId} and st.operation = #{operationType} and st.temp = 0
+        where st.confirmed = 0 and st.user_id = #{userId} and st.operation = #{operationType}
+          <if test="temp != null">
+              and st.temp = #{temp}
+          </if>
     </select>
 
     <select id="queryByIdAndUserId" resultMap="stockOperationMap">

@@ -49,6 +49,36 @@
         ORDER BY A.sort
     </select>
 
+    <select id="queryCustomerPositions" resultMap="customerPositionDetail" parameterType="java.lang.Integer" resultType="rk.po.common.CustomerPosition">
+        SELECT id,position_name from crm.customer_position
+        where is_valid = 1
+        ORDER BY sort
+    </select>
+
+    <update id="updateCustomerPosition" >
+        update crm.customer_position
+            <set>
+                <if test="order != null">
+                    sort = #{order},
+                </if>
+                <if test="positionName != null and positionName != ''">
+                    position_name = #{positionName},
+                </if>
+            </set>
+        where id = #{id}
+    </update>
+
+
+    <update id="deleteCustomerPosition" >
+        update crm.customer_position set is_valid = 0
+        where id = #{id}
+    </update>
+
+
+    <insert id="addCustomerPosition">
+        insert into crm.customer_position (position_name,sort,is_valid) values (#{positionName},#{sort},1)
+    </insert>
+
 <!--    查询地区-->
     <select id="queryAreaByParentId" resultMap="AreaDetail" parameterType="java.lang.Integer">
         SELECT A.id,A.area_name,A.parentid,A.sort from crm.area as A

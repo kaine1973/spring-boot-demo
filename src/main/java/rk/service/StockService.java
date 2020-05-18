@@ -30,8 +30,8 @@ public class StockService extends BaseService<StockOperation> {
     @Autowired
     private ProductService productService;
 
-    public List<StockOperation> queryUnconfirmedStockOperation(Integer userId, StockOperationType operationType) {
-        return stockDao.queryUnconfirmed(userId,operationType);
+    public List<StockOperation> queryUnconfirmedStockOperation(Integer userId, StockOperationType operationType,String temp) {
+        return stockDao.queryUnconfirmed(userId,operationType,temp);
     }
 
     @Transactional

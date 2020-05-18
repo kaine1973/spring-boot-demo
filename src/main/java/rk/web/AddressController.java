@@ -1,6 +1,7 @@
 package rk.web;
 
 import com.github.pagehelper.PageInfo;
+import com.sun.media.sound.RIFFInvalidDataException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -12,6 +13,7 @@ import rk.model.ResultInfo;
 import rk.po.User;
 import rk.po.common.Address;
 import rk.po.common.Area;
+import rk.query.AddressQuery;
 import rk.service.AddressService;
 import rk.service.CommonService;
 import rk.service.CustomerService;
@@ -39,7 +41,7 @@ public class AddressController {
     @RequestPermission(aclValue = "0")
     @ResponseBody
     @RequestMapping("getAddressDetailPage")
-    public ResultInfo getAddressPage(Address address, @SessionAttribute("user") User user){
+    public ResultInfo getAddressPage(Address address,Integer saveImmediately, @SessionAttribute("user") User user){
         HashMap<String, Object> params = new HashMap<>();
         if(null != address.getProvinceId()){
             List<Area> cities = commonService.queryAreaByParentId( address.getProvinceId() );
@@ -52,6 +54,7 @@ public class AddressController {
         List<Area> provinces = commonService.queryAreaByParentId(1);
         params.put( "provinces",provinces );
         params.put( "address",address );
+        params.put( "saveImmediately",saveImmediately );
         String s = TemplateParser.parseTemplate( "/customer/addressDetail", params, freeMarkerConfigurer );
         return new ResultInfo( 200,"请求成功",s );
     }
@@ -76,8 +79,11 @@ public class AddressController {
     @ResponseBody
     @RequestMapping("queryUserAddresses")
     public ResultInfo queryUserAddresses(@SessionAttribute User user){
-        List<Address> addresses = addressService.queryUserAddresses(  user.getId() );
-        return new ResultInfo( 200,"",addresses );
+        AddressQuery addressQuery = new AddressQuery();
+        addressQuery.setOfUser( 1 );
+        addressQuery.setUserId( user.getId() );
+        PageInfo<Address> addressPageInfo = addressService.queryByParams( addressQuery );
+        return new ResultInfo( 200,"",addressPageInfo );
     }
 
     @RequestPermission(aclValue = "0")
@@ -89,5 +95,15 @@ public class AddressController {
             address.setCustomer(customerService.queryByIdAndUserId( address.getCustomerId(),user.getId() ));
         }
         return new ResultInfo( 200,"",address );
+    }
+
+    @RequestPermission(aclValue = "0")
+    @ResponseBody
+    @RequestMapping("saveAddress")
+    public ResultInfo saveAddress(Address address,@SessionAttribute User user){
+        address.setUserId( user.getId() );
+        address.checkRequired();
+        addressService.saveUpdate( address,address.getId() );
+        return new ResultInfo(200,"");
     }
 }

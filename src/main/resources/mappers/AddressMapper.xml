@@ -40,14 +40,14 @@
                  as d on a.district_id = d.district_id
         where a.id = #{id} and a.is_valid = 1;
     </select>
-    <select id="queryUserAddresses" resultMap="address" parameterType="java.lang.Integer">
+    <select id="queryByParams" resultMap="address" parameterType="rk.query.AddressQuery">
         select d.province,d.city,d.district,d.district_id,d.province_id,d.city_id,a.detail,a.id,a.name,a.phone,a.company,a.`primary`
         from crm.address as a join
              (SELECT p.area_name as province,p.id as province_id,c.area_name as city,c.id as city_id,d.area_name as district,d.id as district_id
               FROM crm.area as d join crm.area as c on d.parentid = c.id
                                  join crm.area as p on p.id = c.parentid where d.level=3)
                  as d on a.district_id = d.district_id
-        where a.user_id = #{userId} and a.of_user = 1 and is_valid = 1;
+        where a.user_id = #{userId} and a.of_user = #{ofUser} and is_valid = 1
     </select>
 
     <select id="queryByCustomerIdAndUserId" resultMap="address" parameterType="java.lang.Integer">
@@ -61,7 +61,7 @@
     </select>
 
     <insert id="saveBatch" parameterType="rk.po.common.Address">
-        insert into crm.address(user_id,customer_id,crm.address.company,crm.address.name,phone,crm.address.district_id,crm.address.detail,`primary`)
+        insert into crm.address(user_id,customer_id,crm.address.company,crm.address.name,phone,crm.address.district_id,crm.address.detail,of_user,`primary`)
         VALUES
         <foreach collection="list" item="address" separator=",">
             (#{address.userId},
@@ -71,8 +71,22 @@
             #{address.phone},
             #{address.districtId},
             #{address.detail},
+             #{address.ofUser},
              #{address.primary})
         </foreach>
+    </insert>
+
+    <insert id="save" parameterType="rk.po.common.Address">
+        insert into crm.address(user_id,customer_id,company,name,phone,district_id,detail,of_user,`primary`)
+        VALUES (#{userId},
+            #{customerId},
+            #{company},
+            #{name},
+            #{phone},
+            #{districtId},
+            #{detail},
+            #{ofUser},
+            #{primary})
     </insert>
 
     <update id="update" parameterType="rk.po.common.Address">
@@ -96,7 +110,6 @@
             <if test="primary != null and primary != '' ">
                 `primary` = #{primary},
             </if>
-
             <if test="isValid != null ">
                 is_valid = #{isValid},
             </if>

@@ -78,7 +78,7 @@ public class StockController {
     @RequestMapping("queryUnconfirmedStockOperationOf{type}")
     @ResponseBody
     public ResultInfo queryAllStockOperationUnconfirmed(@PathVariable("type")String type,@SessionAttribute User user){
-        List<StockOperation> stockOperations = stockService.queryUnconfirmedStockOperation( user.getId(), StockOperationType.valueOf( type ) );
+        List<StockOperation> stockOperations = stockService.queryUnconfirmedStockOperation( user.getId(), StockOperationType.valueOf( type ),"0" );
         return new ResultInfo( 200,"success",stockOperations );
     }
 

@@ -5,6 +5,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.context.properties.bind.DefaultValue;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -71,21 +72,26 @@ public class OrderController {
     @RequestPermission(aclValue = "0")
     @RequestMapping("showOrderPage")
     @ResponseBody
-    public ModelAndView showOrderPage(String stockOperations, @SessionAttribute User user) {
-        List<StockOperation> operations = null;
-        if(null == stockOperations){
-            operations = stockService.queryUnconfirmedStockOperation(user.getId(), StockOperationType.STOCK_OUT);
-            AssertUtil.isTrue( operations.size()==0,"购物车是空的" );
-        }else{
-            operations = stockService.stockOperationParser(stockOperations, user.getId());
-        }
+    public ModelAndView showOrderPage(@DefaultValue( "0" ) String temp, @SessionAttribute User user) {
+
+        List<StockOperation> operations = stockService.queryUnconfirmedStockOperation(user.getId(), StockOperationType.STOCK_OUT,temp);
+
+        AssertUtil.isTrue( operations.size()==0,"购物车是空的" );
         List<Area> province = commonService.queryAreaByParentId( 1 );
         HashMap<String, Object> params = new HashMap<>();
         params.put( "provinces",province );
         params.put("stockOperations",operations);
         params.put( "user",user );
         String content = TemplateParser.parseTemplate("order/order", params, configurer);
-        return new ModelAndView("main").addObject( "content",content ).addObject( "page_active","order_new" );
+        return new ModelAndView("/main").addObject( "content",content ).addObject( "page_active","order_new" );
+    }
+
+    @RequestPermission(aclValue = "0")
+    @RequestMapping("addTempStockOut")
+    @ResponseBody
+    public ResultInfo addTempStockOut(String stockOperations, @SessionAttribute User user) {
+        stockService.stockOperationParser(stockOperations, user.getId());
+        return new ResultInfo(200,"");
     }
 
     @RequestPermission(aclValue = "0")

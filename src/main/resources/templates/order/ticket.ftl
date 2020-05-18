@@ -10,6 +10,9 @@
 
 </head>
 <style>
+    body{
+        font-size: 16px;
+    }
     td{
         height:10px
     }

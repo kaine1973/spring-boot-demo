@@ -1,6 +1,7 @@
 var detailTree, manageTree
-
+var editSpecificationRow = -1
 function showAddSpecificationModal(){
+    editSpecificationRow = -1
     $('#specificationId').val('')
     $('#specificationName').val('')
     $('#specificationPrice').val('')
@@ -13,9 +14,9 @@ function addSpecificationRow(){
     var name = $('#specificationName').val()
     var price = $('#specificationPrice').val()
     var amount = $('#specificationAmount').val()
-    if(id !== ''){
+    if(editSpecificationRow >= 0){
         $.each($('#specificationTbody').children('tr'),function (index,item) {
-            if($($(item).children('td')[0]).text() === id){
+            if(index === editSpecificationRow){
                 $($(item).children('td')[1]).text(name);
                 $($(item).children('td')[2]).text(price);
                 $($(item).children('td')[3]).text(amount);
@@ -42,7 +43,6 @@ function deleteSpecification(e) {
     $(tds[4]).text(0)
     $(e).parent().parent().hide()
 }
-
 function editSpecification(e){
     showAddSpecificationModal()
     var tds = $(e).parent().siblings('td')
@@ -50,6 +50,7 @@ function editSpecification(e){
     var name = $(tds[1]).text()
     var price = $(tds[2]).text()
     var amount = $(tds[3]).text()
+    editSpecificationRow = $(e).parent().parent().index()
     $('#specificationId').val(id)
     $('#specificationName').val(name)
     $('#specificationPrice').val(price)
@@ -86,7 +87,6 @@ function showInfoModal(e) {
 }
 
 function deleteProduct(productId,productName) {
-    showLoadingDiv()
     if(confirm('确认删除：'+productName)){
         $.ajax({
             url:'/product/delete',
@@ -107,7 +107,6 @@ function deleteProduct(productId,productName) {
             }
         })
     }
-    stopLoadingDiv()
 }
 
 function cleanForm() {
@@ -119,7 +118,7 @@ function cleanForm() {
 
 function initCategoryBox(e,defaultNodeId){
     $.ajax({
-        url:"/product/queryCategory",
+        url:"/category/queryAll",
         success:function (data) {
             if(data.code === 200){
                 var zTreeNodes = JSON.parse(data.result);
@@ -158,7 +157,6 @@ function initCategoryBox(e,defaultNodeId){
 }
 
 function submitProductData(){
-    showLoadingDiv()
     var productId = $('#productId').val()
     var productName = $('#productName').val()
     var brand = $('#brand').val()
@@ -198,7 +196,6 @@ function submitProductData(){
             alertWarning("服务器未响应，请重试，或者联系管理员")
         }
     })
-    stopLoadingDiv()
 }
 
 function generateRow(products) {
@@ -231,7 +228,7 @@ function showSpecificationModal(title,productId,productName){
             if(data.code === 200){
 
                 var button = "<button class='button button-primary' onclick=\"addToStockOutList("+productId+",'"+productName+"','STOCK_OUT')\"><span><i class='zmdi zmdi-shopping-cart-add'></i>添加到购物车</span></button>" +
-                    "<button class='button button-success' onclick=\"showOrderPage("+productId+")\"><span><i class='zmdi zmdi-check'></i>立即购买</span></button>"
+                    "<button class='button button-success' onclick=\"buyNow("+productId+")\"><span><i class='zmdi zmdi-check'></i>立即购买</span></button>"
                 if('入库'===title){
                     button = "<button class='button button-primary' onclick=\"addToStockOutList("+productId+",'"+productName+"','STOCK_IN')\"><span><i class='zmdi zmdi-check'></i>确认</span></button>"
                 }
@@ -258,31 +255,27 @@ function showSpecificationModal(title,productId,productName){
     })
 }
 
-function showOrderPage(productId) {
-    if(productId){
-        let inputs = $('#stockTable').find('input');
-        var selectedItem = []
-        $.each(inputs,function (index,item) {
-            if(index % 2 + 1 === 1){
-                if($(item).is(":checked")){
-                    selectedItem.push({'productId':productId,
-                        'specificationId':$(item).data('id'),
-                        'amount':$(inputs[index+1]).val(),'temp':1})
-                }
+function buyNow(productId) {
+    let inputs = $('#stockTable').find('input');
+    var selectedItem = []
+    $.each(inputs,function (index,item) {
+        if(index % 2 + 1 === 1){
+            if($(item).is(":checked")){
+                selectedItem.push({'productId':productId,'operation':'STOCK_OUT',
+                    'specificationId':$(item).data('id'),
+                    'amount':$(inputs[index+1]).val(),'temp':1})
             }
-        })
-    }
+        }
+    })
     $.ajax({
-        url:"/order/showOrderPage",
+        url:"/order/addTempStockOut",
         async:"success",
         data:{
             "stockOperations":JSON.stringify(selectedItem)
         },
         success:function(data){
             if(data.code === 200){
-                $('#main').html(data.result)
-                $('#main').click()
-                $('#exampleModalLong').modal('hide')
+                window.open('/order/showOrderPage?temp=1','_blank')
             }else{
                 alertWarning(data.msg)
             }

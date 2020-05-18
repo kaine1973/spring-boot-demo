@@ -2,16 +2,6 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="rk.dao.ProductDao">
-    <resultMap id="category" type="rk.po.ProductCategory">
-        <id column="id" jdbcType="INTEGER" property="id"/>
-        <result column="category_name"  jdbcType="VARCHAR" property="categoryName"/>
-        <result column="parent_id" jdbcType="INTEGER" property="parentId"/>
-        <collection column="id" property="children"
-                    javaType="java.util.ArrayList"
-                    ofType="rk.po.ProductCategory"
-                    select="selectCategoryOfLevel"/>
-    </resultMap>
-
     <resultMap id="productInformation" type="rk.po.Product">
         <id column="id" jdbcType="INTEGER" property="productId"/>
         <result column="product_name" jdbcType="VARCHAR" property="productName"/>
@@ -182,12 +172,6 @@
                 #{productSpecification.amount,jdbcType=INTEGER})
         </foreach>
     </insert>
-
-    <select id="selectCategoryOfLevel" resultMap="category" resultType="rk.po.ProductCategory" parameterType="java.lang.Integer">
-        select *
-        from crm.product_category
-        where parent_id = #{parentId}
-    </select>
 
     <delete id="delete" parameterType="java.lang.Integer">
         update product set is_aviliable = 0 where id = #{productId}

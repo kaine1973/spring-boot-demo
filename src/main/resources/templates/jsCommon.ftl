@@ -12,6 +12,7 @@
 
 <script type="text/javascript" src="/js/plugins/moment.min.js"></script>
 <script type="text/javascript" src="/js/plugins/daterangepicker.js"></script>
+<script type="text/javascript" src="/js/plugins/Sortable.min.js"></script>
 
 <!--Main JS-->
 <script src="/js/stock.js"></script>

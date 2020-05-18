@@ -69,7 +69,7 @@
             <div class="col-lg-12 col-12">
                 <div class="button-group">
                     <button type="button" class="button button-xs button-dark" onclick="closeModal()" >关闭</button>
-                    <button type="button" class="button button-xs button-primary" onclick="saveAddress()" >确认</button>
+                    <button type="button" class="button button-xs button-primary" onclick="saveAddress(${saveImmediately})" >确认</button>
                 </div>
             </div>
         </div>

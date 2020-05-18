@@ -33,7 +33,7 @@
         where id=#{id}
     </update>
 
-    <insert id="insertBatch" parameterType="java.util.List">
+    <insert id="saveBatch" parameterType="java.util.List">
         insert into product_specification (product_id, specification_name, price, amount)
         VALUES
         <foreach collection="list" item="productSpecification" separator=",">

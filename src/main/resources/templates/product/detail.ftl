@@ -15,7 +15,7 @@
             <!-- Add or Edit Product Start -->
             <div class="row">
                 <div class="col-lg-3 col-12">
-                    <div class="box">
+                    <div class="box" style="width: 300px">
                         <div class="box-head">
                             <h6 class="title" style="display: inline">分类</h6>
                             <button class="button button-xs button-info show-responsive" style="height:30px;float:right;display: none">选择</button>
@@ -99,7 +99,6 @@
                         <div class="col-12">
                             <div style="margin-top: 40px;">
                                 <#if product??>
-                                    <button class="button button-info" onclick="closeModal()"><span><i class="zmdi zmdi-close"></i>关闭</span></button>
                                     <button class="button button-danger" onclick="deleteProduct('${product.productId}','${product.productName}')"><span><i class="zmdi zmdi-delete"></i>删除</span></button>
                                 <#--                                    <button class="button button-success"><span><i class="zmdi zmdi-refresh"></i>撤销</span></button>-->
                                 <#else >
@@ -133,7 +132,7 @@
                                             </div>
                                             <div class="col-12 mt-5" >
                                                 <label for="productUnit">数量</label>
-                                                <input class="form-control form-control-sm" type="number" placeholder="" id="specificationAmount" value="">
+                                                <input class="form-control form-control-sm" type="number" placeholder="" id="specificationAmount" value="0">
                                             </div>
                                         </div>
                                     </div>

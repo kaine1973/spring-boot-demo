@@ -1,5 +1,6 @@
 package rk.dao;
 
+import org.apache.ibatis.annotations.Select;
 import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
 import rk.base.BaseDao;
@@ -20,4 +21,15 @@ public interface CommonDao extends BaseDao<Area> {
     List<CustomerLevel> queryCustomerLevel(Integer id);
 
     ArrayList<String> queryPermissionByRoleId(Integer roleId);
+
+    List<CustomerPosition> queryCustomerPositions();
+
+    @Select( "select max(sort) from customer_position" )
+    int selectMaxPositionSort();
+
+    int addCustomerPosition(String positionName,Integer sort);
+
+    int updateCustomerPosition(Integer id, String positionName, Integer order);
+
+    int deleteCustomerPosition(Integer id);
 }

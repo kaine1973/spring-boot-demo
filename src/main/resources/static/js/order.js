@@ -262,22 +262,22 @@ function showInfoModalWithSenderAddress() {
         async: false,
         success: function (data) {
             if (data.code === 200) {
-                html = "<div class=\"adomx-checkbox-radio-group\">"
+                html = "<ul class=\"list-group\">"
                 var checked = ""
-                $.each(data.result, function (index, item) {
+                $.each(data.result.list, function (index, item) {
                     if (index === 0) {
                         checked = "checked"
                     }
-                    html += "<label class=\"adomx-radio\">" +
+                    html += "<li class=\"list-group-item\"><label class='adomx-radio'>" +
                         "<input type=\"radio\" name=\"addressCombo\" " + checked + " value='" + item.id + "'>" +
                         "<i class=\"icon\"></i><strong>" +
                         item.name + "-" + (item.company == null ? "" : item.company) + "-" + item.phone + "<br>" + item.province + item.city + item.district + item.detail
-                        + "</strong></label>"
+                        + "</strong></label></li>"
                 })
-                if (data.result.length === 0) {
-                    html += "没有地址</div>"
+                if (data.result.list.length === 0) {
+                    html += "没有地址</ul>"
                 } else {
-                    html += "<div class='row mt-5'>" +
+                    html += "</ul><div class='row mt-5'>" +
                         "<div class='col-lg-12 col-12'>" +
                         "<button class='button button-primary' style='height: 36px' onclick='fillSenderAddress()'>确认</button>" +
                         "</div>" +
@@ -315,6 +315,39 @@ function initOrderHistory() {
             '最近30天': [moment().subtract(29, 'days'), moment()],
             '这个月': [moment().startOf('month'), moment().endOf('month')],
             '上个月': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
+        },
+        "locale": {
+            "format": "YYYY/MM/DD",
+            "separator": " - ",
+            "applyLabel": "应用",
+            "cancelLabel": "取消",
+            "fromLabel": "从",
+            "toLabel": "到",
+            "customRangeLabel": "自定",
+            "daysOfWeek": [
+                "日",
+                "一",
+                "二",
+                "三",
+                "四",
+                "五",
+                "六"
+            ],
+            "monthNames": [
+                "一月",
+                "二月",
+                "三月",
+                "四月",
+                "五月",
+                "六月",
+                "七月",
+                "八月",
+                "九月",
+                "十月",
+                "十一月",
+                "十二月"
+            ],
+            "firstDay": 1
         },
         "alwaysShowCalendars": true,
     }, function (start, end) {

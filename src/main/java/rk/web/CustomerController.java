@@ -95,7 +95,7 @@ public class CustomerController {
         customer.setUserId( user.getId() );
         ArrayList<Address> addresses = addressMapping( addressesString, user.getId() );
         customer.setAddresses( addresses );
-        customerService.saveCustomer( customer,customer.getId() );
+        customerService.saveCustomer( customer,user.getId() );
         return new ResultInfo( 200,"请求成功");
     }
 

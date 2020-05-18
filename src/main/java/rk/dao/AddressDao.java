@@ -8,8 +8,5 @@ import java.util.List;
 
 @Component
 public interface AddressDao extends BaseDao<Address> {
-
-    List<Address> queryUserAddresses(Integer userId);
-
     List<Address> queryByCustomerIdAndUserId(Integer customerId, Integer id);
 }

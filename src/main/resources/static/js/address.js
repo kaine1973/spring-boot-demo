@@ -1,4 +1,4 @@
-function saveAddress() {
+function saveAddress(save) {
     var id = $('#receiveId').val()
     var name = $('#receiveName').val()
     var company = $('#receiveCompany').val()
@@ -12,12 +12,45 @@ function saveAddress() {
     var detail = $('#receiveDetail').val()
     if(name === ''){
         alertWarning("姓名不能为空")
+        return
     }
     if(company === ''){
         alertWarning("公司不能为空")
+        return
     }
     if(phone === ''){
         alertWarning("电话不能为空")
+        return
+    }
+    let flag = false
+    let message = "未能成功保存"
+    if(save === 1){
+        $.ajax({
+            url:"/address/saveAddress",
+            async:false,
+            data:{
+                "id":id,
+                "name":name,
+                "company":company,
+                "phone":phone,
+                "districtId":districtId,
+                "detail":detail,
+                "ofUser":1,
+            },
+            success:function (data) {
+                if(data.code !== 200){
+                    flag = true
+                }
+                message = data.msg
+            },
+            error:function () {
+                flag = true
+            }
+        })
+    }
+    if(flag){
+        alertWarning(message)
+        return
     }
 
     var address = "<tr>" +
@@ -45,9 +78,9 @@ function saveAddress() {
     }else{
         $('#addressTableBody').append(address)
     }
-    $('#customerModal').modal('hide')
+    $('#addressModal').modal('hide')
 }
-function showAddressDetailModal(e){
+function showAddressDetailModal(e,save){
     var id,name,company,phone,detail,isValid,areaId,provinceId,cityId,districtId;
     if(e !== undefined){
         var tds = $(e).parent().parent().parent().children('td')
@@ -73,14 +106,15 @@ function showAddressDetailModal(e){
             "cityId":cityId,
             "districtId":districtId,
             "detail":detail,
-            "isValid":isValid
+            "isValid":isValid,
+            "saveImmediately":save
         },
         success:function(data){
             if(data.code === 200){
-                $('#customerModalBody').html(data.result)
+                $('#addressModalBody').html(data.result)
                 $('#sourceRow').val($(e).parent().parent().parent().index())
-                $('#customerModalTitle').html("地址信息")
-                $('#customerModal').modal('show')
+                $('#addressModalTitle').html("地址信息")
+                $('#addressModal').modal('show')
             }else{
                 alertWarning(data.msg)
             }
